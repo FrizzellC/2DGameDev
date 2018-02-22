@@ -10,5 +10,11 @@
         <group name="GameTopics">
             <file>file:/C:/Users/Kelvin/Dropbox/2.Classes/452/Source/GameTopics/GamePhysicsIntegrated/public_html/index.html</file>
         </group>
+        <group>
+            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/lib/gl-matrix.js</file>
+            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Enemy_Update.js</file>
+            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/Engine/Utils/ShakePosition.js</file>
+            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Enemy.js</file>
+        </group>
     </open-files>
 </project-private>

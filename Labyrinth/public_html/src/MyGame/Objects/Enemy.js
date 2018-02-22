@@ -19,13 +19,22 @@ Enemy.eEnemyState = Object.freeze({
 });
 
 function Enemy(pos) {
-    this.mTargetPos = [];
-    this.mSpeed = 10 / 60;       //Units per frame
-    this.mCurrentState = Enemy.eEnemyState.Patrol;
+    this.mTargetPos = pos;
+    this.mSpeed = null;       //Units per frame
+    this.mCurrentState = null;
+    this._transitionToPatrol();
     this.mSprite = new Renderable();
     this.mSprite.getXform().setPosition(pos[0], pos[1]);
     this.mSprite.setColor([1, 0, 0, 1]);
     GameObject.call(this.mSprite);
+    
+    // Shake helpers
+    this.mStartPos = null;
+    this.mShakePos = null;
+    
+    // Patrol/Chase threshold
+    this.kChaseThreshold = 30;
+    this.kPatrolThreshold = 20;
 }
 gEngine.Core.inheritPrototype(Enemy, GameObject);
 
@@ -42,6 +51,8 @@ Enemy.prototype._transitionToPatrol = function () {
 Enemy.prototype._transitionToAlert = function () {
     this.mSpeed = 0;
     this.mCurrentState = Enemy.eEnemyState.Alert;
+    this.mStartPos = this.mSprite.getXform().getPosition();
+    this.mShakePos = new ShakePosition(5, 5, 20, 60);
 };
 
 Enemy.prototype._transitionToChase = function () {
