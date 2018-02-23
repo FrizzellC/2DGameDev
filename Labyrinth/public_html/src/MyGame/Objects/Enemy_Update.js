@@ -28,7 +28,7 @@ Enemy.prototype.update = function (hero) {
             this._updateCatch();
             break;
     }
-    GameObject.update.call(this);
+    GameObject.prototype.update.call(this);
 };
 
 
@@ -40,8 +40,8 @@ Enemy.prototype._updatePatrol = function (hero) {
     }
     else
     {
-        this.mTargetPos = this._getNextPatrolNode();
-        this.rotateObjPointTo(this.mTargetPos, 0.1);
+        this.mTargetPos = hero.getXform().getPosition();//this._getNextPatrolNode();
+        this.rotateObjPointTo(this.mTargetPos, this.mRotater);
         this._updatePos();
     }
 };
@@ -49,7 +49,7 @@ Enemy.prototype._updatePatrol = function (hero) {
 Enemy.prototype._updateChase = function (hero) {
     var touchPos = vec2.create();
     var dist = vec2.distance(hero.getXform().getPosition(), this.mSprite.getXform().getPosition());
-    if(GameObject.pixelTouches.call(this, hero, touchPos))
+    if(GameObject.prototype.pixelTouches.call(this, hero, touchPos))
     {
         this._transitionToCatch();
     }
@@ -59,8 +59,8 @@ Enemy.prototype._updateChase = function (hero) {
     }
     else
     {
-        this.mTargetPos = this._getNextChaseNode(hero.getXform.getPosition());
-        this.rotateObjPointTo(this.mTargetPos, 0.1);
+        this.mTargetPos = hero.getXform().getPosition();//this._getNextChaseNode(hero.getXform.getPosition());
+        this.rotateObjPointTo(this.mTargetPos, this.mRotater);
         this._updatePos();
     }
 };
@@ -85,6 +85,6 @@ Enemy.prototype._updatePos = function () {
     if(this.mSpeed !== 0)
     {
         var pos = this.mSprite.getXform().getPosition();
-        vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), this.getSpeed());
+        vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), this.mSpeed);
     }
 };

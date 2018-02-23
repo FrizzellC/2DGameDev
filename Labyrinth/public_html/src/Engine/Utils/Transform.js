@@ -234,6 +234,30 @@ Transform.prototype.setRotationInDegree = function (rotationInDegree) {
     this.setRotationInRad(rotationInDegree * Math.PI / 180.0);
 };
 
+Transform.prototype.setRotationVec = function (dir) {
+    vec2.normalize(dir, dir);
+    var zero = vec2.fromValues(1, 0);
+    var piOverTwo = vec2.fromValues(0, 1);
+    var cosTheta = vec2.dot(dir, zero);
+    // Step C: clamp the cosTheda to -1 to 1 
+    // in a perfect world, this would never happen! BUT ...
+    if (cosTheta > 1) {
+        cosTheta = 1;
+    } else {
+        if (cosTheta < -1) {
+            cosTheta = -1;
+        }
+    }
+    var rad = Math.acos(cosTheta);
+    var sinTheta = vec2.dot(dir, piOverTwo);
+    if(sinTheta < 0)
+    {
+        rad = (2 * Math.PI) - rad;
+    }
+    
+    this.mRotationInRad = rad;
+};
+
 /**
  * Increment the Rotation by delta Degree.
  * @memberOf Transform

@@ -25,8 +25,9 @@ function Enemy(pos) {
     this._transitionToPatrol();
     this.mSprite = new Renderable();
     this.mSprite.getXform().setPosition(pos[0], pos[1]);
+    this.mSprite.getXform().setSize(5, 5);
     this.mSprite.setColor([1, 0, 0, 1]);
-    GameObject.call(this.mSprite);
+    GameObject.call(this, this.mSprite);
     
     // Shake helpers
     this.mStartPos = null;
@@ -35,6 +36,9 @@ function Enemy(pos) {
     // Patrol/Chase threshold
     this.kChaseThreshold = 30;
     this.kPatrolThreshold = 20;
+    
+    // Rotation interpolator
+    this.mRotater = new InterpolateVec2(this.getCurrentFrontDir(), 60, .05);
 }
 gEngine.Core.inheritPrototype(Enemy, GameObject);
 
@@ -52,7 +56,7 @@ Enemy.prototype._transitionToAlert = function () {
     this.mSpeed = 0;
     this.mCurrentState = Enemy.eEnemyState.Alert;
     this.mStartPos = this.mSprite.getXform().getPosition();
-    this.mShakePos = new ShakePosition(5, 5, 20, 60);
+    this.mShakePos = new ShakePosition(.5, .5, 20, 60);
 };
 
 Enemy.prototype._transitionToChase = function () {
