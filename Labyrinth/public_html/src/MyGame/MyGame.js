@@ -11,8 +11,6 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-//TESTING TESTING 123
-
 function MyGame() {
     this.mHero = null;
     this.mEnemy = null;

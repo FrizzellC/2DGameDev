@@ -64,13 +64,6 @@ Enemy.prototype._transitionToChase = function () {
     this.mCurrentState = Enemy.eEnemyState.Chase;
 };
 
-Enemy.prototype._getNextChaseNode = function () {
-    if(vec2.distance(this.mSprite.getXform().getPosition(), this.mTargetPos) < 1)
-    {
-        // find next node along shortest path to hero
-    }
-};
-
 Enemy.prototype._getNextPatrolNode = function () {
     if(vec2.distance(this.mSprite.getXform().getPosition(), this.mTargetPos) < 1)
     {

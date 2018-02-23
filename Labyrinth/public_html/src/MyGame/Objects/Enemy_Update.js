@@ -40,7 +40,7 @@ Enemy.prototype._updatePatrol = function (hero) {
     }
     else
     {
-        this.mTargetPos = hero.getXform().getPosition();//this._getNextPatrolNode();
+        this.mTargetPos = this._getNextPatrolNode();
         this.rotateObjPointTo(this.mTargetPos, this.mRotater);
         this._updatePos();
     }
@@ -59,7 +59,7 @@ Enemy.prototype._updateChase = function (hero) {
     }
     else
     {
-        this.mTargetPos = hero.getXform().getPosition();//this._getNextChaseNode(hero.getXform.getPosition());
+        this.mTargetPos = hero.getXform().getPosition();
         this.rotateObjPointTo(this.mTargetPos, this.mRotater);
         this._updatePos();
     }
