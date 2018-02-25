@@ -12,14 +12,19 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function MyGame() {
-    this.mHero = null;
-    this.mEnemy = null;
+    this.mConstColorShader = null;
+    this.kParticleTexture = "assets/particle.png";
+    
+    this.mRedSq = null;
+    this.mCollectible = null;
+    
     this.mCam = null;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
 
 MyGame.prototype.loadScene = function () {
+    gEngine.Textures.loadTexture(this.kParticleTexture);
       
 };
 
@@ -28,15 +33,28 @@ MyGame.prototype.unloadScene = function () {
 };
 
 MyGame.prototype.initialize = function () {
-    this.mHero = new Player(vec2.fromValues(0, 0));
-    this.mEnemy = new Enemy(vec2.fromValues(-25, -25));
+    
+    this.mConstColorShader = new SimpleShader(
+    "src/GLSLShaders/SimpleVS.glsl",   // Path to the VertexShader 
+    "src/GLSLShaders/SimpleFS.glsl");  // Path to the Simple FragmentShader   
+    
     this.mCam = new Camera(
         vec2.fromValues(0, 0),  // position of the camera
         100,                      // width of camera
-        [0, 0, 1000, 700],        // viewport (orgX, orgY, width, height)
-        2
+        [0, 0, 800, 600],        // viewport (orgX, orgY, width, height)
     );
     this.mCam.setBackgroundColor([0.8, 0.8, 0.8, 1]);
+
+    this.mRedSq = new Renderable(this.mConstColorShader);
+    this.mRedSq.setColor([1, 0, 0, 1]);
+    this.mRedSq.getXform().setPosition(0, 0);
+    this.mRedSq.getXform().setSize(10, 10);
+    
+    this.mCollectible = new Collectible();
+    this.mCollectible.setRenderable(this.mRedSq);
+    
+    this.mAllParticles = new ParticleGameObjectSet();
+   
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -46,15 +64,21 @@ MyGame.prototype.draw = function () {
     
     this.mCam.setupViewProjection();
     
-    this.mHero.draw(this.mCam);
-    this.mEnemy.draw(this.mCam);
+    this.mCollectible.draw(this.mCam);
+    
     
 };
-
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.prototype.update = function () {
-    this.mHero.update();
-    this.mEnemy.update(this.mHero);
+  
+    this.mCollectible.update();     
+
+    
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
+        this.mCollectible.disintigrateModeOn();
+    }
+    
+
 };
