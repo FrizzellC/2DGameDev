@@ -15,6 +15,11 @@ function MyGame() {
     this.mConstColorShader = null;
     this.kParticleTexture = "assets/particle.png";
     this.spriteSheet = "assets/minion_sprite.png";
+    this.kHeroSprite = "assets/Textures/TempHero.png";
+    this.kCollectibleSprite = "assets/Textures/TempCollectZ.png";
+    
+    this.mPlayer = null;
+    this.mHelpViewManager = null;
     
     this.mRedSq = null;
     this.renderableObj = null;
@@ -29,11 +34,16 @@ gEngine.Core.inheritPrototype(MyGame, Scene);
 MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kParticleTexture);
     gEngine.Textures.loadTexture(this.spriteSheet);
+    gEngine.Textures.loadTexture(this.kHeroSprite);
+    gEngine.Textures.loadTexture(this.kCollectibleSprite);
       
 };
 
 MyGame.prototype.unloadScene = function () {
-    
+    gEngine.Textures.unloadTexture(this.kParticleTexture);
+    gEngine.Textures.unloadTexture(this.spriteSheet);
+    gEngine.Textures.unloadTexture(this.kHeroSprite);
+    gEngine.Textures.unloadTexture(this.kCollectibleSprite);
 };
 
 MyGame.prototype.initialize = function () {
@@ -48,7 +58,7 @@ MyGame.prototype.initialize = function () {
         [0, 0, 800, 600],        // viewport (orgX, orgY, width, height)
     );
     this.mCam.setBackgroundColor([0.8, 0.8, 0.8, 1]);
-
+   
     //For testing renderables in collectible object
     this.mRedSq = new SpriteRenderable(this.spriteSheet);
     this.mRedSq.setColor([1, 1, 1, 0]);    
@@ -71,15 +81,19 @@ MyGame.prototype.initialize = function () {
     this.mCollectibleSet = new CollectibleSet();
     
     for(var i = 0; i < 3; i++){
-        var newRenderable = new SpriteRenderable(this.spriteSheet);
+        var newRenderable = new SpriteRenderable(this.kCollectibleSprite);
         newRenderable.setColor([1, 1, 1, 0]);    
         newRenderable.getXform().setPosition(0 - (i*10), 0);    
-        newRenderable.getXform().setSize(6,9);
-        newRenderable.setElementPixelPositions(0, 120, 0, 180);
+        newRenderable.getXform().setSize(3,3);
+        //newRenderable.setElementPixelPositions(0, 120, 0, 180);
         var newCollectible = new Collectible();
         newCollectible.setRenderable(newRenderable);
         this.mCollectibleSet.addCollectible(newCollectible);
     }
+    
+           //Initializing player
+    this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite);
+    this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite);
     
     this.mAllParticles = new ParticleGameObjectSet();
    
@@ -94,8 +108,9 @@ MyGame.prototype.draw = function () {
     
     this.mCollectibleSet.draw(this.mCam);
     
-    this.mRedSq.draw(this.mCam);
-    
+    //this.mRedSq.draw(this.mCam);
+    this.mPlayer.draw(this.mCam);
+    this.mHelpViewManager.draw();
     
 };
 
@@ -105,32 +120,34 @@ MyGame.prototype.update = function () {
   
 
     
-    this.mCollectibleSet.collectibleTouches(this.mRedSq);
+    this.mCollectibleSet.collectibleTouches(this.mPlayer.getSprite());
     
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
-        this.mCollectibleSet.mSet[0].disintigrate();
-    }
-    
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-        var xPos = this.mRedSq.getXform().getXPos();
-        this.mRedSq.getXform().setXPos(xPos - 1);
-    }
-    
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        var xPos = this.mRedSq.getXform().getXPos();
-        this.mRedSq.getXform().setXPos(xPos + 1);
-    }
-    
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
-        var yPos = this.mRedSq.getXform().getYPos();
-        this.mRedSq.getXform().setYPos(yPos + 1);
-    }
-    
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
-        var yPos = this.mRedSq.getXform().getYPos();
-        this.mRedSq.getXform().setYPos(yPos - 1);
-    }
+//    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
+//        this.mCollectibleSet.mSet[0].disintigrate();
+//    }
+//    
+//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+//        var xPos = this.mRedSq.getXform().getXPos();
+//        this.mRedSq.getXform().setXPos(xPos - 1);
+//    }
+//    
+//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+//        var xPos = this.mRedSq.getXform().getXPos();
+//        this.mRedSq.getXform().setXPos(xPos + 1);
+//    }
+//    
+//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
+//        var yPos = this.mRedSq.getXform().getYPos();
+//        this.mRedSq.getXform().setYPos(yPos + 1);
+//    }
+//    
+//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+//        var yPos = this.mRedSq.getXform().getYPos();
+//        this.mRedSq.getXform().setYPos(yPos - 1);
+//    }
     
     this.mCollectibleSet.update();    
 
+    this.mPlayer.update();
+    this.mHelpViewManager.update();
 };
