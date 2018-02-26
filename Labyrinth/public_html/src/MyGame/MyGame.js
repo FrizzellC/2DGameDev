@@ -52,7 +52,6 @@ MyGame.prototype.draw = function () {
 };
 
 
-// The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.prototype.update = function () {
     this.mHero.update();
