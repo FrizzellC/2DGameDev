@@ -1,33 +1,53 @@
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Note:  
+ * 
  */
 
 function Collectible(){
     this.mRenderable = null;
     
+    this.mGameObject = null;
+    
     this.isDisintigrating = false;
     
     this.particles = new ParticleGameObjectSet();
+    
+    this.toBeDeleted = false;
 }
+//gEngine.Core.inheritPrototype(Collectible, GameObject);
 
 Collectible.prototype.getXform = function(){
     return this.mRenderable.getXform();
 };
 
+//Renderable should be created manually and placed here
 Collectible.prototype.setRenderable = function(renderable){
     this.mRenderable = renderable;
+    this.mGameObject = new GameObject(mRenderable);
 };
 
 Collectible.prototype.update = function(){
     if(this.isDisintigrating){
         this.particles.update();
+        
+        if(this.particles.size() <= 0){
+            this.toBeDeleted = true;
+        }
+        
+        return;
     }
 };
 
-Collectible.prototype.pixelTouches = function(otherObj){
-    
+//otherGameObj should be a GameObject
+//Needs testing
+Collectible.prototype.isTouching = function(otherGameObj){
+    var ret = false;
+    if(this.mGameObject.getBBox().intersectsBound(otherGameObj.getBBox())){
+        if(this.mGameObject.pixelTouches(otherGameObj,[0,0])){
+            return true;
+        }
+    }
+    return ret;
 };
 
 Collectible.prototype.disintigrateModeOn = function(){

@@ -14,8 +14,10 @@
 function MyGame() {
     this.mConstColorShader = null;
     this.kParticleTexture = "assets/particle.png";
+    this.spriteSheet = "assets/minion_sprite.png";
     
     this.mRedSq = null;
+    this.renderableObj = null;
     this.mCollectible = null;
     
     this.mCam = null;
@@ -25,6 +27,7 @@ gEngine.Core.inheritPrototype(MyGame, Scene);
 
 MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kParticleTexture);
+    gEngine.Textures.loadTexture(this.spriteSheet);
       
 };
 
@@ -45,13 +48,22 @@ MyGame.prototype.initialize = function () {
     );
     this.mCam.setBackgroundColor([0.8, 0.8, 0.8, 1]);
 
+    //For testing renderables in collectible object
     this.mRedSq = new Renderable(this.mConstColorShader);
-    this.mRedSq.setColor([1, 0, 0, 1]);
+    this.mRedSq.setColor([0, 0, 0, 0]);
     this.mRedSq.getXform().setPosition(0, 0);
     this.mRedSq.getXform().setSize(10, 10);
     
+    //For testing sprite renderables in collectible object
+    this.renderableObj = new SpriteRenderable(this.spriteSheet);
+    this.renderableObj.setColor([1, 1, 1, 0]);    
+    this.renderableObj.getXform().setPosition(0, 0);    
+    this.renderableObj.getXform().setSize(12,18);
+    this.renderableObj.setElementPixelPositions(0, 120, 0, 180);
+    
+    
     this.mCollectible = new Collectible();
-    this.mCollectible.setRenderable(this.mRedSq);
+    this.mCollectible.setRenderable(this.renderableObj);
     
     this.mAllParticles = new ParticleGameObjectSet();
    
