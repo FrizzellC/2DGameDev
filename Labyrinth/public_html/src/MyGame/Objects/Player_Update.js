@@ -33,7 +33,7 @@ Player.prototype._updateNormal = function () {
     // if colliding with power up, transition
     //else
     {
-        this._updateRot();
+    //    this._updateRot();
         this._updatePos();
     }
 };
@@ -45,7 +45,7 @@ Player.prototype._updateBoost = function () {
     }
     else
     {
-        this._updateRot();
+    //   this._updateRot();
         this._updatePos();
     }
 };
@@ -61,7 +61,7 @@ Player.prototype._updateShoot = function () {
         {
             // Shoot projectile
         }
-        this._updateRot();
+        // this._updateRot();
         this._updatePos();
     }
 };
@@ -80,19 +80,49 @@ Player.prototype._updateRot = function () {
 };
 
 Player.prototype._updatePos = function () {
-    if(this.mSpeed !== 0)
-    {
+//    if(this.mSpeed !== 0)
+//    {
+//        if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W))
+//        {
+//            var pos = this.mSprite.getXform().getPosition();
+//            vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), this.mSpeed);
+//        }
+//        if(gEngine.Input.isKeyPressed(gEngine.Input.keys.S))
+//        {
+//            var pos = this.mSprite.getXform().getPosition();
+//            var backDir = vec2.create();
+//            vec2.negate(backDir, this.getCurrentFrontDir());
+//            vec2.scaleAndAdd(pos, pos, backDir, this.mSpeed);
+//        }
+//    }
+    if (this.mSpeed !== 0) {
+        
+        var direction = vec2.fromValues(0,0);
+        
         if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W))
         {
-            var pos = this.mSprite.getXform().getPosition();
-            vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), this.mSpeed);
+            vec2.add(direction, direction, vec2.fromValues(0,1));
         }
+        
         if(gEngine.Input.isKeyPressed(gEngine.Input.keys.S))
         {
-            var pos = this.mSprite.getXform().getPosition();
-            var backDir = vec2.create();
-            vec2.negate(backDir, this.getCurrentFrontDir());
-            vec2.scaleAndAdd(pos, pos, backDir, this.mSpeed);
+            vec2.add(direction, direction, vec2.fromValues(0,-1));
         }
+        
+        if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A))
+        {
+            vec2.add(direction, direction, vec2.fromValues(-1,0));
+        }
+        
+        if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D))
+        {
+            vec2.add(direction, direction, vec2.fromValues(1,0));
+        }
+        
+        vec2.normalize(direction,direction);
+        vec2.scale(direction,direction,this.mSpeed);
+        this.mSprite.getXform().incXPosBy(direction[0]);
+        this.mSprite.getXform().incYPosBy(direction[1]);
+        this.mSprite.setCurrentFrontDir(direction);
     }
 };

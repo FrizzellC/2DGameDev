@@ -17,15 +17,15 @@ Player.ePlayerState = Object.freeze({
     Shoot: 2
 });
 
-function Player(pos) {
+function Player(pos, sprite) {
     this.mCurrentState = null;
     this.mSpeed = null;
     this._transitionToNormal();
-    this.mSprite = new Renderable();
+    this.mSprite = new SpriteRenderable(sprite);
     this.mSprite.getXform().setPosition(pos[0], pos[1]);
     this.mSprite.getXform().setSize(5, 5);
-    this.mSprite.setColor([0, 1, 0, 1]);
-    GameObject.call(this, this.mSprite);
+    //this.mSprite.setColor([0, 0, 0, 0]);
+    this.mSprite = new GameObject(this.mSprite);
     
     // Shake helpers
     this.mStartPos = null;
@@ -34,6 +34,8 @@ function Player(pos) {
     // Power up helpers
     this.mPowerStart = null;
     this.kPowerLength = 5; //seconds
+    
+    GameObject.call(this, this.mSprite);
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
 
@@ -52,4 +54,8 @@ Player.prototype._transitionToShoot = function () {
     this.mSpeed = 30 / 60;
     this.mPowerStart = Date.getTime();
     this.mCurrentState = Player.ePlayerState.Shoot;
+};
+
+Player.prototype.getSprite = function () {
+    return this.mSprite;
 };
