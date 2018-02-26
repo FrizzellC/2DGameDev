@@ -16,6 +16,62 @@ function RoomBoundingObj() {
     var h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,h15,h16,h17,h18,h19,h20,h21,h22,h23,h24; 
     
     // Initialize varaibles here
+    function Room(posX, posY, width, height) 
+    {
+        var roomObj = new Renderable();
+        roomObj.setColor([0,0,0,0]);
+        roomObj.getXform().setPosition(posX, posY);
+        roomObj.getXform().setSize(width, height);
+        GameObject.call(this, roomObj);
+    }
+    gEngine.Core.inheritPrototype(Room, GameObject);
+    
+    r0 = new Room();
+    r1 = new Room();
+    r2 = new Room();
+    r3 = new Room();
+    r4 = new Room();
+    r5 = new Room();
+    r6 = new Room();
+    r7 = new Room();
+    r8 = new Room();
+    r9 = new Room();
+    r10 = new Room();
+    r11 = new Room();
+    r12 = new Room();
+    r13 = new Room();
+    r14 = new Room();
+    r15 = new Room();
+    r16 = new Room();
+    r17 = new Room();
+    r18 = new Room();
+    r19 = new Room();
+    r20 = new Room(); 
+    h0 = new Room();
+    h1 = new Room();
+    h2 = new Room();
+    h3 = new Room();
+    h4 = new Room();
+    h5 = new Room();
+    h6 = new Room();
+    h7 = new Room();
+    h8 = new Room();
+    h9 = new Room();
+    h10 = new Room();
+    h11 = new Room();
+    h12 = new Room();
+    h13 = new Room();
+    h14 = new Room();
+    h15 = new Room();
+    h16 = new Room();
+    h17 = new Room();
+    h18 = new Room();
+    h19 = new Room();
+    h20 = new Room();
+    h21 = new Room();
+    h22 = new Room();
+    h23 = new Room();
+    h24 = new Room();
     
     this.mRooms = [
       r0,
