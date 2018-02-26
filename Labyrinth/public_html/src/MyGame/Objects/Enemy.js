@@ -45,8 +45,8 @@ function Enemy(pos, sprite) {
     this._transitionToPatrol();
     
     // Patrol/Chase threshold
-    this.kChaseThreshold = 30;
-    this.kPatrolThreshold = 20;
+    this.kChaseThreshold = 60;
+    this.kPatrolThreshold = 30;
     
     // Rotation interpolator
     this.mRotater = new InterpolateVec2(this.getCurrentFrontDir(), 60, .05);
