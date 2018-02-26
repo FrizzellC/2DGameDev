@@ -20,6 +20,7 @@ function HelpViewManager(collectibleSet, sprite) {
     this.mItemsCollected = [];
     this.mCollectibleSprite = sprite;
     
+    this.mItemsNeededToWin = this.collectibles.size();
     this.mNumItemsCollected = this.collectibles.getItemsRemoved();
     
     
@@ -60,6 +61,16 @@ HelpViewManager.prototype.addCollectedItem = function() {
     nItem.getXform().setSize(nItemSize, nItemSize);
     this.mItemsCollected.push(nItem);
     
+//    var initX = (this.mCamera.getWCWidth() / 2) - ((nItemSize + offset) * this.mItemsCollected.length);
+//    var initY = this.mScoreMsg.getXform().getYPos() / 2;
+//    
+//    var i;
+//    for (i = 0; i < this.mItemsCollected.length; i++) {
+//        
+//        this.mItemsCollected[i].getXform().setXPos(initX + (nItemSize + offset) * this.mItemsCollected.length);
+//        
+//    }
+    
 };
 
 HelpViewManager.prototype.update = function () {
@@ -78,7 +89,6 @@ HelpViewManager.prototype.update = function () {
         this.addCollectedItem();
     }
     
-    
     this.mTimerMsg.setText(timerMsg);
 };
 
@@ -91,5 +101,13 @@ HelpViewManager.prototype.draw = function () {
     var i;
     for(i = 0; i < this.mItemsCollected.length; i++) {
         this.mItemsCollected[i].draw(this.mCamera);
+    }
+};
+
+HelpViewManager.prototype.allItemsCollected = function () {
+    if (this.mItemsCollected.length === this.mItemsNeededToWin) {
+        return true;
+    } else {
+        return false;
     }
 };

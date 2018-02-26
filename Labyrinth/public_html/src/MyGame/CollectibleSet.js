@@ -63,3 +63,7 @@ CollectibleSet.prototype.removeCollectible = function(){
 CollectibleSet.prototype.getItemsRemoved = function(){
     return this.mItemsRemoved;
 };
+
+CollectibleSet.prototype.size = function(){
+    return this.mSet.length;
+};
