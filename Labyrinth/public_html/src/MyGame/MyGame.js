@@ -18,6 +18,8 @@ function MyGame() {
     this.kHeroSprite = "assets/Textures/TempHero.png";
     this.kCollectibleSprite = "assets/Textures/TempCollectZ.png";
     
+    this.mGameWon = false;
+    
     this.mPlayer = null;
     this.mHelpViewManager = null;
     
@@ -52,6 +54,14 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.spriteSheet);
     gEngine.Textures.unloadTexture(this.kHeroSprite);
     gEngine.Textures.unloadTexture(this.kCollectibleSprite);
+    
+    var nextLevel;
+    if (this.mGameWon) {
+        nextLevel = new WinScene();
+    } else {
+        nextLevel = new LoseScene();
+    }
+    gEngine.Core.startScene(nextLevel);
 };
 
 MyGame.prototype.initialize = function () {
@@ -154,5 +164,16 @@ MyGame.prototype.update = function () {
     //this.mBounds.update();
 
     this.mMainView.update(this.mPlayer);
+
+    //Checking if we've collected all Z's
+    if (this.mHelpViewManager.allItemsCollected()) {
+        this.mGameWon = true;
+    }
+
+    //TODO remove later. For debugging purposes.
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Space))
+    {
+        gEngine.GameLoop.stop();
+    }
 
 };

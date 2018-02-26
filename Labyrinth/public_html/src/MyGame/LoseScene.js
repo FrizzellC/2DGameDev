@@ -1,5 +1,5 @@
 /*
- * File: WinScene.js 
+ * File: LoseScene.js 
  * This is the logic of our game. 
  */
 /*jslint node: true, vars: true */
@@ -8,24 +8,25 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function WinScene() {
+function LoseScene() {
     
     this.mCamera = null;
     this.mEndGameMessage = null;
 }
-gEngine.Core.inheritPrototype(WinScene, Scene);
+gEngine.Core.inheritPrototype(LoseScene, Scene);
 
-WinScene.prototype.loadScene = function () {
+LoseScene.prototype.loadScene = function () {
     
 };
 
-WinScene.prototype.unloadScene = function () {
+LoseScene.prototype.unloadScene = function () {
   
     var nextLevel = new MyGame();  // load the next level
     gEngine.Core.startScene(nextLevel);
 };
 
-WinScene.prototype.initialize = function () {
+LoseScene.prototype.initialize = function () {
+
 
     this.mCamera = new Camera(
         vec2.fromValues(50, 37.5),  // position of the camera
@@ -35,7 +36,7 @@ WinScene.prototype.initialize = function () {
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
 
 
-    this.mEndGameMessage = new FontRenderable("YOU WIN");
+    this.mEndGameMessage = new FontRenderable("YOU LOSE");
     this.mEndGameMessage.setColor([0, 0, 0, 1]);
     this.mEndGameMessage.getXform().setPosition((this.mCamera.getWCWidth() /2) - 10,
                                                 this.mCamera.getWCHeight() /2);
@@ -45,7 +46,7 @@ WinScene.prototype.initialize = function () {
 
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
-WinScene.prototype.draw = function () {
+LoseScene.prototype.draw = function () {
     // Step A: clear the canvas
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
@@ -57,7 +58,7 @@ WinScene.prototype.draw = function () {
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
-WinScene.prototype.update = function () {
+LoseScene.prototype.update = function () {
 
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Space))
     {
