@@ -82,14 +82,13 @@ MyGame.prototype.initialize = function () {
     
     this.mAllParticles = new ParticleGameObjectSet();
    
-
-    //this.mHero = new Player(vec2.fromValues(0, 0));
-    this.mEnemy = new Enemy(vec2.fromValues(-25, -25));
+    this.mEnemy = new Enemy(vec2.fromValues(-25, -25), this.kEnemySprite);
     this.mMainView = new MainView();
     
     this.mMap = new RoomBoundingObj();
     //this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
     this.mBackground = new TextureRenderable(this.kBackground);
+    this.mBackground.setColor([1, 1, 1, 0]);
     this.mBackground.getXform().setPosition(0, 0);
     this.mBackground.getXform().setSize(300, 200);
 };
@@ -106,9 +105,9 @@ MyGame.prototype.draw = function () {
     this.mCollectibleSet.draw(this.mMainView.getCam());
     
     this.mPlayer.draw(this.mMainView.getCam());
-    this.mHelpViewManager.draw();
-    
     this.mEnemy.draw(this.mMainView.getCam());
+    
+    this.mHelpViewManager.draw();
 };
 
 
@@ -117,7 +116,7 @@ MyGame.prototype.draw = function () {
 MyGame.prototype.update = function () {
     
     
-    this.mCollectibleSet.collectibleTouches(this.mPlayer.getSprite());
+    this.mCollectibleSet.collectibleTouches(this.mPlayer);
     
     this.mCollectibleSet.update();    
 

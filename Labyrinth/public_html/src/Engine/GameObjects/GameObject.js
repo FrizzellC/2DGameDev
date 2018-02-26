@@ -87,12 +87,10 @@ GameObject.prototype.rotateObjPointTo = function (p, interpolator) {
         interpolator.updateInterpolation();
         var newDir = interpolator.getValue();
         this.setCurrentFrontDir(newDir);
-        this.getXform().setRotationVec(newDir);
     }
     else
     {
         this.setCurrentFrontDir(dir);
-        this.getXform().setRotationVec(dir);
     }
 };
 

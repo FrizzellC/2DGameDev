@@ -121,8 +121,8 @@ Player.prototype._updatePos = function () {
         
         vec2.normalize(direction,direction);
         vec2.scale(direction,direction,this.mSpeed);
-        this.mSprite.getXform().incXPosBy(direction[0]);
-        this.mSprite.getXform().incYPosBy(direction[1]);
-        this.mSprite.setCurrentFrontDir(direction);
+        this.getXform().incXPosBy(direction[0]);
+        this.getXform().incYPosBy(direction[1]);
+        this.setCurrentFrontDir(direction);
     }
 };

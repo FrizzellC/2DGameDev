@@ -78,7 +78,7 @@ Enemy.prototype._updateAlert = function () {
 };
 
 Enemy.prototype._updateCatch = function () {
-    //Something to indicate collision with hero, then game over
+    gEngine.GameLoop.stop();
 };
 
 Enemy.prototype._updatePos = function () {

@@ -24,8 +24,8 @@ function Player(pos, sprite) {
     this.mSprite = new SpriteRenderable(sprite);
     this.mSprite.getXform().setPosition(pos[0], pos[1]);
     this.mSprite.getXform().setSize(5, 5);
-    //this.mSprite.setColor([0, 0, 0, 0]);
-    this.mSprite = new GameObject(this.mSprite);
+    this.mSprite.setColor([1, 1, 1, 0]);
+    //this.mSprite = new GameObject(this.mSprite);
     
     // Shake helpers
     this.mStartPos = null;

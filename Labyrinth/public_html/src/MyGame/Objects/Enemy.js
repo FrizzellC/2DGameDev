@@ -18,14 +18,14 @@ Enemy.eEnemyState = Object.freeze({
     Catch: 3
 });
 
-function Enemy(pos) {
+function Enemy(pos, sprite) {
     this.mTargetPos = pos;
     this.mSpeed = null;       //Units per frame
     this.mCurrentState = null;
-    this.mSprite = new Renderable();
+    this.mSprite = new TextureRenderable(sprite);
     this.mSprite.getXform().setPosition(pos[0], pos[1]);
-    this.mSprite.getXform().setSize(5, 5);
-    this.mSprite.setColor([1, 0, 0, 1]);
+    this.mSprite.getXform().setSize(10, 5);
+    this.mSprite.setColor([1, 1, 1, 0]);
     GameObject.call(this, this.mSprite);
     
     // Shake helpers
