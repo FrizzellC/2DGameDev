@@ -3,7 +3,7 @@
  * 
  */
 
-function Collectible(){
+function Collectible(sprite, pos){
     this.mRenderable = null;
     
     this.mGameObject = null;
@@ -15,6 +15,12 @@ function Collectible(){
     this.toBeDeleted = false;
     
     this.cycles = 0;
+    
+    this.mRenderable = new TextureRenderable(sprite);
+    this.mRenderable.getXform().setPosition(pos[0], pos[1]);
+    this.mRenderable.getXform().setSize(3, 3);
+    this.setRenderable(this.mRenderable);
+    
 }
 //gEngine.Core.inheritPrototype(Collectible, GameObject);
 
