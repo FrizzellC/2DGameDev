@@ -38,6 +38,7 @@ CollectibleSet.prototype.collectibleTouches = function(GameObject){
     for(var i = 0; i < this.mSet.length; i++){
         if(this.mSet[i].isTouching(GameObject)){
             this.mSet[i].isDisintigrating = true;
+            this.mSet[i].disintigrate();
             this.reductionModeIsOn = true;
         }
     }

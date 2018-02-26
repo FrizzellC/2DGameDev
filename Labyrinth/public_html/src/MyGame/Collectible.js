@@ -1,5 +1,5 @@
 /* 
- * Note:  
+ * 
  * 
  */
 
@@ -13,6 +13,8 @@ function Collectible(){
     this.particles = new ParticleGameObjectSet();
     
     this.toBeDeleted = false;
+    
+    this.cycles = 0;
 }
 //gEngine.Core.inheritPrototype(Collectible, GameObject);
 
@@ -23,14 +25,15 @@ Collectible.prototype.getXform = function(){
 //Renderable should be created manually and placed here
 Collectible.prototype.setRenderable = function(renderable){
     this.mRenderable = renderable;
-    this.mGameObject = new GameObject(mRenderable);
+    this.mGameObject = new GameObject(this.mRenderable);
 };
 
 Collectible.prototype.update = function(){
+
     if(this.isDisintigrating){
         this.particles.update();
-        
-        if(this.particles.size() <= 0){
+        this.cycles++;
+        if(this.cycles >= 100){
             this.toBeDeleted = true;
         }
         
@@ -41,6 +44,9 @@ Collectible.prototype.update = function(){
 //otherGameObj should be a GameObject
 //Needs testing
 Collectible.prototype.isTouching = function(otherGameObj){
+    if(this.isDisintigrating){
+        return false;
+    }
     var ret = false;
     if(this.mGameObject.getBBox().intersectsBound(otherGameObj.getBBox())){
         if(this.mGameObject.pixelTouches(otherGameObj,[0,0])){
@@ -56,12 +62,13 @@ Collectible.prototype.disintigrateModeOn = function(){
     this.mRenderable = null;
 };
 
-Collectible.prototype.disintigrate = function(){
+Collectible.prototype.disintigrate = function(){   
     var collisionPt = [this.getXform().getXPos(), this.getXform().getYPos()];
     this.particles.addEmitterAt(collisionPt, 200, this.createParticle(collisionPt[0], collisionPt[1]));
 };
 
 Collectible.prototype.draw = function(camera){
+
     if(this.isDisintigrating){
         this.particles.draw(camera);
         return;

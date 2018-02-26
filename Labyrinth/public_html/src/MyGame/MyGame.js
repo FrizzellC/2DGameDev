@@ -19,6 +19,7 @@ function MyGame() {
     this.mRedSq = null;
     this.renderableObj = null;
     this.mCollectible = null;
+    this.mCollectibleSet = null;
     
     this.mCam = null;
 }
@@ -49,21 +50,36 @@ MyGame.prototype.initialize = function () {
     this.mCam.setBackgroundColor([0.8, 0.8, 0.8, 1]);
 
     //For testing renderables in collectible object
-    this.mRedSq = new Renderable(this.mConstColorShader);
-    this.mRedSq.setColor([0, 0, 0, 0]);
-    this.mRedSq.getXform().setPosition(0, 0);
-    this.mRedSq.getXform().setSize(10, 10);
+    this.mRedSq = new SpriteRenderable(this.spriteSheet);
+    this.mRedSq.setColor([1, 1, 1, 0]);    
+    this.mRedSq.getXform().setPosition(25, 0);    
+    this.mRedSq.getXform().setSize(6,9);
+    this.mRedSq.setElementPixelPositions(0, 120, 0, 180);
+    this.mRedSq = new GameObject(this.mRedSq);
     
     //For testing sprite renderables in collectible object
     this.renderableObj = new SpriteRenderable(this.spriteSheet);
     this.renderableObj.setColor([1, 1, 1, 0]);    
     this.renderableObj.getXform().setPosition(0, 0);    
-    this.renderableObj.getXform().setSize(12,18);
+    this.renderableObj.getXform().setSize(6,9);
     this.renderableObj.setElementPixelPositions(0, 120, 0, 180);
     
     
     this.mCollectible = new Collectible();
     this.mCollectible.setRenderable(this.renderableObj);
+    
+    this.mCollectibleSet = new CollectibleSet();
+    
+    for(var i = 0; i < 3; i++){
+        var newRenderable = new SpriteRenderable(this.spriteSheet);
+        newRenderable.setColor([1, 1, 1, 0]);    
+        newRenderable.getXform().setPosition(0 - (i*10), 0);    
+        newRenderable.getXform().setSize(6,9);
+        newRenderable.setElementPixelPositions(0, 120, 0, 180);
+        var newCollectible = new Collectible();
+        newCollectible.setRenderable(newRenderable);
+        this.mCollectibleSet.addCollectible(newCollectible);
+    }
     
     this.mAllParticles = new ParticleGameObjectSet();
    
@@ -76,7 +92,9 @@ MyGame.prototype.draw = function () {
     
     this.mCam.setupViewProjection();
     
-    this.mCollectible.draw(this.mCam);
+    this.mCollectibleSet.draw(this.mCam);
+    
+    this.mRedSq.draw(this.mCam);
     
     
 };
@@ -85,12 +103,34 @@ MyGame.prototype.draw = function () {
 // anything from this function!
 MyGame.prototype.update = function () {
   
-    this.mCollectible.update();     
 
     
+    this.mCollectibleSet.collectibleTouches(this.mRedSq);
+    
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
-        this.mCollectible.disintigrateModeOn();
+        this.mCollectibleSet.mSet[0].disintigrate();
     }
     
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+        var xPos = this.mRedSq.getXform().getXPos();
+        this.mRedSq.getXform().setXPos(xPos - 1);
+    }
+    
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+        var xPos = this.mRedSq.getXform().getXPos();
+        this.mRedSq.getXform().setXPos(xPos + 1);
+    }
+    
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
+        var yPos = this.mRedSq.getXform().getYPos();
+        this.mRedSq.getXform().setYPos(yPos + 1);
+    }
+    
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+        var yPos = this.mRedSq.getXform().getYPos();
+        this.mRedSq.getXform().setYPos(yPos - 1);
+    }
+    
+    this.mCollectibleSet.update();    
 
 };
