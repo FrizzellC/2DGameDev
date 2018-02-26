@@ -14,7 +14,10 @@
 function MyGame() {
     this.mHero = null;
     this.mEnemy = null;
-    this.mCam = null;
+    this.mMainView = null;
+    
+    this.mMap = null;
+    this.mBounds = null;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -30,13 +33,10 @@ MyGame.prototype.unloadScene = function () {
 MyGame.prototype.initialize = function () {
     this.mHero = new Player(vec2.fromValues(0, 0));
     this.mEnemy = new Enemy(vec2.fromValues(-25, -25));
-    this.mCam = new Camera(
-        vec2.fromValues(0, 0),  // position of the camera
-        100,                      // width of camera
-        [0, 0, 1000, 700],        // viewport (orgX, orgY, width, height)
-        2
-    );
-    this.mCam.setBackgroundColor([0.8, 0.8, 0.8, 1]);
+    this.mMainView = new MainView();
+    
+    this.mMap = new RoomBoundingObj();
+    this.mBounds = new BoundController(this.mHero, this.mMap.getRooms(), this.mMap.getHallways());
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -44,11 +44,11 @@ MyGame.prototype.initialize = function () {
 MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     
-    this.mCam.setupViewProjection();
+    this.mMainView.setup();
     
-    this.mHero.draw(this.mCam);
-    this.mEnemy.draw(this.mCam);
-    
+    this.mHero.draw(this.mMainView.getCam());
+    this.mEnemy.draw(this.mMainView.getCam());
+    //this.mMap.draw(this.mMainView.getCam());
 };
 
 
@@ -56,4 +56,7 @@ MyGame.prototype.draw = function () {
 MyGame.prototype.update = function () {
     this.mHero.update();
     this.mEnemy.update(this.mHero);
+    this.mBounds.update();
+
+    this.mMainView.update(this.mHero);
 };
