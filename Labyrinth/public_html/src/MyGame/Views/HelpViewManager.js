@@ -20,6 +20,8 @@ function HelpViewManager(collectibleSet, sprite) {
     this.mItemsCollected = [];
     this.mCollectibleSprite = sprite;
     
+    this.mNumItemsCollected = this.collectibles.getItemsRemoved();
+    
     
     this.mCamera = new Camera(
         vec2.fromValues(25, 25), // position of the camera
@@ -45,11 +47,6 @@ function HelpViewManager(collectibleSet, sprite) {
     this.mScoreMsg.getXform().setPosition(1, this.mCamera.getWCHeight() / 3);
     this.mScoreMsg.setTextHeight(3);
     
-    this.addCollectedItem();
-    this.addCollectedItem();
-    this.addCollectedItem();
-    this.addCollectedItem();
-    this.addCollectedItem();
 }
 
 HelpViewManager.prototype.addCollectedItem = function() {
@@ -62,7 +59,6 @@ HelpViewManager.prototype.addCollectedItem = function() {
                                 this.mScoreMsg.getXform().getYPos() / 2);
     nItem.getXform().setSize(nItemSize, nItemSize);
     this.mItemsCollected.push(nItem);
-    console.log("TEST: " + nItem.getXform().getPosition());
     
 };
 
@@ -75,6 +71,11 @@ HelpViewManager.prototype.update = function () {
                 " seconds";
     } else {
         timerMsg = "Time Remaining: None";
+    }
+    
+    if (this.mNumItemsCollected < this.collectibles.getItemsRemoved()) {
+        this.mNumItemsCollected++;
+        this.addCollectedItem();
     }
     
     

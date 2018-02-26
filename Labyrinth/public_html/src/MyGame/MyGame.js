@@ -26,7 +26,15 @@ function MyGame() {
     this.mCollectible = null;
     this.mCollectibleSet = null;
     
-    this.mCam = null;
+    //this.mCam = null;
+
+ //   this.mHero = null;
+    this.mEnemy = null;
+    this.mMainView = null;
+    
+    this.mMap = null;
+    this.mBounds = null;
+
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -52,12 +60,12 @@ MyGame.prototype.initialize = function () {
     "src/GLSLShaders/SimpleVS.glsl",   // Path to the VertexShader 
     "src/GLSLShaders/SimpleFS.glsl");  // Path to the Simple FragmentShader   
     
-    this.mCam = new Camera(
-        vec2.fromValues(0, 0),  // position of the camera
-        100,                      // width of camera
-        [0, 0, 800, 600],        // viewport (orgX, orgY, width, height)
-    );
-    this.mCam.setBackgroundColor([0.8, 0.8, 0.8, 1]);
+//    this.mCam = new Camera(
+//        vec2.fromValues(0, 0),  // position of the camera
+//        100,                      // width of camera
+//        [0, 0, 800, 600],        // viewport (orgX, orgY, width, height)
+//    );
+//    this.mCam.setBackgroundColor([0.8, 0.8, 0.8, 1]);
    
     //For testing renderables in collectible object
     this.mRedSq = new SpriteRenderable(this.spriteSheet);
@@ -97,6 +105,14 @@ MyGame.prototype.initialize = function () {
     
     this.mAllParticles = new ParticleGameObjectSet();
    
+
+    //this.mHero = new Player(vec2.fromValues(0, 0));
+    this.mEnemy = new Enemy(vec2.fromValues(-25, -25));
+    this.mMainView = new MainView();
+    
+    this.mMap = new RoomBoundingObj();
+    this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
+
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -104,15 +120,22 @@ MyGame.prototype.initialize = function () {
 MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     
-    this.mCam.setupViewProjection();
-    
-    this.mCollectibleSet.draw(this.mCam);
+
+    //this.mCam.setupViewProjection();
+ 
+
+    this.mMainView.setup();
+   
+    this.mCollectibleSet.draw(this.mMainView.getCam());
     
     //this.mRedSq.draw(this.mCam);
-    this.mPlayer.draw(this.mCam);
+    this.mPlayer.draw(this.mMainView.getCam());
     this.mHelpViewManager.draw();
     
+    this.mEnemy.draw(this.mMainView.getCam());
+    //this.mMap.draw(this.mMainView.getCam());
 };
+
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
@@ -122,32 +145,14 @@ MyGame.prototype.update = function () {
     
     this.mCollectibleSet.collectibleTouches(this.mPlayer.getSprite());
     
-//    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
-//        this.mCollectibleSet.mSet[0].disintigrate();
-//    }
-//    
-//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-//        var xPos = this.mRedSq.getXform().getXPos();
-//        this.mRedSq.getXform().setXPos(xPos - 1);
-//    }
-//    
-//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-//        var xPos = this.mRedSq.getXform().getXPos();
-//        this.mRedSq.getXform().setXPos(xPos + 1);
-//    }
-//    
-//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
-//        var yPos = this.mRedSq.getXform().getYPos();
-//        this.mRedSq.getXform().setYPos(yPos + 1);
-//    }
-//    
-//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
-//        var yPos = this.mRedSq.getXform().getYPos();
-//        this.mRedSq.getXform().setYPos(yPos - 1);
-//    }
-    
     this.mCollectibleSet.update();    
 
     this.mPlayer.update();
     this.mHelpViewManager.update();
+
+    this.mEnemy.update(this.mPlayer);
+    //this.mBounds.update();
+
+    this.mMainView.update(this.mPlayer);
+
 };

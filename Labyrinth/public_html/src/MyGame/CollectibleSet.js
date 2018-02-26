@@ -10,7 +10,7 @@
 
 function CollectibleSet(){
     this.mSet = new Array();
-    
+    this.mItemsRemoved = 0;
     this.reductionModeIsOn = false;
 }
 
@@ -40,6 +40,7 @@ CollectibleSet.prototype.collectibleTouches = function(GameObject){
             this.mSet[i].isDisintigrating = true;
             this.mSet[i].disintigrate();
             this.reductionModeIsOn = true;
+            this.mItemsRemoved++;
         }
     }
     return false;  
@@ -56,4 +57,9 @@ CollectibleSet.prototype.removeCollectible = function(){
         }
     }
     this.mSet = newSet;
+};
+
+//To see how many collectibles are left
+CollectibleSet.prototype.getItemsRemoved = function(){
+    return this.mItemsRemoved;
 };
