@@ -26,6 +26,12 @@ function Particle(pos) {
     
     this.mPositionMark = new LineRenderable();
     this.mDrawBounds = false;
+    
+    this.horizontalFactor = null;
+    this.verticalFactor = null;
+    this.setMagnitude((Math.random() * (1000 + 1000) - 1000), 
+                        (Math.random() * (1000 + 1000) - 1000));
+    this.speed = Math.random()*.5;
 }
 
 /**
@@ -67,7 +73,9 @@ Particle.prototype.update = function () {
     var p = this.getPosition();
     vec2.scaleAndAdd(this.mVelocity, this.mVelocity, this.mAcceleration, dt);
     vec2.scale(this.mVelocity, this.mVelocity, this.mDrag);
-    vec2.scaleAndAdd(p, p, this.mVelocity, dt);
+    //vec2.scaleAndAdd(p, p, this.mVelocity, dt);
+    this.moveWithMagnitude();
+    
 };
 
 /**
@@ -192,3 +200,40 @@ Particle.prototype.setDrag = function (d) { this.mDrag = d; };
  * @memberOf Particle
  */
 Particle.prototype.getDrag = function () { return this.mDrag; };
+
+
+
+
+
+//MODIFICATIONS GO UNDER HERE:
+
+Particle.prototype.setMagnitude = function(horiz, vert){
+    //this.verticalFactor = vert;
+    //this.horizontalFactor = horiz;
+    
+    if(Math.abs(horiz) >= Math.abs(vert)){
+        this.horizontalFactor = 1;
+        if(horiz < 0) this.horizontalFactor = -1;
+        
+        this.verticalFactor = Math.abs(vert)/Math.abs(horiz);
+        if(vert < 0) this.verticalFactor *= -1;
+    }
+    else{
+        this.verticalFactor = 1;
+        if(vert < 0) this.verticalFactor = -1;
+        
+        this.horizontalFactor = Math.abs(horiz)/Math.abs(vert);
+        if(horiz < 0) this.horizontalFactor *= -1;
+    }
+    
+};
+
+Particle.prototype.moveWithMagnitude = function(){
+    var xPos = this.mPosition[0];
+    var yPos = this.mPosition[1];
+    
+    var xMove = this.horizontalFactor*this.speed;
+    var yMove = this.verticalFactor*this.speed;
+    
+    this.setPosition(xPos + xMove, yPos + yMove);
+};

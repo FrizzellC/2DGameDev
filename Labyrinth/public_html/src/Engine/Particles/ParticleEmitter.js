@@ -51,9 +51,11 @@ ParticleEmitter.prototype.emitParticles = function (pSet) {
 };
 
 ParticleEmitter.prototype.createParticle = function(atX, atY) {
-    var life = 30 + Math.random() * 200;
+    //var life = 30 + Math.random() * 200; //original
+    var life = 30 + Math.random() * 10;//new
     var p = new ParticleGameObject("assets/particle.png", atX, atY, life);
     p.getRenderable().setColor([1, 0, 0, 1]);
+    //p.getRenderable().setColor([1, 0, 1, .1]);
     
     // size of the particle
     var r = 3.5 + Math.random() * 2.5;
@@ -64,8 +66,9 @@ ParticleEmitter.prototype.createParticle = function(atX, atY) {
     var fg = 0.4 + 0.1 * Math.random();
     var fb = 0.3 + 0.1 * Math.random();
     p.setFinalColor([fr, fg, fb, 0.6]);
+    //p.setFinalColor([1, 1, 1 ,1]);
     
-    // velocity on the particle
+    //velocity on the particle
     //var fx = 10 * Math.random() - 20 * Math.random();
     //var fy = 10 * Math.random();
     //p.getPhysicsComponent().setVelocity([fx, fy]);
