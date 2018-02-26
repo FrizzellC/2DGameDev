@@ -70,10 +70,13 @@ MyGame.prototype.unloadScene = function () {
 MyGame.prototype.initialize = function () {
     this.mCollectibleSet = new CollectibleSet();
     
-    for(var i = -2; i < 2; i++){
+    for(var i = -2; i < 3; i++){
         //newRenderable.setElementPixelPositions(0, 120, 0, 180);
-        var newCollectible = new Collectible(this.kCollectibleSprite, [6 * i, -6 * i]);
-        this.mCollectibleSet.addCollectible(newCollectible);
+        if(i !== 0)
+        {
+            var newCollectible = new Collectible(this.kCollectibleSprite, [6 * i, -6 * i]);
+            this.mCollectibleSet.addCollectible(newCollectible);
+        }
     }
     
     //Initializing player
