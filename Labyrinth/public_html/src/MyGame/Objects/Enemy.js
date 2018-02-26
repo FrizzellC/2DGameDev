@@ -22,7 +22,6 @@ function Enemy(pos) {
     this.mTargetPos = pos;
     this.mSpeed = null;       //Units per frame
     this.mCurrentState = null;
-    this._transitionToPatrol();
     this.mSprite = new Renderable();
     this.mSprite.getXform().setPosition(pos[0], pos[1]);
     this.mSprite.getXform().setSize(5, 5);
@@ -32,6 +31,18 @@ function Enemy(pos) {
     // Shake helpers
     this.mStartPos = null;
     this.mShakePos = null;
+    
+    // Patrol locations
+    this.mCurrentPatrol = 0;
+    this.mPatrolPos = [];
+    var xPos, yPos;
+    for(var i = 0; i < 3; ++i)
+    {
+        xPos = Math.random() * 1000 - 500;
+        yPos = Math.random() * 600 - 300;
+        this.mPatrolPos[i] = [xPos, yPos];
+    }
+    this._transitionToPatrol();
     
     // Patrol/Chase threshold
     this.kChaseThreshold = 30;
@@ -50,6 +61,7 @@ Enemy.prototype._transitionToCatch = function () {
 Enemy.prototype._transitionToPatrol = function () {
     this.mSpeed = 10 / 60;
     this.mCurrentState = Enemy.eEnemyState.Patrol;
+    this.mTargetPos = this.mPatrolPos[this.mCurrentPatrol];
 };
 
 Enemy.prototype._transitionToAlert = function () {
@@ -60,13 +72,17 @@ Enemy.prototype._transitionToAlert = function () {
 };
 
 Enemy.prototype._transitionToChase = function () {
-    this.mSpeed = 15 / 60;
+    this.mSpeed = 20 / 60;
     this.mCurrentState = Enemy.eEnemyState.Chase;
 };
 
 Enemy.prototype._getNextPatrolNode = function () {
     if(vec2.distance(this.mSprite.getXform().getPosition(), this.mTargetPos) < 1)
     {
-        // find next node to patrol towards
+        this.mCurrentPatrol++;
+        this.mTargetPos = this.mPatrolPos[this.mCurrentPatrol];
+        this.mTargetPos[0] += Math.random() * 10 - 5;
+        this.mTargetPos[1] += Math.random() * 10 - 5;
     }
+    return this.mTargetPos;
 };
