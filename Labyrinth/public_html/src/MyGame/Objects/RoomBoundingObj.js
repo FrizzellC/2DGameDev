@@ -16,12 +16,12 @@ function RoomBoundingObj() {
     var h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,h15,h16,h17,h18,h19,h20,h21,h22,h23,h24; 
     
     // Initialize varaibles here
-    function Room(posX, posY, width, width) 
+    function Room(posX, posY, width, height) 
     {
         var roomObj = new Renderable();
         roomObj.setColor([0,0,0,0]);
         roomObj.getXform().setPosition(posX, posY);
-        roomObj.getXform().setSize(width, width);
+        roomObj.getXform().setSize(width, height);
         GameObject.call(this, roomObj);
     }
     gEngine.Core.inheritPrototype(Room, GameObject);
