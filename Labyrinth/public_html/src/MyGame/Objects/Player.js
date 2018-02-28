@@ -14,7 +14,8 @@
 Player.ePlayerState = Object.freeze({
     Normal: 0,
     Boost: 1, 
-    Shoot: 2
+    Shoot: 2,
+    Slow: 3
 });
 
 function Player(pos, sprite) {
@@ -54,6 +55,12 @@ Player.prototype._transitionToShoot = function () {
     this.mSpeed = 30 / 60;
     this.mPowerStart = Date.getTime();
     this.mCurrentState = Player.ePlayerState.Shoot;
+};
+
+//code for slowing down player in "high-friction" area
+Player.prototype._transitionToSlow = function () {
+    this.mSpeed = 15 / 60;
+    this.mCurrentState = Player.ePlayerState.Slow;
 };
 
 Player.prototype.getSprite = function () {

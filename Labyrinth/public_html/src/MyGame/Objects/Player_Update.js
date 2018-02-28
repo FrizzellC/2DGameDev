@@ -24,6 +24,9 @@ Player.prototype.update = function () {
         case Player.ePlayerState.Shoot:
             this._updateShoot();
             break;
+        case Player.ePlayerState.Slow:
+            this._updateSlow();
+            break;
     }
     GameObject.prototype.update.call(this);
 };
@@ -66,6 +69,10 @@ Player.prototype._updateShoot = function () {
     }
 };
 
+Player.prototype._updateSlow = function () {
+    this._updatePos();
+};
+
 Player.prototype._updateRot = function () {
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A))
     {
@@ -98,6 +105,17 @@ Player.prototype._updatePos = function () {
     if (this.mSpeed !== 0) {
         
         var direction = vec2.fromValues(0,0);
+        
+        //For testing transtion to slow state
+        if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Q))
+        {
+            //this.mSpeed = 15/60;
+            this._transitionToSlow();
+        }
+        else{
+            this._transitionToNormal();
+        }
+        
         
         if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W))
         {
