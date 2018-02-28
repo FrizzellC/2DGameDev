@@ -71,7 +71,6 @@ MyGame.prototype.initialize = function () {
     this.mCollectibleSet = new CollectibleSet();
     
     for(var i = -2; i < 3; i++){
-        //newRenderable.setElementPixelPositions(0, 120, 0, 180);
         if(i !== 0)
         {
             var newCollectible = new Collectible(this.kCollectibleSprite, [6 * i, -6 * i]);
@@ -89,7 +88,7 @@ MyGame.prototype.initialize = function () {
     this.mMainView = new MainView();
     
     this.mMap = new RoomBoundingObj();
-    //this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
+    this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
     this.mBackground = new TextureRenderable(this.kBackground);
     this.mBackground.setColor([1, 1, 1, 0]);
     this.mBackground.getXform().setPosition(0, 0);
@@ -104,7 +103,7 @@ MyGame.prototype.draw = function () {
     this.mMainView.setup();
     
     this.mBackground.draw(this.mMainView.getCam());
-    //this.mMap.draw(this.mMainView.getCam());
+    this.mMap.draw(this.mMainView.getCam());
     this.mCollectibleSet.draw(this.mMainView.getCam());
     
     this.mPlayer.draw(this.mMainView.getCam());
@@ -127,7 +126,7 @@ MyGame.prototype.update = function () {
     this.mHelpViewManager.update();
 
     this.mEnemy.update(this.mPlayer);
-    //this.mBounds.update();
+    this.mBounds.update();
 
     this.mMainView.update(this.mPlayer);
 
