@@ -28,7 +28,7 @@ function MyGame() {
     this.mCollectible = null;
     this.mCollectibleSet = null;
     
-    this.mEnemy = null;
+    this.mEnemies = null;
     this.mMainView = null;
     
     this.mMap = null;
@@ -68,15 +68,7 @@ MyGame.prototype.unloadScene = function () {
 };
 
 MyGame.prototype.initialize = function () {
-    this.mCollectibleSet = new CollectibleSet();
-    
-    for(var i = -2; i < 3; i++){
-        if(i !== 0)
-        {
-            var newCollectible = new Collectible(this.kCollectibleSprite, [6 * i, -6 * i]);
-            this.mCollectibleSet.addCollectible(newCollectible);
-        }
-    }
+    this.mCollectibleSet = new CollectibleSet(this.kCollectibleSprite);
     
     //Initializing player
     this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite);
@@ -84,15 +76,13 @@ MyGame.prototype.initialize = function () {
     
     this.mAllParticles = new ParticleGameObjectSet();
    
-    this.mEnemy = new Enemy(vec2.fromValues(-25, -25), this.kEnemySprite);
+    
     this.mMainView = new MainView();
     
     this.mMap = new RoomBoundingObj();
     this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
-    this.mBackground = new TextureRenderable(this.kBackground);
-    this.mBackground.setColor([1, 1, 1, 0]);
-    this.mBackground.getXform().setPosition(0, 0);
-    this.mBackground.getXform().setSize(300, 200);
+    this.mBackground = new Background(this.kBackground);
+    this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -107,7 +97,7 @@ MyGame.prototype.draw = function () {
     this.mCollectibleSet.draw(this.mMainView.getCam());
     
     this.mPlayer.draw(this.mMainView.getCam());
-    this.mEnemy.draw(this.mMainView.getCam());
+    this.mEnemies.draw(this.mMainView.getCam());
     
     this.mHelpViewManager.draw();
 };
@@ -125,7 +115,7 @@ MyGame.prototype.update = function () {
     this.mPlayer.update();
     this.mHelpViewManager.update();
 
-    this.mEnemy.update(this.mPlayer);
+    this.mEnemies.update(this.mPlayer);
     this.mBounds.update();
 
     this.mMainView.update(this.mPlayer);
