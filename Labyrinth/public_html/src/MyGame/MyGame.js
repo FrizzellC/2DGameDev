@@ -89,11 +89,8 @@ MyGame.prototype.initialize = function () {
     
     this.mMap = new RoomBoundingObj();
     this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
-    this.mBackground = new TextureRenderable(this.kBackground);
+    this.mBackground = new Background(this.kBackground);
     this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite);
-    this.mBackground.setColor([1, 1, 1, 0]);
-    this.mBackground.getXform().setPosition(0, 0);
-    this.mBackground.getXform().setSize(300, 200);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
