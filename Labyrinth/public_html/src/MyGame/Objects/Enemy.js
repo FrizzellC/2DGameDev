@@ -19,7 +19,7 @@ Enemy.eEnemyState = Object.freeze({
 });
 
 function Enemy(pos, sprite) {
-    this.mTargetPos = pos;
+    this.mTargetPos = null;
     this.mSpeed = null;       //Units per frame
     this.mCurrentState = null;
     this.mSprite = new TextureRenderable(sprite);
@@ -33,15 +33,8 @@ function Enemy(pos, sprite) {
     this.mShakePos = null;
     
     // Patrol locations
-    this.mCurrentPatrol = 0;
-    this.mPatrolPos = [];
-    var xPos, yPos;
-    for(var i = 0; i < 3; ++i)
-    {
-        xPos = Math.random() * 1000 - 500;
-        yPos = Math.random() * 600 - 300;
-        this.mPatrolPos[i] = [xPos, yPos];
-    }
+    this.mCurrentPatrol = -1;
+    this.mPatrolPos = pos;
     this._transitionToPatrol();
     
     // Patrol/Chase threshold
@@ -53,25 +46,25 @@ function Enemy(pos, sprite) {
 }
 gEngine.Core.inheritPrototype(Enemy, GameObject);
 
-Enemy.prototype._transitionToCatch = function () {
+Enemy.prototype.transitionToCatch = function () {
     this.mSpeed = 0;
     this.mCurrentState = Enemy.eEnemyState.Catch;
 };
 
-Enemy.prototype._transitionToPatrol = function () {
+Enemy.prototype.transitionToPatrol = function () {
     this.mSpeed = 10 / 60;
     this.mCurrentState = Enemy.eEnemyState.Patrol;
-    this.mTargetPos = this.mPatrolPos[this.mCurrentPatrol];
+    this.mTargetPos = this.mPatrolPos[++this.mCurrentPatrol];
 };
 
-Enemy.prototype._transitionToAlert = function () {
+Enemy.prototype.transitionToAlert = function () {
     this.mSpeed = 0;
     this.mCurrentState = Enemy.eEnemyState.Alert;
     this.mStartPos = this.mSprite.getXform().getPosition();
     this.mShakePos = new ShakePosition(.5, .5, 20, 60);
 };
 
-Enemy.prototype._transitionToChase = function () {
+Enemy.prototype.transitionToChase = function () {
     this.mSpeed = 20 / 60;
     this.mCurrentState = Enemy.eEnemyState.Chase;
 };
