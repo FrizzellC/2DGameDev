@@ -1,3 +1,10 @@
+/*global gEngine, Scene, GameObjectset, TextureObject, Camera, vec2,
+  FontRenderable, SpriteRenderable, LineRenderable,
+  GameObject, GameObjectSet */
+/* find out more about jslint: http://www.jslint.com/help.html */
+
+"use strict";  // Operate in Strict mode such that variables must be declared before used!
+
 /* 
  * How to use:
  * 1. Instantiate CollectibleSet obj when game scene initializes.
@@ -7,30 +14,30 @@
  *      collectibleTouches is called.
  */
 
-
-function CollectibleSet(){
-    this.mSet = new Array();
+function CollectibleSet(rooms, texture){
+    GameObjectSet.call(this);
+    
     this.mItemsRemoved = 0;
     this.reductionModeIsOn = false;
+    
+    var pos = [];
+    for(var i = 0; i < rooms.length; ++i)
+    {
+        if(i % 8 === 0)
+        {
+            pos = rooms[i].getXform().getPosition();
+            var newCollectible = new Collectible(texture, pos);
+            this.addToSet(newCollectible);
+        }
+    }
 }
-
-CollectibleSet.prototype.addCollectible = function(CollectibleObject){
-    this.mSet.push(CollectibleObject);
-};
+gEngine.Core.inheritPrototype(CollectibleSet, GameObjectSet);
 
 CollectibleSet.prototype.update = function(){
-    for(var i = 0; i < this.mSet.length; i++){
-        this.mSet[i].update();
-    }
+    GameObjectSet.prototype.update.call(this);
     
     if(this.reductionModeIsOn){
         this.removeCollectible();
-    }
-};
-
-CollectibleSet.prototype.draw = function(camera){
-    for(var i = 0; i < this.mSet.length; i++){
-        this.mSet[i].draw(camera);
     }
 };
 
@@ -49,14 +56,12 @@ CollectibleSet.prototype.collectibleTouches = function(GameObject){
 //Only use within this class. For removing
 //collectible when collectibleTouches is true.
 CollectibleSet.prototype.removeCollectible = function(){
-    var newSet = new Array();
     for(var i = 0; i < this.mSet.length; i++){
-        if(!this.mSet[i].toBeDeleted){
-            newSet.push(this.mSet[i]);
-            this.reductionModeIsOn = false;
+        if(this.mSet[i].toBeDeleted){
+            this.removeFromSet(this.getObjectAt(i));
         }
     }
-    this.mSet = newSet;
+    this.reductionModeIsOn = false;
 };
 
 //To see how many collectibles are left

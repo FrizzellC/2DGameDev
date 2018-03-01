@@ -68,15 +68,7 @@ MyGame.prototype.unloadScene = function () {
 };
 
 MyGame.prototype.initialize = function () {
-    this.mCollectibleSet = new CollectibleSet();
-    
-    for(var i = -2; i < 3; i++){
-        if(i !== 0)
-        {
-            var newCollectible = new Collectible(this.kCollectibleSprite, [6 * i, -6 * i]);
-            this.mCollectibleSet.addCollectible(newCollectible);
-        }
-    }
+    this.mCollectibleSet = new CollectibleSet(this.kCollectibleSprite);
     
     //Initializing player
     this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite);
