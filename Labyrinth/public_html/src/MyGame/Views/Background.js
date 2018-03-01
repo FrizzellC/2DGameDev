@@ -15,7 +15,7 @@ function Background(texture) {
     this.mBackground = new TextureRenderable(texture);
     this.mBackground.setColor([1, 1, 1, 0]);
     this.mBackground.getXform().setPosition(0, 0);
-    this.mBackground.getXform().setSize(300, 200);
+    this.mBackground.getXform().setSize(400, 200);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more

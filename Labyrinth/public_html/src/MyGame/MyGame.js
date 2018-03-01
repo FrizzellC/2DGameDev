@@ -18,7 +18,7 @@ function MyGame() {
     this.kHeroSprite = "assets/Textures/TempHero.png";
     this.kEnemySprite = "assets/Textures/TempBadCloud.png";
     this.kCollectibleSprite = "assets/Textures/TempCollectZ.png";
-    this.kBackground = "assets/Textures/BGComp.png";
+    this.kBackground = "assets/Textures/BG_RedLineDoc.png";
     
     this.mGameWon = false;
     
@@ -68,21 +68,22 @@ MyGame.prototype.unloadScene = function () {
 };
 
 MyGame.prototype.initialize = function () {
-    this.mCollectibleSet = new CollectibleSet(this.kCollectibleSprite);
     
     //Initializing player
     this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite);
-    this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite);
     
     this.mAllParticles = new ParticleGameObjectSet();
    
     
     this.mMainView = new MainView();
+    this.mMainView.setup();
     
-    this.mMap = new RoomBoundingObj();
+    this.mMap = new RoomBoundingObj(this.mMainView.getCam());
     this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
     this.mBackground = new Background(this.kBackground);
     this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite);
+    this.mCollectibleSet = new CollectibleSet(this.mMap.getRooms(), this.kCollectibleSprite);
+    this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more

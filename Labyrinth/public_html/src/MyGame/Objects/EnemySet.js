@@ -14,24 +14,34 @@
 function EnemySet(rooms, sprite) {    
     GameObjectSet.call(this);
     var pos = [];
-    for(var i = 0; i < rooms.length; ++i)
-    {
-        
-        if(i % 8 === 0)
-        {
-            var enemy = new Enemy(pos, sprite);
-            this.addToSet(enemy);
-            pos = [];
-        }
-        else if(i % 2 === 0)
-        {
-            pos[pos.length] = rooms[i].getXform().getPosition();
-            var offset = vec2.fromValues(Math.random() * 40 - 20, Math.random() * 40 - 20);
-            vec2.add(pos[pos.length - 1], pos[pos.length - 1], offset);
-        }
-    }
+    var enemy = null;
+    
+    pos[0] = vec2.clone(rooms[19].getXform().getPosition());
+    pos[1] = vec2.clone(rooms[3].getXform().getPosition());
+    pos[2] = vec2.clone(rooms[0].getXform().getPosition());
+    enemy = new Enemy(pos, sprite);
+    this.addToSet(enemy);
+    
+    pos[0] = vec2.clone(rooms[10].getXform().getPosition());
+    pos[1] = vec2.clone(rooms[11].getXform().getPosition());
+    pos[2] = vec2.clone(rooms[12].getXform().getPosition());
+    enemy = new Enemy(pos, sprite);
+    this.addToSet(enemy);
+    
+    pos[0] = vec2.clone(rooms[1].getXform().getPosition());
+    pos[1] = vec2.clone(rooms[4].getXform().getPosition());
+    pos[2] = vec2.clone(rooms[5].getXform().getPosition());
+    pos[2] = vec2.clone(rooms[7].getXform().getPosition());
+    enemy = new Enemy(pos, sprite);
+    this.addToSet(enemy);
 }
 gEngine.Core.inheritPrototype(EnemySet, GameObjectSet);
+
+EnemySet.prototype.update = function (hero) {
+    for (var i = 0; i < this.mSet.length; i++) {
+        this.mSet[i].update(hero);
+    }
+};
 
 EnemySet.prototype.transitionToCatch = function () {
     for(var i = 0; i < this.size(); ++i)

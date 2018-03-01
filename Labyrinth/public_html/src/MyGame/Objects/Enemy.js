@@ -23,7 +23,7 @@ function Enemy(pos, sprite) {
     this.mSpeed = null;       //Units per frame
     this.mCurrentState = null;
     this.mSprite = new TextureRenderable(sprite);
-    this.mSprite.getXform().setPosition(pos[0], pos[1]);
+    this.mSprite.getXform().setPosition(pos[0][0], pos[0][1]);
     this.mSprite.getXform().setSize(10, 5);
     this.mSprite.setColor([1, 1, 1, 0]);
     GameObject.call(this, this.mSprite);
@@ -35,10 +35,10 @@ function Enemy(pos, sprite) {
     // Patrol locations
     this.mCurrentPatrol = -1;
     this.mPatrolPos = pos;
-    this._transitionToPatrol();
+    this.transitionToPatrol();
     
     // Patrol/Chase threshold
-    this.kChaseThreshold = 60;
+    this.kChaseThreshold = 40;
     this.kPatrolThreshold = 30;
     
     // Rotation interpolator
@@ -73,6 +73,7 @@ Enemy.prototype._getNextPatrolNode = function () {
     if(vec2.distance(this.mSprite.getXform().getPosition(), this.mTargetPos) < 1)
     {
         this.mCurrentPatrol++;
+        this.mCurrentPatrol = this.mCurrentPatrol % this.mPatrolPos.length;
         this.mTargetPos = this.mPatrolPos[this.mCurrentPatrol];
         this.mTargetPos[0] += Math.random() * 10 - 5;
         this.mTargetPos[1] += Math.random() * 10 - 5;

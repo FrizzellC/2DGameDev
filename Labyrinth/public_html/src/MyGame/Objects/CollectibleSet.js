@@ -21,11 +21,11 @@ function CollectibleSet(rooms, texture){
     this.reductionModeIsOn = false;
     
     var pos = [];
-    for(var i = 0; i < rooms.length; ++i)
+    for(var i = 1; i <= rooms.length; ++i)
     {
         if(i % 8 === 0)
         {
-            pos = rooms[i].getXform().getPosition();
+            pos = rooms[i - 1].getXform().getPosition();
             var newCollectible = new Collectible(texture, pos);
             this.addToSet(newCollectible);
         }
