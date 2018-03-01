@@ -78,7 +78,7 @@ MyGame.prototype.initialize = function () {
     this.mMainView = new MainView();
     this.mMainView.setup();
     
-    this.mMap = new RoomBoundingObj(this.mMainView.getCam());
+    this.mMap = new RoomBoundingObj();
     this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
     this.mBackground = new Background(this.kBackground);
     this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite);
