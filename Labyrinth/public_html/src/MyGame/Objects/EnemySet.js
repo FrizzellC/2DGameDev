@@ -13,7 +13,7 @@
 
 function EnemySet(rooms, sprite) {    
     GameObjectSet.call(this);
-    var pos = [];
+    var pos = new Array();
     var enemy = null;
     
     pos[0] = vec2.clone(rooms[19].getXform().getPosition());
@@ -22,12 +22,14 @@ function EnemySet(rooms, sprite) {
     enemy = new Enemy(pos, sprite);
     this.addToSet(enemy);
     
+    pos = new Array();
     pos[0] = vec2.clone(rooms[10].getXform().getPosition());
     pos[1] = vec2.clone(rooms[11].getXform().getPosition());
     pos[2] = vec2.clone(rooms[12].getXform().getPosition());
     enemy = new Enemy(pos, sprite);
     this.addToSet(enemy);
     
+    pos = new Array();
     pos[0] = vec2.clone(rooms[1].getXform().getPosition());
     pos[1] = vec2.clone(rooms[4].getXform().getPosition());
     pos[2] = vec2.clone(rooms[5].getXform().getPosition());

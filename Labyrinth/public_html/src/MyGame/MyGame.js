@@ -80,7 +80,7 @@ MyGame.prototype.initialize = function () {
     
     this.mMap = new RoomBoundingObj();
     this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
-    this.mBackground = new Background(this.kBackground);
+    //this.mBackground = new Background(this.kBackground);
     this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite);
     this.mCollectibleSet = new CollectibleSet(this.mMap.getRooms(), this.kCollectibleSprite);
     this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite);
@@ -93,7 +93,7 @@ MyGame.prototype.draw = function () {
     
     this.mMainView.setup();
     
-    this.mBackground.draw(this.mMainView.getCam());
+    //this.mBackground.draw(this.mMainView.getCam());
     this.mMap.draw(this.mMainView.getCam());
     this.mCollectibleSet.draw(this.mMainView.getCam());
     

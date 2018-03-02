@@ -54,7 +54,8 @@ Enemy.prototype.transitionToCatch = function () {
 Enemy.prototype.transitionToPatrol = function () {
     this.mSpeed = 10 / 60;
     this.mCurrentState = Enemy.eEnemyState.Patrol;
-    this.mTargetPos = this.mPatrolPos[++this.mCurrentPatrol];
+    this.mCurrentPatrol = (this.mCurrentPatrol + 1) % this.mPatrolPos.length;
+    this.mTargetPos = this.mPatrolPos[this.mCurrentPatrol];
 };
 
 Enemy.prototype.transitionToAlert = function () {
@@ -72,8 +73,7 @@ Enemy.prototype.transitionToChase = function () {
 Enemy.prototype._getNextPatrolNode = function () {
     if(vec2.distance(this.mSprite.getXform().getPosition(), this.mTargetPos) < 1)
     {
-        this.mCurrentPatrol++;
-        this.mCurrentPatrol = this.mCurrentPatrol % this.mPatrolPos.length;
+        this.mCurrentPatrol = (this.mCurrentPatrol + 1) % this.mPatrolPos.length;
         this.mTargetPos = this.mPatrolPos[this.mCurrentPatrol];
         this.mTargetPos[0] += Math.random() * 10 - 5;
         this.mTargetPos[1] += Math.random() * 10 - 5;

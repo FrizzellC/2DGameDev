@@ -23,7 +23,7 @@ function RoomBoundingObj() {
         width = (width / 2048) * 400;
         height = (height / 1024) * 200;
         var roomObj = new Renderable();
-        roomObj.setColor([0,0,0,0]);
+        roomObj.setColor([1,0,0,0.6]);
         roomObj.getXform().setPosition(posX, posY);
         roomObj.getXform().setSize(width, height);
         GameObject.call(this, roomObj);
@@ -38,13 +38,13 @@ function RoomBoundingObj() {
     r5 = new Room(165, 933, 128, 140);
     r6 = new Room(166, 725, 210, 140);
     r7 = new Room(185, 482, 168, 138);
-    r8 = new Room(397, 465, 254, 138);
+    r8 = new Room(396, 482, 254, 138);
     r9 = new Room(253, 221, 300, 172);
     r10 = new Room(776, 238, 336, 138);
-    r11 = new Room(1361, 80, 592, 110);
+    r11 = new Room(1362, 80, 592, 110);
     r12 = new Room(1929, 119, 134, 180);
-    r13 = new Room(1904, 275, 82, 132);
-    r14 = new Room(1904, 515, 82, 348);
+    r13 = new Room(1903, 275, 82, 132);
+    r14 = new Room(1903, 515, 82, 348);
     r15 = new Room(1984, 519, 80, 98);
     r16 = new Room(1917, 846, 194, 314);
     r17 = new Room(1382, 915, 624, 176);
@@ -58,20 +58,20 @@ function RoomBoundingObj() {
     h4 = new Room(1340, 436, 122, 40);
     h5 = new Room(599, 620, 78, 138);
     h6 = new Room(599, 829, 78, 68);
-    h7 = new Room(733, 951, 82, 40);
-    h8 = new Room(270, 951, 84, 40);
+    h7 = new Room(733.5, 951, 81, 40);
+    h8 = new Room(271, 951, 84, 40);
     h9 = new Room(167, 829, 78, 68);
-    h10 = new Room(231, 360, 78, 106);
-    h11 = new Room(505, 189, 206, 40);
+    h10 = new Room(230, 360, 78, 106);
+    h11 = new Room(505.5, 189, 205, 40);
     h12 = new Room(629, 97, 874, 76);
-    h13 = new Room(1398, 189, 918, 40);
+    h13 = new Room(1403, 189, 918, 40);
     h14 = new Room(1189, 152, 78, 34);
     h15 = new Room(1502, 152, 78, 34);
-    h16 = new Room(1759, 80, 204, 136);
+    h16 = new Room(1760, 80, 204, 40);
     h17 = new Room(1504, 549, 78, 136);
-    h18 = new Room(1778, 669, 170, 40);
+    h18 = new Room(1777, 637, 170, 40);
     h19 = new Room(1577, 775, 78, 104);
-    h21 = new Room(1756, 896, 126, 40);
+    h21 = new Room(1757, 896, 126, 40);
     h22 = new Room(1503, 241, 78, 64);
     h23 = new Room(1027, 951, 86, 40);
     
@@ -130,18 +130,18 @@ function RoomBoundingObj() {
         [h6, h7, h8],
         [h8, h9],
         [h9, r20],
-        [r20, r8],
+        [h10, r20, r8],
         [r7, r1],
         [h10, h11, h12],
-        [h11, h13],
-        [h12, h13, h14, h16],
+        [h1, h11, h13],
+        [h12, h13, h14, h15, h16],
         [h13, h16, r13],
         [r12, r14],
-        [r13, r15, r16],
+        [r13, r15, r16, h18],
         [r14],
-        [h24, h21],
+        [r14, h21],
         [h19, h21, h23],
-        [h17, h19],
+        [h17, h18, h19],
         [h4, h17, h22],
         [r7, r6], 
         [r1, r0],

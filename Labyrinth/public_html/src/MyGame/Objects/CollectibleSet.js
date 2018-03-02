@@ -20,16 +20,33 @@ function CollectibleSet(rooms, texture){
     this.mItemsRemoved = 0;
     this.reductionModeIsOn = false;
     
-    var pos = [];
-    for(var i = 1; i <= rooms.length; ++i)
-    {
-        if(i % 8 === 0)
-        {
-            pos = rooms[i - 1].getXform().getPosition();
-            var newCollectible = new Collectible(texture, pos);
-            this.addToSet(newCollectible);
-        }
-    }
+    var pos = rooms[1].getXform().getPosition();
+    var newCollectible = new Collectible(texture, pos);
+    this.addToSet(newCollectible);
+    
+    pos = rooms[3].getXform().getPosition();
+    newCollectible = new Collectible(texture, pos);
+    this.addToSet(newCollectible);
+    
+    pos = rooms[5].getXform().getPosition();
+    newCollectible = new Collectible(texture, pos);
+    this.addToSet(newCollectible);
+    
+    pos = rooms[9].getXform().getPosition();
+    newCollectible = new Collectible(texture, pos);
+    this.addToSet(newCollectible);
+    
+    pos = rooms[11].getXform().getPosition();
+    newCollectible = new Collectible(texture, pos);
+    this.addToSet(newCollectible);
+    
+    pos = rooms[15].getXform().getPosition();
+    newCollectible = new Collectible(texture, pos);
+    this.addToSet(newCollectible);
+    
+    pos = rooms[18].getXform().getPosition();
+    newCollectible = new Collectible(texture, pos);
+    this.addToSet(newCollectible);
 }
 gEngine.Core.inheritPrototype(CollectibleSet, GameObjectSet);
 

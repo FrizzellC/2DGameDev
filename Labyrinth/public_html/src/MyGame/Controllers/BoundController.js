@@ -143,16 +143,16 @@ BoundController.prototype._pushInsideObjects = function (objOne, objTwo) {
                 this._pushInsideObject(objOne);
         }
         //Trying to transition top/bot
-        if(topOne === 1 && botTwo === 2 || botOne === 2 && topTwo === 1)
+        if(topOne === 4 && botTwo === 8 || botOne === 8 && topTwo === 4)
         {
             if(leftOne === 1)
             {
-                var xDelta = objOne.getBBox().maxX() - this.mHero.getBBox().maxX();
+                var xDelta = objOne.getBBox().minX() - this.mHero.getBBox().minX();
                 this.mHero.getXform().incXPosBy(xDelta);
             }
-            if(rightOne === 2)
+            else if(rightOne === 2)
             {
-                var xDelta = objOne.getBBox().minX() - this.mHero.getBBox().minX();
+                var xDelta = objOne.getBBox().maxX() - this.mHero.getBBox().maxX();
                 this.mHero.getXform().incXPosBy(xDelta);
             }
             else
@@ -181,16 +181,16 @@ BoundController.prototype._pushInsideObjects = function (objOne, objTwo) {
                 this._pushInsideObject(objTwo);
         }
         //Trying to transition top/bot
-        if(topTwo === 1 && botOne === 2 || botTwo === 2 && topOne === 1)
+        if(topTwo === 4 && botOne === 8 || botTwo === 8 && topOne === 4)
         {
             if(leftTwo === 1)
             {
-                var xDelta = objTwo.getBBox().maxX() - this.mHero.getBBox().maxX();
+                var xDelta = objTwo.getBBox().minX() - this.mHero.getBBox().minX();
                 this.mHero.getXform().incXPosBy(xDelta);
             }
-            if(rightTwo === 2)
+            else if(rightTwo === 2)
             {
-                var xDelta = objTwo.getBBox().minX() - this.mHero.getBBox().minX();
+                var xDelta = objTwo.getBBox().maxX() - this.mHero.getBBox().maxX();
                 this.mHero.getXform().incXPosBy(xDelta);
             }
             else
