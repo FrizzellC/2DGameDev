@@ -15,11 +15,29 @@ function Collectible(sprite, pos){
     this.toBeDeleted = false;
     
     this.cycles = 0;
+    this.lightIntensity = 0;
+    this.changeLightIntensity = .25;
     
-    this.mRenderable = new TextureRenderable(sprite);
+    this.mLight = this._createALight(Light.eLightType.ePointLight,
+            [15, 50, 5],         // position
+            [0, 0, -1],          // Direction 
+            [0.6, 1.0, 0.0, 1],  // some color
+            8, 20,               // near and far distances
+            0.1, 0.2,            // inner and outer cones
+            0,                   // intensity
+            1.0                  // drop off
+            );
+
+    
+    this.mRenderable = new LightRenderable(sprite);
     this.mRenderable.getXform().setPosition(pos[0], pos[1]);
     this.mRenderable.getXform().setSize(3, 3);
     this.setRenderable(this.mRenderable);
+    
+    this.mLight.setXPos(this.getXform().getXPos());
+    this.mLight.setYPos(this.getXform().getYPos());   
+    
+    this.mGameObject.getRenderable().addLight(this.mLight);
     
 }
 //gEngine.Core.inheritPrototype(Collectible, GameObject);
@@ -35,6 +53,10 @@ Collectible.prototype.setRenderable = function(renderable){
 };
 
 Collectible.prototype.update = function(){
+    this.lightIntensity += this.changeLightIntensity;
+    this.mGameObject.getRenderable().getLightAt(0).mIntensity = this.lightIntensity;
+    if(this.lightIntensity >= 6 ||
+            this.lightIntensity < 0) this.changeLightIntensity *= -1;
 
     if(this.isDisintigrating){
         this.particles.update();
@@ -107,4 +129,24 @@ Collectible.prototype.createParticle = function(atX, atY) {
     p.setSizeDelta(0.98);
     
     return p;
+};
+
+//Only use for this class
+
+Collectible.prototype._createALight = function (type, pos, dir, color, n, f, inner, outer, intensity, dropOff) {
+    var light = new Light();
+    light.setLightType(type);
+    light.setColor(color);
+    light.setXPos(pos[0]);
+    light.setYPos(pos[1]);      
+    light.setZPos(pos[2]);
+    light.setDirection(dir);
+    light.setNear(n);
+    light.setFar(f);
+    light.setInner(inner);
+    light.setOuter(outer);
+    light.setIntensity(intensity);
+    light.setDropOff(dropOff);
+
+    return light;
 };
