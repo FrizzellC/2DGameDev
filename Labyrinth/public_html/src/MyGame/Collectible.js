@@ -19,7 +19,7 @@ function Collectible(sprite, pos){
     this.changeLightIntensity = .25;
     
     this.mLight = this._createALight(Light.eLightType.ePointLight,
-            [15, 50, 5],         // position
+            [0, 0, 18],         // position
             [0, 0, -1],          // Direction 
             [0.6, 1.0, 0.0, 1],  // some color
             8, 20,               // near and far distances
@@ -53,10 +53,16 @@ Collectible.prototype.setRenderable = function(renderable){
 };
 
 Collectible.prototype.update = function(){
-    this.lightIntensity += this.changeLightIntensity;
-    this.mGameObject.getRenderable().getLightAt(0).mIntensity = this.lightIntensity;
-    if(this.lightIntensity >= 6 ||
-            this.lightIntensity < 0) this.changeLightIntensity *= -1;
+    if(!this.isDisintigrating){
+            this.lightIntensity += this.changeLightIntensity;
+        this.mGameObject.getRenderable().getLightAt(0).mIntensity = this.lightIntensity;
+        if(this.lightIntensity >= 5 ||
+                this.lightIntensity < 0) this.changeLightIntensity *= -1;
+    }
+    else{
+        this.mGameObject.getRenderable().getLightAt(0).mIntensity = 0;
+    }
+
 
     if(this.isDisintigrating){
         this.particles.update();

@@ -90,10 +90,14 @@ MyGame.prototype.initialize = function () {
     
     this.mMap = new RoomBoundingObj();
     //this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
-    this.mBackground = new TextureRenderable(this.kBackground);
+    this.mBackground = new LightRenderable(this.kBackground);
     this.mBackground.setColor([1, 1, 1, 0]);
     this.mBackground.getXform().setPosition(0, 0);
     this.mBackground.getXform().setSize(300, 200);
+    
+    for(var i = 0; i < 4; i++){
+        this.mBackground.addLight(this.mCollectibleSet.mSet[i].mLight);
+    }
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -117,6 +121,9 @@ MyGame.prototype.draw = function () {
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.prototype.update = function () {
+    for(var i = 0; i < this.mCollectibleSet.size(); i++){
+        this.mBackground.mLights[i] = this.mCollectibleSet.mSet[i].mLight;
+    }
     
     
     this.mCollectibleSet.collectibleTouches(this.mPlayer);
