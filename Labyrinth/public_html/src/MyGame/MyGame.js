@@ -19,6 +19,7 @@ function MyGame() {
     this.kEnemySprite = "assets/Textures/TempBadCloud.png";
     this.kCollectibleSprite = "assets/Textures/TempCollectZ.png";
     this.kBackground = "assets/Textures/BG_RedLineDoc.png";
+    this.kBGAudio = "assets/audio/background.mp3";
     
     this.mGameWon = false;
     
@@ -47,10 +48,14 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kCollectibleSprite);
     gEngine.Textures.loadTexture(this.kEnemySprite);
     gEngine.Textures.loadTexture(this.kBackground);
-      
+    
+    gEngine.AudioClips.loadAudio(this.kBGAudio);      
 };
 
 MyGame.prototype.unloadScene = function () {
+    gEngine.AudioClips.stopBackgroundAudio();
+    gEngine.AudioClips.unloadAudio(this.kBGAudio);
+    
     gEngine.Textures.unloadTexture(this.kParticleTexture);
     gEngine.Textures.unloadTexture(this.spriteSheet);
     gEngine.Textures.unloadTexture(this.kHeroSprite);
@@ -84,6 +89,8 @@ MyGame.prototype.initialize = function () {
     this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite);
     this.mCollectibleSet = new CollectibleSet(this.mMap.getRooms(), this.kCollectibleSprite);
     this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite);
+    
+    gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more

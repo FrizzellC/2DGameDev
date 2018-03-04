@@ -42,7 +42,7 @@ function Enemy(pos, sprite) {
     this.kPatrolThreshold = 30;
     
     // Rotation interpolator
-    this.mRotater = new InterpolateVec2(this.getCurrentFrontDir(), 60, .05);
+    this.mRotater = new InterpolateVec2(this.getCurrentFrontDir(), 30, .1);
 }
 gEngine.Core.inheritPrototype(Enemy, GameObject);
 
