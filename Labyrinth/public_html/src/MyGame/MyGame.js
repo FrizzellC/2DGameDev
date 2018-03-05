@@ -18,6 +18,7 @@ function MyGame() {
     this.kEnemySprite = "assets/Textures/TempBadCloud.png";
     this.kCollectibleSprite = "assets/Textures/TempCollectZ.png";
     this.kBackground = "assets/Textures/BG_RedLineDoc.png";
+    this.kZHolder = "assets/Textures/TempCollectZHolder.png";
     this.kMiniMapBackground = "assets/Textures/MiniMapBG.png";
     this.kMiniHeroSprite = "assets/Textures/TempHeroHead.png";
     this.kBGAudio = "assets/audio/background.mp3";
@@ -50,6 +51,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kCollectibleSprite);
     gEngine.Textures.loadTexture(this.kEnemySprite);
     gEngine.Textures.loadTexture(this.kBackground);
+    gEngine.Textures.loadTexture(this.kZHolder);
     gEngine.Textures.loadTexture(this.kMiniMapBackground);
     gEngine.Textures.loadTexture(this.kMiniHeroSprite);
     
@@ -73,6 +75,7 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kCollectibleSprite);
     gEngine.Textures.unloadTexture(this.kEnemySprite);
     gEngine.Textures.unloadTexture(this.kBackground);
+    gEngine.Textures.unloadTexture(this.kZHolder);
     gEngine.Textures.unloadTexture(this.kMiniMapBackground);
     gEngine.Textures.unloadTexture(this.kMiniHeroSprite);
     
@@ -88,7 +91,7 @@ MyGame.prototype.initialize = function () {
     this.mBackground = new Background(this.kBackground);
     this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite);
     this.mCollectibleSet = new CollectibleSet(this.mMap.getRooms(), this.kCollectibleSprite);
-    this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite);
+    this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite, this.kZHolder);
     this.mMiniMapManager = new MiniMapManager(this.mPlayer, this.mCollectibleSet, this.kMiniHeroSprite, this.kCollectibleSprite, this.kMiniMapBackground);
     
     gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
