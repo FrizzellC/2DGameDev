@@ -138,8 +138,8 @@ MyGame.prototype.update = function () {
 
     this.mMainView.update(this.mPlayer);
     
-    this.mPassage1.update();
-    this.mPassage2.update();
+    //this.mPassage1.update();
+    //this.mPassage2.update();
 
     //TODO remove later. For debugging purposes.
     if (this.isGameLost()) {
