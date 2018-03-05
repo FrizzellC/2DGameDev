@@ -23,7 +23,7 @@ function RoomBoundingObj() {
         width = (width / 2048) * 400;
         height = (height / 1024) * 200;
         var roomObj = new Renderable();
-        roomObj.setColor([1,0,0,0.6]);
+        roomObj.setColor([0,0,0,0]);
         roomObj.getXform().setPosition(posX, posY);
         roomObj.getXform().setSize(width, height);
         GameObject.call(this, roomObj);

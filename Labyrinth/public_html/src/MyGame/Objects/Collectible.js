@@ -1,7 +1,8 @@
-/* 
- * 
- * 
- */
+/*jslint node: true, vars: true */
+/*global gEngine, Scene, GameObjectset, TextureObject, Camera, vec2,
+  FontRenderable, SpriteRenderable, LineRenderable,
+  GameObject, Light */
+/* find out more about jslint: http://www.jslint.com/help.html */
 
 function Collectible(sprite, pos){
     this.mRenderable = null;

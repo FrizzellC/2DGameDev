@@ -60,24 +60,6 @@ Player.prototype._updateOnIce = function () {
     }
 };
 
-<<<<<<< HEAD
-=======
-Player.prototype._updateSlow = function () {
-    this._updatePos();
-};
-
-Player.prototype._updateRot = function () {
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A))
-    {
-        vec2.rotate(this.getCurrentFrontDir(), this.getCurrentFrontDir(), 0.05);
-        this.mSprite.getXform().setRotationVec(this.getCurrentFrontDir());
-    }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D))
-    {
-        vec2.rotate(this.getCurrentFrontDir(), this.getCurrentFrontDir(), -0.05);
-        this.mSprite.getXform().setRotationVec(this.getCurrentFrontDir());
-    }
-};
 
 Player.prototype._updateFlashLight = function(){
     var x = this.getXform().getXPos();
@@ -86,7 +68,6 @@ Player.prototype._updateFlashLight = function(){
     this.mFlashLight.setMagnitude();
 };
 
->>>>>>> master
 Player.prototype._updatePos = function () {
 
     if (this.mSpeed !== 0) {

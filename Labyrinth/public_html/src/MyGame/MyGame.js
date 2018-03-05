@@ -72,28 +72,21 @@ MyGame.prototype.unloadScene = function () {
 };
 
 MyGame.prototype.initialize = function () {
-    
-    //Initializing player
-    this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite);
-    
-    this.mAllParticles = new ParticleGameObjectSet();
-   
-    
-    this.mMainView = new MainView();
-    this.mMainView.setup();
-    
+    this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite);   
+    this.mMainView = new MainView();    
     this.mMap = new RoomBoundingObj();
     this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
-    //this.mBackground = new Background(this.kBackground);
+    this.mBackground = new Background(this.kBackground);
     this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite);
     this.mCollectibleSet = new CollectibleSet(this.mMap.getRooms(), this.kCollectibleSprite);
     this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite);
     
     gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
 
-	  for(var i = 0; i < 4; i++){
+    for(var i = 0; i < this.mCollectibleSet.size(); i++){
         this.mBackground.addLight(this.mCollectibleSet.mSet[i].mLight);
     }
+    this.mBackground.addLight(this.mPlayer.mFlashLight.mLight);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -103,7 +96,7 @@ MyGame.prototype.draw = function () {
     
     this.mMainView.setup();
     
-    //this.mBackground.draw(this.mMainView.getCam());
+    this.mBackground.draw(this.mMainView.getCam());
     this.mMap.draw(this.mMainView.getCam());
     this.mCollectibleSet.draw(this.mMainView.getCam());
     
@@ -116,16 +109,8 @@ MyGame.prototype.draw = function () {
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
-MyGame.prototype.update = function () {
-    var i;
-    for(i = 0; i < this.mCollectibleSet.size(); i++){
-        this.mBackground.mLights[i] = this.mCollectibleSet.mSet[i].mLight;
-    }
-    this.mBackground.mLights[i] = this.mPlayer.mFlashLight.mLight;
-    
-    
+MyGame.prototype.update = function () {    
     this.mCollectibleSet.collectibleTouches(this.mPlayer);
-    
     this.mCollectibleSet.update();    
 
     this.mPlayer.update();

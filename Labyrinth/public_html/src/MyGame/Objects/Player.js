@@ -13,14 +13,8 @@
 
 Player.ePlayerState = Object.freeze({
     Normal: 0,
-<<<<<<< HEAD
     OnIce: 1, 
     OnSand: 2
-=======
-    Boost: 1, 
-    Shoot: 2,
-    Slow: 3
->>>>>>> master
 });
 
 function Player(pos, sprite, map) {
