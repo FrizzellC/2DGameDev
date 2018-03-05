@@ -16,7 +16,7 @@ function MyGame() {
     this.kHeroSprite = "assets/Textures/TempHero.png";
     this.kEnemySprite = "assets/Textures/TempBadCloud.png";
     this.kCollectibleSprite = "assets/Textures/TempCollectZ.png";
-    this.kBackground = "assets/Textures/BG_RedLineDoc.png";
+    this.kBackground = "assets/Textures/bgLabrynth.png";
     this.kZHolder = "assets/Textures/TempCollectZHolder.png";
     this.kMiniMapBackground = "assets/Textures/MiniMapBG.png";
     this.kMiniHeroSprite = "assets/Textures/TempHeroHead.png";
