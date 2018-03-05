@@ -32,6 +32,9 @@ function MyGame() {
     this.mCollectible = null;
     this.mCollectibleSet = null;
     
+    this.mPassage1 = null;
+    this.mPassage2 = null;
+    
     this.mEnemies = null;
     this.mMainView = null;
     
@@ -94,6 +97,9 @@ MyGame.prototype.initialize = function () {
     this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite, this.kZHolder);
     this.mMiniMapManager = new MiniMapManager(this.mPlayer, this.mCollectibleSet, this.kMiniHeroSprite, this.kCollectibleSprite, this.kMiniMapBackground);
     
+    this.mPassage1 = new PassageController(this.mPlayer, [-159,75,-124,73],[8,86,10,76] );
+    this.mPassage2 = new PassageController(this.mPlayer, [-160,42,-150,40], [-160,18,-150,17]);
+    
     gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
 
     for(var i = 0; i < this.mCollectibleSet.size(); i++){
@@ -135,6 +141,9 @@ MyGame.prototype.update = function () {
     this.mBounds.update();
 
     this.mMainView.update(this.mPlayer);
+    
+    this.mPassage1.update();
+    this.mPassage2.update();
 
     //Checking if we've collected all Z's
     if (this.mHelpViewManager.allItemsCollected()) {
@@ -145,6 +154,12 @@ MyGame.prototype.update = function () {
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Space))
     {
         gEngine.GameLoop.stop();
+    }
+    
+    //TODO remove later. For debugging purposes.
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.B))
+    {
+        console.log(this.mPlayer.getXform().getPosition());
     }
 
 };

@@ -19,7 +19,7 @@ Player.prototype.update = function () {
             this._updateNormal();
             break;
         case Player.ePlayerState.Boost:
-            this._updateBoost();
+            //this._updateBoost();
             break;
         case Player.ePlayerState.Shoot:
             this._updateShoot();
