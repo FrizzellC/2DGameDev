@@ -22,7 +22,7 @@ Enemy.prototype.update = function (hero) {
             this._updateChase(hero);
             break;
         case Enemy.eEnemyState.Alert:
-            this._updateAlert();
+            this._updateAlert(hero);
             break;
         case Enemy.eEnemyState.Catch:
             this._updateCatch();
@@ -65,10 +65,10 @@ Enemy.prototype._updateChase = function (hero) {
     }
 };
 
-Enemy.prototype._updateAlert = function () {
+Enemy.prototype._updateAlert = function (hero) {
     if(this.mShakePos.shakeDone())
     {
-        this.transitionToChase();
+        this.transitionToChase(hero);
     }
     else
     {

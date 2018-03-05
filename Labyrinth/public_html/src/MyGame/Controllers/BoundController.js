@@ -25,7 +25,7 @@ BoundController.prototype.update = function () {
     // figure out which room hero is in
     for(var i = 0; i < this.mRooms.length; ++i)
     {
-        if(this.mHero.getBBox().intersectsBound(this.mRooms[i].getBBox()))
+        if(this.mHero.getLowerBounds().intersectsBound(this.mRooms[i].getBBox()))
         {
             room = i;
             break;
@@ -35,13 +35,13 @@ BoundController.prototype.update = function () {
     if(room !== null)
     {
         // Check if outside room bounds
-        var status = this.mRooms[room].getBBox().boundCollideStatus(this.mHero.getBBox());
+        var status = this.mRooms[room].getBBox().boundCollideStatus(this.mHero.getLowerBounds());
         if(status !== 16)
         {
             // check if also intersecting a hallway
             for(var j = 0; j < this.mHallways[room].length; ++j)
             {
-                if(this.mHero.getBBox().intersectsBound(this.mHallways[room][j].getBBox()))
+                if(this.mHero.getLowerBounds().intersectsBound(this.mHallways[room][j].getBBox()))
                 {
                     hallway = j;
                     break;
@@ -50,7 +50,7 @@ BoundController.prototype.update = function () {
             // if intersecting room and hallway, make sure hero isn't stuck on corner
             if(hallway !== null)
             {
-                var hallStatus = this.mHallways[room][hallway].getBBox().boundCollideStatus(this.mHero.getBBox());
+                var hallStatus = this.mHallways[room][hallway].getBBox().boundCollideStatus(this.mHero.getLowerBounds());
                 // return if hero is only intersecting opposite bounds of room and hallway
                 // that means hero is transitioning from one to other within bounds
                 if(status + hallStatus === 3 || status + hallStatus === 12)
@@ -75,7 +75,7 @@ BoundController.prototype.update = function () {
 };
 
 BoundController.prototype._pushInsideObject = function (obj) {
-    var status = obj.getBBox().boundCollideStatus(this.mHero.getBBox());
+    var status = obj.getBBox().boundCollideStatus(this.mHero.getLowerBounds());
     var left = status & 1;
     var right = status & 2;
     var top = status & 4;
@@ -83,25 +83,25 @@ BoundController.prototype._pushInsideObject = function (obj) {
     // if intersecting left
     if(left === 1)
     {
-        var xDelta = obj.getBBox().minX() - this.mHero.getBBox().minX();
+        var xDelta = obj.getBBox().minX() - this.mHero.getLowerBounds().minX();
         this.mHero.getXform().incXPosBy(xDelta);
     }
     //if intersecting right
     if(right === 2)
     {
-        var xDelta = obj.getBBox().maxX() - this.mHero.getBBox().maxX();
+        var xDelta = obj.getBBox().maxX() - this.mHero.getLowerBounds().maxX();
         this.mHero.getXform().incXPosBy(xDelta);
     }
     //if intersecting top
     if(top === 4)
     {
-        var yDelta = obj.getBBox().maxY() - this.mHero.getBBox().maxY();
+        var yDelta = obj.getBBox().maxY() - this.mHero.getLowerBounds().maxY();
         this.mHero.getXform().incYPosBy(yDelta);
     }
     //if intersecting bottom
     if(bot === 8)
     {
-        var yDelta = obj.getBBox().minY() - this.mHero.getBBox().minY();
+        var yDelta = obj.getBBox().minY() - this.mHero.getLowerBounds().minY();
         this.mHero.getXform().incYPosBy(yDelta);
     }
 };
@@ -109,8 +109,8 @@ BoundController.prototype._pushInsideObject = function (obj) {
 BoundController.prototype._pushInsideObjects = function (objOne, objTwo) {
     // Push in either room or hallway
     var dir = this.mHero.getCurrentFrontDir();
-    var statusOne = objOne.getBBox().boundCollideStatus(this.mHero.getBBox());
-    var statusTwo = objTwo.getBBox().boundCollideStatus(this.mHero.getBBox());
+    var statusOne = objOne.getBBox().boundCollideStatus(this.mHero.getLowerBounds());
+    var statusTwo = objTwo.getBBox().boundCollideStatus(this.mHero.getLowerBounds());
     var leftOne = statusOne & 1;
     var rightOne = statusOne & 2;
     var topOne = statusOne & 4;
@@ -131,12 +131,12 @@ BoundController.prototype._pushInsideObjects = function (objOne, objTwo) {
         {
             if(topOne === 4)
             {
-                var yDelta = objOne.getBBox().maxY() - this.mHero.getBBox().maxY();
+                var yDelta = objOne.getBBox().maxY() - this.mHero.getLowerBounds().maxY();
                 this.mHero.getXform().incYPosBy(yDelta);
             }
             else if(botOne === 8)
             {
-                var yDelta = objOne.getBBox().minY() - this.mHero.getBBox().minY();
+                var yDelta = objOne.getBBox().minY() - this.mHero.getLowerBounds().minY();
                 this.mHero.getXform().incYPosBy(yDelta);
             }
             else
@@ -147,12 +147,12 @@ BoundController.prototype._pushInsideObjects = function (objOne, objTwo) {
         {
             if(leftOne === 1)
             {
-                var xDelta = objOne.getBBox().minX() - this.mHero.getBBox().minX();
+                var xDelta = objOne.getBBox().minX() - this.mHero.getLowerBounds().minX();
                 this.mHero.getXform().incXPosBy(xDelta);
             }
             else if(rightOne === 2)
             {
-                var xDelta = objOne.getBBox().maxX() - this.mHero.getBBox().maxX();
+                var xDelta = objOne.getBBox().maxX() - this.mHero.getLowerBounds().maxX();
                 this.mHero.getXform().incXPosBy(xDelta);
             }
             else
@@ -169,12 +169,12 @@ BoundController.prototype._pushInsideObjects = function (objOne, objTwo) {
         {
             if(topTwo === 4)
             {
-                var yDelta = objTwo.getBBox().maxY() - this.mHero.getBBox().maxY();
+                var yDelta = objTwo.getBBox().maxY() - this.mHero.getLowerBounds().maxY();
                 this.mHero.getXform().incYPosBy(yDelta);
             }
             else if(botTwo === 8)
             {
-                var yDelta = objTwo.getBBox().minY() - this.mHero.getBBox().minY();
+                var yDelta = objTwo.getBBox().minY() - this.mHero.getLowerBounds().minY();
                 this.mHero.getXform().incYPosBy(yDelta);
             }
             else
@@ -185,12 +185,12 @@ BoundController.prototype._pushInsideObjects = function (objOne, objTwo) {
         {
             if(leftTwo === 1)
             {
-                var xDelta = objTwo.getBBox().minX() - this.mHero.getBBox().minX();
+                var xDelta = objTwo.getBBox().minX() - this.mHero.getLowerBounds().minX();
                 this.mHero.getXform().incXPosBy(xDelta);
             }
             else if(rightTwo === 2)
             {
-                var xDelta = objTwo.getBBox().maxX() - this.mHero.getBBox().maxX();
+                var xDelta = objTwo.getBBox().maxX() - this.mHero.getLowerBounds().maxX();
                 this.mHero.getXform().incXPosBy(xDelta);
             }
             else
