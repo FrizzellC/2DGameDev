@@ -18,14 +18,11 @@ Player.prototype.update = function () {
         case Player.ePlayerState.Normal:
             this._updateNormal();
             break;
-        case Player.ePlayerState.Boost:
-            //this._updateBoost();
+        case Player.ePlayerState.OnSand:
+            this._updateOnSand();
             break;
-        case Player.ePlayerState.Shoot:
-            this._updateShoot();
-            break;
-        case Player.ePlayerState.Slow:
-            this._updateSlow();
+        case Player.ePlayerState.OnIce:
+            this._updateOnIce();
             break;
     }
     GameObject.prototype.update.call(this);
@@ -33,7 +30,7 @@ Player.prototype.update = function () {
 
 
 Player.prototype._updateNormal = function () {
-        this._updatePos();
+    this._updatePos();
 };
 
 Player.prototype._updateOnSand = function () {
@@ -54,7 +51,12 @@ Player.prototype._updateOnIce = function () {
     }
     else
     {
+        if(this.mIceLerp.done())
+        {
+            this._transitionToNormal();
+        }
         //use ice interpolation for sliding pos
+        this.mIceLerp.updateInterpolation();
         //allow slight user control of pos
         this._updatePos();
     }
@@ -78,10 +80,7 @@ Player.prototype._updatePos = function () {
         if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Q))
         {
             //this.mSpeed = 15/60;
-            this._transitionToSlow();
-        }
-        else{
-            this._transitionToNormal();
+            this._transitionToOnIce();
         }
         
         var horiz = 0;

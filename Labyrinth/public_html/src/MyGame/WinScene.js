@@ -9,7 +9,7 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function WinScene() {
-    this.kBackground = "assets/Textures/GameOver.png";
+    this.kBackground = "assets/Textures/YouWon.png";
     this.mCamera = null;
 }
 gEngine.Core.inheritPrototype(WinScene, Scene);

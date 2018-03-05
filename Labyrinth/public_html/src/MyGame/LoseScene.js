@@ -28,7 +28,7 @@ LoseScene.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(0, 0),  // position of the camera
         100,                      // width of camera
-        [0, 0, 1200, 600],        // viewport (orgX, orgY, width, height)
+        [0, 0, 1600, 600],        // viewport (orgX, orgY, width, height)
          0
     );
     this.mBackground = new Background(this.kBackground);

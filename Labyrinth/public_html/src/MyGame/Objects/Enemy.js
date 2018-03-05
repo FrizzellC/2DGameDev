@@ -22,7 +22,7 @@ function Enemy(pos, sprite) {
     this.mTargetPos = null;
     this.mSpeed = null;       //Units per frame
     this.mCurrentState = null;
-    this.mSprite = new TextureRenderable(sprite);
+    this.mSprite = new LightRenderable(sprite);
     this.mSprite.getXform().setPosition(pos[0][0], pos[0][1]);
     this.mSprite.getXform().setSize(10, 5);
     this.mSprite.setColor([1, 1, 1, 0]);
@@ -65,9 +65,10 @@ Enemy.prototype.transitionToAlert = function () {
     this.mShakePos = new ShakePosition(.5, .5, 20, 60);
 };
 
-Enemy.prototype.transitionToChase = function () {
+Enemy.prototype.transitionToChase = function (hero) {
     this.mSpeed = 20 / 60;
     this.mCurrentState = Enemy.eEnemyState.Chase;
+    this.mCurrentFrontDir = vec2.sub(this.mCurrentFrontDir, hero.getXform().getPosition(), this.getXform().getPosition());
 };
 
 Enemy.prototype._getNextPatrolNode = function () {
@@ -79,4 +80,8 @@ Enemy.prototype._getNextPatrolNode = function () {
         this.mTargetPos[1] += Math.random() * 10 - 5;
     }
     return this.mTargetPos;
+};
+
+Enemy.prototype.addLight = function (l) {
+    this.mSprite.addLight(l);
 };

@@ -32,6 +32,7 @@ function Player(pos, sprite, map) {
     
     // Map Interaction
     this.mMap = map;
+    this.mIceLerp = null;
     
     this.mFlashLight = new FlashLight();
     
@@ -52,6 +53,10 @@ Player.prototype._transitionToOnSand = function () {
 Player.prototype._transitionToOnIce = function () {
     this.mSpeed = 5 / 60;
     this.mCurrentState = Player.ePlayerState.OnIce;
+    var pos = vec2.create();
+    vec2.scaleAndAdd(pos, this.getXform().getPosition(), this.mCurrentFrontDir, 30);
+    this.mIceLerp = new InterpolateVec2(this.mSprite.getXform().getPosition(), 60, .1);
+    this.mIceLerp.setFinalValue(pos);
 };
 
 Player.prototype._onSand = function () {
@@ -62,12 +67,14 @@ Player.prototype._onIce = function () {
     return this.mMap.isOnIce();
 };
 
-//code for slowing down player in "high-friction" area
-Player.prototype._transitionToSlow = function () {
-    this.mSpeed = 15 / 60;
-    this.mCurrentState = Player.ePlayerState.Slow;
-};
-
 Player.prototype.getSprite = function () {
     return this.mSprite;
+};
+
+Player.prototype.getLowerBounds = function () {
+    var xform = this.getXform();
+    var offset = vec2.fromValues(0, xform.getHeight() / 4);
+    vec2.sub(offset, xform.getPosition(), offset);
+    var b = new BoundingBox(offset, xform.getWidth(), xform.getHeight() / 2);
+    return b;
 };
