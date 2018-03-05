@@ -90,6 +90,10 @@ MyGame.prototype.initialize = function () {
     this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite);
     
     gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
+
+	  for(var i = 0; i < 4; i++){
+        this.mBackground.addLight(this.mCollectibleSet.mSet[i].mLight);
+    }
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -113,6 +117,11 @@ MyGame.prototype.draw = function () {
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.prototype.update = function () {
+    var i;
+    for(i = 0; i < this.mCollectibleSet.size(); i++){
+        this.mBackground.mLights[i] = this.mCollectibleSet.mSet[i].mLight;
+    }
+    this.mBackground.mLights[i] = this.mPlayer.mFlashLight.mLight;
     
     
     this.mCollectibleSet.collectibleTouches(this.mPlayer);

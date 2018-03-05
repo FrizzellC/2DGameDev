@@ -13,8 +13,14 @@
 
 Player.ePlayerState = Object.freeze({
     Normal: 0,
+<<<<<<< HEAD
     OnIce: 1, 
     OnSand: 2
+=======
+    Boost: 1, 
+    Shoot: 2,
+    Slow: 3
+>>>>>>> master
 });
 
 function Player(pos, sprite, map) {
@@ -32,6 +38,8 @@ function Player(pos, sprite, map) {
     
     // Map Interaction
     this.mMap = map;
+    
+    this.mFlashLight = new FlashLight();
     
     GameObject.call(this, this.mSprite);
 }
@@ -58,6 +66,12 @@ Player.prototype._onSand = function () {
 
 Player.prototype._onIce = function () {
     return this.mMap.isOnIce();
+};
+
+//code for slowing down player in "high-friction" area
+Player.prototype._transitionToSlow = function () {
+    this.mSpeed = 15 / 60;
+    this.mCurrentState = Player.ePlayerState.Slow;
 };
 
 Player.prototype.getSprite = function () {
