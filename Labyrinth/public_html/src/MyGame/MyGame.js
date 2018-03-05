@@ -92,7 +92,7 @@ MyGame.prototype.initialize = function () {
     
     gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
 
-	for(var i = 0; i < 4; i++){
+	  for(var i = 0; i < 4; i++){
         this.mBackground.addLight(this.mCollectibleSet.mSet[i].mLight);
     }
 };

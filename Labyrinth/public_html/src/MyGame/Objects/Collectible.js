@@ -38,7 +38,7 @@ function Collectible(sprite, pos){
     this.mLight.setYPos(this.getXform().getYPos());   
     
     this.mGameObject.getRenderable().addLight(this.mLight);
-    
+
 }
 //gEngine.Core.inheritPrototype(Collectible, GameObject);
 
