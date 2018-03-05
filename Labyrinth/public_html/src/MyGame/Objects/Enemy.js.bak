@@ -19,11 +19,11 @@ Enemy.eEnemyState = Object.freeze({
 });
 
 function Enemy(pos, sprite) {
-    this.mTargetPos = null;
+    this.mTargetPos = pos;
     this.mSpeed = null;       //Units per frame
     this.mCurrentState = null;
     this.mSprite = new TextureRenderable(sprite);
-    this.mSprite.getXform().setPosition(pos[0][0], pos[0][1]);
+    this.mSprite.getXform().setPosition(pos[0], pos[1]);
     this.mSprite.getXform().setSize(10, 5);
     this.mSprite.setColor([1, 1, 1, 0]);
     GameObject.call(this, this.mSprite);
@@ -33,39 +33,45 @@ function Enemy(pos, sprite) {
     this.mShakePos = null;
     
     // Patrol locations
-    this.mCurrentPatrol = -1;
-    this.mPatrolPos = pos;
-    this.transitionToPatrol();
+    this.mCurrentPatrol = 0;
+    this.mPatrolPos = [];
+    var xPos, yPos;
+    for(var i = 0; i < 3; ++i)
+    {
+        xPos = Math.random() * 1000 - 500;
+        yPos = Math.random() * 600 - 300;
+        this.mPatrolPos[i] = [xPos, yPos];
+    }
+    this._transitionToPatrol();
     
     // Patrol/Chase threshold
-    this.kChaseThreshold = 40;
+    this.kChaseThreshold = 60;
     this.kPatrolThreshold = 30;
     
     // Rotation interpolator
-    this.mRotater = new InterpolateVec2(this.getCurrentFrontDir(), 30, .1);
+    this.mRotater = new InterpolateVec2(this.getCurrentFrontDir(), 60, .05);
 }
 gEngine.Core.inheritPrototype(Enemy, GameObject);
 
-Enemy.prototype.transitionToCatch = function () {
+Enemy.prototype._transitionToCatch = function () {
     this.mSpeed = 0;
     this.mCurrentState = Enemy.eEnemyState.Catch;
 };
 
-Enemy.prototype.transitionToPatrol = function () {
+Enemy.prototype._transitionToPatrol = function () {
     this.mSpeed = 10 / 60;
     this.mCurrentState = Enemy.eEnemyState.Patrol;
-    this.mCurrentPatrol = (this.mCurrentPatrol + 1) % this.mPatrolPos.length;
     this.mTargetPos = this.mPatrolPos[this.mCurrentPatrol];
 };
 
-Enemy.prototype.transitionToAlert = function () {
+Enemy.prototype._transitionToAlert = function () {
     this.mSpeed = 0;
     this.mCurrentState = Enemy.eEnemyState.Alert;
     this.mStartPos = this.mSprite.getXform().getPosition();
     this.mShakePos = new ShakePosition(.5, .5, 20, 60);
 };
 
-Enemy.prototype.transitionToChase = function () {
+Enemy.prototype._transitionToChase = function () {
     this.mSpeed = 20 / 60;
     this.mCurrentState = Enemy.eEnemyState.Chase;
 };
@@ -73,7 +79,7 @@ Enemy.prototype.transitionToChase = function () {
 Enemy.prototype._getNextPatrolNode = function () {
     if(vec2.distance(this.mSprite.getXform().getPosition(), this.mTargetPos) < 1)
     {
-        this.mCurrentPatrol = (this.mCurrentPatrol + 1) % this.mPatrolPos.length;
+        this.mCurrentPatrol++;
         this.mTargetPos = this.mPatrolPos[this.mCurrentPatrol];
         this.mTargetPos[0] += Math.random() * 10 - 5;
         this.mTargetPos[1] += Math.random() * 10 - 5;

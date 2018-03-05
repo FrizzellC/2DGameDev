@@ -86,6 +86,13 @@ Player.prototype._updateRot = function () {
     }
 };
 
+Player.prototype._updateFlashLight = function(){
+    var x = this.getXform().getXPos();
+    var y = this.getXform().getYPos();
+    this.mFlashLight.setPosition(x, y);
+    this.mFlashLight.setMagnitude();
+};
+
 Player.prototype._updatePos = function () {
 //    if(this.mSpeed !== 0)
 //    {
@@ -116,25 +123,46 @@ Player.prototype._updatePos = function () {
             this._transitionToNormal();
         }
         
+        var horiz = 0;
+        var vert = 0;
+        var buttonPressed = false;
         
         if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W))
         {
+            buttonPressed = true;
+            vert = 1;
             vec2.add(direction, direction, vec2.fromValues(0,1));
         }
         
         if(gEngine.Input.isKeyPressed(gEngine.Input.keys.S))
         {
+            buttonPressed = true;
+            vert = -1;
             vec2.add(direction, direction, vec2.fromValues(0,-1));
         }
         
         if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A))
         {
+            buttonPressed = true;
+            horiz = -1;
             vec2.add(direction, direction, vec2.fromValues(-1,0));
         }
         
         if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D))
         {
+            buttonPressed = true;
+            horiz = 1;
             vec2.add(direction, direction, vec2.fromValues(1,0));
+        }
+        
+        if(gEngine.Input.isKeyClicked(gEngine.Input.keys.H))
+        {
+            this.mFlashLight.toggle();
+        }
+        
+        if(buttonPressed){
+            this.mFlashLight.mVerticalFactor = vert;
+            this.mFlashLight.mHorizontalFactor = horiz;
         }
         
         vec2.normalize(direction,direction);
@@ -142,5 +170,6 @@ Player.prototype._updatePos = function () {
         this.getXform().incXPosBy(direction[0]);
         this.getXform().incYPosBy(direction[1]);
         this.setCurrentFrontDir(direction);
+        this._updateFlashLight();
     }
 };

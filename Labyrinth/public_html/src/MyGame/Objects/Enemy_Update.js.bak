@@ -36,7 +36,7 @@ Enemy.prototype._updatePatrol = function (hero) {
     var dist = vec2.distance(this.mSprite.getXform().getPosition(), hero.getXform().getPosition());
     if(dist < this.kPatrolThreshold)
     {
-        this.transitionToAlert();
+        this._transitionToAlert();
     }
     else
     {
@@ -51,11 +51,11 @@ Enemy.prototype._updateChase = function (hero) {
     var dist = vec2.distance(hero.getXform().getPosition(), this.mSprite.getXform().getPosition());
     if(GameObject.prototype.pixelTouches.call(this, hero, touchPos))
     {
-        this.transitionToCatch();
+        this._transitionToCatch();
     }
     else if(dist > this.kChaseThreshold)
     {
-        this.transitionToPatrol();
+        this._transitionToPatrol();
     }
     else
     {
@@ -68,7 +68,7 @@ Enemy.prototype._updateChase = function (hero) {
 Enemy.prototype._updateAlert = function () {
     if(this.mShakePos.shakeDone())
     {
-        this.transitionToChase();
+        this._transitionToChase();
     }
     else
     {
