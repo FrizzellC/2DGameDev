@@ -18,12 +18,16 @@ function MyGame() {
     this.kEnemySprite = "assets/Textures/TempBadCloud.png";
     this.kCollectibleSprite = "assets/Textures/TempCollectZ.png";
     this.kBackground = "assets/Textures/BG_RedLineDoc.png";
+    this.kZHolder = "assets/Textures/TempCollectZHolder.png";
+    this.kMiniMapBackground = "assets/Textures/MiniMapBG.png";
+    this.kMiniHeroSprite = "assets/Textures/TempHeroHead.png";
     this.kBGAudio = "assets/audio/background.mp3";
     
     this.mGameWon = false;
     
     this.mPlayer = null;
     this.mHelpViewManager = null;
+    this.mMiniMapManager = null;
     
     this.mCollectible = null;
     this.mCollectibleSet = null;
@@ -50,6 +54,9 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kCollectibleSprite);
     gEngine.Textures.loadTexture(this.kEnemySprite);
     gEngine.Textures.loadTexture(this.kBackground);
+    gEngine.Textures.loadTexture(this.kZHolder);
+    gEngine.Textures.loadTexture(this.kMiniMapBackground);
+    gEngine.Textures.loadTexture(this.kMiniHeroSprite);
     
     gEngine.AudioClips.loadAudio(this.kBGAudio);      
 };
@@ -58,19 +65,24 @@ MyGame.prototype.unloadScene = function () {
     gEngine.AudioClips.stopBackgroundAudio();
     gEngine.AudioClips.unloadAudio(this.kBGAudio);
     
-    gEngine.Textures.unloadTexture(this.kParticleTexture);
-    gEngine.Textures.unloadTexture(this.spriteSheet);
-    gEngine.Textures.unloadTexture(this.kHeroSprite);
-    gEngine.Textures.unloadTexture(this.kCollectibleSprite);
-    gEngine.Textures.unloadTexture(this.kEnemySprite);
-    gEngine.Textures.unloadTexture(this.kBackground);
-    
     var nextLevel;
     if (this.mGameWon) {
         nextLevel = new WinScene();
     } else {
         nextLevel = new LoseScene();
     }
+    
+    gEngine.Textures.unloadTexture(this.kParticleTexture);
+    gEngine.Textures.unloadTexture(this.spriteSheet);
+    gEngine.Textures.unloadTexture(this.kHeroSprite);
+    gEngine.Textures.unloadTexture(this.kCollectibleSprite);
+    gEngine.Textures.unloadTexture(this.kEnemySprite);
+    gEngine.Textures.unloadTexture(this.kBackground);
+    gEngine.Textures.unloadTexture(this.kZHolder);
+    gEngine.Textures.unloadTexture(this.kMiniMapBackground);
+    gEngine.Textures.unloadTexture(this.kMiniHeroSprite);
+    
+    
     gEngine.Core.startScene(nextLevel);
 };
 
@@ -82,7 +94,8 @@ MyGame.prototype.initialize = function () {
     this.mBackground = new Background(this.kBackground);
     this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite);
     this.mCollectibleSet = new CollectibleSet(this.mMap.getRooms(), this.kCollectibleSprite);
-    this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite);
+    this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite, this.kZHolder);
+    this.mMiniMapManager = new MiniMapManager(this.mPlayer, this.mCollectibleSet, this.kMiniHeroSprite, this.kCollectibleSprite, this.kMiniMapBackground);
     
     this.mPassage1 = new PassageController(this.mPlayer, [-159,75,-124,73],[8,86,10,76] );
     this.mPassage2 = new PassageController(this.mPlayer, [-160,42,-150,40], [-160,18,-150,17]);
@@ -110,6 +123,7 @@ MyGame.prototype.draw = function () {
     this.mEnemies.draw(this.mMainView.getCam());
     
     this.mHelpViewManager.draw();
+    this.mMiniMapManager.draw();
 };
 
 
@@ -121,6 +135,7 @@ MyGame.prototype.update = function () {
 
     this.mPlayer.update();
     this.mHelpViewManager.update();
+    this.mMiniMapManager.update();
 
     this.mEnemies.update(this.mPlayer);
     this.mBounds.update();

@@ -9,39 +9,30 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function LoseScene() {
-    
+    this.kBackground = "assets/Textures/GameOver.png";
     this.mCamera = null;
-    this.mEndGameMessage = null;
 }
 gEngine.Core.inheritPrototype(LoseScene, Scene);
 
 LoseScene.prototype.loadScene = function () {
-    
+   gEngine.Textures.loadTexture(this.kBackground); 
 };
 
 LoseScene.prototype.unloadScene = function () {
-  
+    gEngine.Textures.unloadTexture(this.kBackground);
     var nextLevel = new MyGame();  // load the next level
     gEngine.Core.startScene(nextLevel);
 };
 
 LoseScene.prototype.initialize = function () {
-
-
     this.mCamera = new Camera(
-        vec2.fromValues(50, 37.5),  // position of the camera
+        vec2.fromValues(0, 0),  // position of the camera
         100,                      // width of camera
-        [0, 0, 1200, 800],        // viewport (orgX, orgY, width, height)
+        [0, 0, 1200, 600],        // viewport (orgX, orgY, width, height)
+         0
     );
-    this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
-
-
-    this.mEndGameMessage = new FontRenderable("YOU LOSE");
-    this.mEndGameMessage.setColor([0, 0, 0, 1]);
-    this.mEndGameMessage.getXform().setPosition((this.mCamera.getWCWidth() /2) - 10,
-                                                this.mCamera.getWCHeight() /2);
-    //this.mEndGameMessage.getXform().setPosition(5,5);
-    this.mEndGameMessage.setTextHeight(3);
+    this.mBackground = new Background(this.kBackground);
+    this.mBackground.getXform().setSize(100, 50);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -52,8 +43,7 @@ LoseScene.prototype.draw = function () {
 
     // Step  B: Activate the drawing Camera
     this.mCamera.setupViewProjection();
-
-    this.mEndGameMessage.draw(this.mCamera);
+    this.mBackground.draw(this.mCamera);
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw

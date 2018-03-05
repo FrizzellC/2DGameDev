@@ -157,3 +157,7 @@ Collectible.prototype._createALight = function (type, pos, dir, color, n, f, inn
 
     return light;
 };
+
+Collectible.prototype.getToBeDeleted = function () {
+    return this.toBeDeleted;
+};
