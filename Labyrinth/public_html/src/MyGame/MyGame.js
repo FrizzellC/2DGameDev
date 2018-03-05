@@ -13,7 +13,6 @@
 
 function MyGame() {
     this.kParticleTexture = "assets/particle.png";
-    this.spriteSheet = "assets/minion_sprite.png";
     this.kHeroSprite = "assets/Textures/TempHero.png";
     this.kEnemySprite = "assets/Textures/TempBadCloud.png";
     this.kCollectibleSprite = "assets/Textures/TempCollectZ.png";
@@ -49,7 +48,6 @@ gEngine.Core.inheritPrototype(MyGame, Scene);
 
 MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kParticleTexture);
-    gEngine.Textures.loadTexture(this.spriteSheet);
     gEngine.Textures.loadTexture(this.kHeroSprite);
     gEngine.Textures.loadTexture(this.kCollectibleSprite);
     gEngine.Textures.loadTexture(this.kEnemySprite);
@@ -73,7 +71,6 @@ MyGame.prototype.unloadScene = function () {
     }
     
     gEngine.Textures.unloadTexture(this.kParticleTexture);
-    gEngine.Textures.unloadTexture(this.spriteSheet);
     gEngine.Textures.unloadTexture(this.kHeroSprite);
     gEngine.Textures.unloadTexture(this.kCollectibleSprite);
     gEngine.Textures.unloadTexture(this.kEnemySprite);

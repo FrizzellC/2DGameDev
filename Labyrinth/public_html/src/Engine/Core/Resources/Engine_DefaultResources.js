@@ -22,7 +22,7 @@ var gEngine = gEngine || { };
  */
 gEngine.DefaultResources = (function () {
     // Global Ambient color
-    var mGlobalAmbientColor = [.2, .2, .2, 1];
+    var mGlobalAmbientColor = [1, 1, 1, 1];
     var mGlobalAmbientIntensity = 1;
     
     /**
