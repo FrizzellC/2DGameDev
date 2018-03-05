@@ -27,9 +27,9 @@ WinScene.prototype.unloadScene = function () {
 WinScene.prototype.initialize = function () {
 
     this.mCamera = new Camera(
-        vec2.fromValues(50, 37.5),  // position of the camera
+        vec2.fromValues(0,0),  // position of the camera
         100,                      // width of camera
-        [0, 0, 1200, 600],        // viewport (orgX, orgY, width, height)
+        [0, 0, 1600, 600],        // viewport (orgX, orgY, width, height)
         0
     );
     this.mBackground = new Background(this.kBackground);
