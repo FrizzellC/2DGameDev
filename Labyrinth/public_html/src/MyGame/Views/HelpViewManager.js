@@ -17,6 +17,7 @@ function HelpViewManager(collectibleSet, sprite) {
     this.mTimeLeft = this.mTimeLimit * 60;
     
     this.collectibles = collectibleSet;
+    this.mItemsToCollected = [];
     this.mItemsCollected = [];
     this.mCollectibleSprite = sprite;
     
@@ -27,15 +28,20 @@ function HelpViewManager(collectibleSet, sprite) {
     this.mCamera = new Camera(
         vec2.fromValues(25, 25), // position of the camera
         50,                       // width of camera
-        [1000, 400, 200, 200]           // viewport (orgX, orgY, width, height)
+        [1200, 200, 400, 400]           // viewport (orgX, orgY, width, height)
     );
     
     this.mCamera.setBackgroundColor([0.8, 0.8, 1, 1]);
     
     
-    this.mTimerMsg = new FontRenderable("Time Remaining: ##:##");
+//    this.mTimeRemainingTxt = new FontRenderable("TIME LEFT:");
+//    this.mTimeRemainingTxt.setColor([0, 0, 0, 1]);
+//    this.mTimeRemainingTxt.getXform().setPosition(15, this.mCamera.getWCHeight() - 3);
+//    this.mTimeRemainingTxt.setTextHeight(5);
+    
+    this.mTimerMsg = new FontRenderable("[time left here]");
     this.mTimerMsg.setColor([0, 0, 0, 1]);
-    this.mTimerMsg.getXform().setPosition(1, this.mCamera.getWCHeight() - 3);
+    this.mTimerMsg.getXform().setPosition(15, this.mCamera.getWCHeight() - 10);
     this.mTimerMsg.setTextHeight(3);
     
     this.mTipMsg = new FontRenderable("   Tip: Use WASD to move!");
@@ -73,15 +79,23 @@ HelpViewManager.prototype.addCollectedItem = function() {
     
 };
 
+HelpViewManager.prototype.generateItemsToCollect = function() {
+    
+    
+    
+    
+
+    
+};
+
 HelpViewManager.prototype.update = function () {
     var timerMsg;
     this.mTimeLeft -= 1;
     
     if (this.mTimeLeft >= 0) {
-        timerMsg = "Time Remaining: " + (this.mTimeLeft / 60).toPrecision(3) +
-                " seconds";
+        timerMsg = (this.mTimeLeft / 60).toPrecision(3) + " seconds";
     } else {
-        timerMsg = "Time Remaining: None";
+        timerMsg = "None";
     }
     
     if (this.mNumItemsCollected < this.collectibles.getItemsRemoved()) {
