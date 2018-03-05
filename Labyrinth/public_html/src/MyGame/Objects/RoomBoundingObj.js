@@ -61,9 +61,9 @@ function RoomBoundingObj() {
     h7 = new Room(733.5, 951, 81, 40);
     h8 = new Room(271, 951, 84, 40);
     h9 = new Room(167, 829, 78, 68);
-    //h10 = new Room(230, 360, 78, 106);
+    h10 = new Room(230, 360, 78, 106);
     h11 = new Room(505.5, 189, 205, 40);
-    //h12 = new Room(629, 97, 874, 76);
+    h12 = new Room(629, 97, 874, 76);
     h13 = new Room(1403, 189, 918, 40);
     h14 = new Room(1189, 152, 78, 34);
     h15 = new Room(1502, 152, 78, 34);
@@ -107,9 +107,9 @@ function RoomBoundingObj() {
       h7,
       h8,
       h9,
-      //h10,
+      h10,
       h11,
-      //h12,
+      h12,
       h13,
       h14,
       h15,
@@ -130,11 +130,11 @@ function RoomBoundingObj() {
         [h6, h7, h8],
         [h8, h9],
         [h9, r20],
-        [r20, r8],
+        [h10, r20, r8],
         [r7, r1],
-        [h11],
+        [h10, h11, h12],
         [h1, h11, h13],
-        [h13, h14, h15, h16],
+        [h12, h13, h14, h15, h16],
         [h13, h16, r13],
         [r12, r14],
         [r13, r15, r16, h18],
