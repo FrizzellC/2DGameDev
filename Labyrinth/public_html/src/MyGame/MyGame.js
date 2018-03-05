@@ -18,7 +18,8 @@ function MyGame() {
     this.kHeroSprite = "assets/Textures/TempHero.png";
     this.kEnemySprite = "assets/Textures/TempBadCloud.png";
     this.kCollectibleSprite = "assets/Textures/TempCollectZ.png";
-    this.kBackground = "assets/Textures/BGComp.png";
+    this.kBackground = "assets/Textures/BG_RedLineDoc.png";
+    this.kBGAudio = "assets/audio/background.mp3";
     
     this.mGameWon = false;
     
@@ -28,7 +29,7 @@ function MyGame() {
     this.mCollectible = null;
     this.mCollectibleSet = null;
     
-    this.mEnemy = null;
+    this.mEnemies = null;
     this.mMainView = null;
     
     this.mMap = null;
@@ -47,10 +48,14 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kCollectibleSprite);
     gEngine.Textures.loadTexture(this.kEnemySprite);
     gEngine.Textures.loadTexture(this.kBackground);
-      
+    
+    gEngine.AudioClips.loadAudio(this.kBGAudio);      
 };
 
 MyGame.prototype.unloadScene = function () {
+    gEngine.AudioClips.stopBackgroundAudio();
+    gEngine.AudioClips.unloadAudio(this.kBGAudio);
+    
     gEngine.Textures.unloadTexture(this.kParticleTexture);
     gEngine.Textures.unloadTexture(this.spriteSheet);
     gEngine.Textures.unloadTexture(this.kHeroSprite);
@@ -68,34 +73,26 @@ MyGame.prototype.unloadScene = function () {
 };
 
 MyGame.prototype.initialize = function () {
-    this.mCollectibleSet = new CollectibleSet();
-    
-    for(var i = -2; i < 3; i++){
-        //newRenderable.setElementPixelPositions(0, 120, 0, 180);
-        if(i !== 0)
-        {
-            var newCollectible = new Collectible(this.kCollectibleSprite, [6 * i, -6 * i]);
-            this.mCollectibleSet.addCollectible(newCollectible);
-        }
-    }
     
     //Initializing player
     this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite);
-    this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite);
     
     this.mAllParticles = new ParticleGameObjectSet();
    
-    this.mEnemy = new Enemy(vec2.fromValues(-25, -25), this.kEnemySprite);
+    
     this.mMainView = new MainView();
+    this.mMainView.setup();
     
     this.mMap = new RoomBoundingObj();
-    //this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
-    this.mBackground = new LightRenderable(this.kBackground);
-    this.mBackground.setColor([1, 1, 1, 0]);
-    this.mBackground.getXform().setPosition(0, 0);
-    this.mBackground.getXform().setSize(300, 200);
+    this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
+    //this.mBackground = new Background(this.kBackground);
+    this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite);
+    this.mCollectibleSet = new CollectibleSet(this.mMap.getRooms(), this.kCollectibleSprite);
+    this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite);
     
-    for(var i = 0; i < 4; i++){
+    gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
+
+	for(var i = 0; i < 4; i++){
         this.mBackground.addLight(this.mCollectibleSet.mSet[i].mLight);
     }
 };
@@ -107,12 +104,12 @@ MyGame.prototype.draw = function () {
     
     this.mMainView.setup();
     
-    this.mBackground.draw(this.mMainView.getCam());
-    //this.mMap.draw(this.mMainView.getCam());
+    //this.mBackground.draw(this.mMainView.getCam());
+    this.mMap.draw(this.mMainView.getCam());
     this.mCollectibleSet.draw(this.mMainView.getCam());
     
     this.mPlayer.draw(this.mMainView.getCam());
-    this.mEnemy.draw(this.mMainView.getCam());
+    this.mEnemies.draw(this.mMainView.getCam());
     
     this.mHelpViewManager.draw();
 };
@@ -135,8 +132,8 @@ MyGame.prototype.update = function () {
     this.mPlayer.update();
     this.mHelpViewManager.update();
 
-    this.mEnemy.update(this.mPlayer);
-    //this.mBounds.update();
+    this.mEnemies.update(this.mPlayer);
+    this.mBounds.update();
 
     this.mMainView.update(this.mPlayer);
 
