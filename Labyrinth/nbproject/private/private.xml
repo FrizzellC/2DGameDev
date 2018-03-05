@@ -12,8 +12,14 @@
         </group>
         <group>
             <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Player_Update.js</file>
+            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/lib/gl-matrix.js</file>
+            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/index.html</file>
+            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/Engine/Utils/Interpolate.js</file>
             <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Player.js</file>
+            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/Controllers/BoundController.js</file>
             <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/Controllers/MapInteraction.js</file>
+            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/Engine/GameObjects/GameObject.js</file>
+            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Enemy.js</file>
             <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/MyGame.js</file>
         </group>
     </open-files>

@@ -63,6 +63,10 @@ Interpolate.prototype.updateInterpolation = function () {
     }
 };
 
+Interpolate.prototype.done = function () {
+    return this.mCurrentValue === this.mFinalValue;
+};
+
 // 
 /**
  * Set stiffness and duration

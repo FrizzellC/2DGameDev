@@ -20,3 +20,11 @@ function MapInteraction() {
 MapInteraction.prototype.update = function () {
     
 };
+
+MapInteraction.prototype.isOnIce = function () {
+    return true;
+};
+
+MapInteraction.prototype.isOnSand = function () {
+    return true;
+};

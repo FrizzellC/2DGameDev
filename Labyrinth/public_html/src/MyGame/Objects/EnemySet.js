@@ -72,3 +72,10 @@ EnemySet.prototype.transitionToChase = function () {
         this.getObjectAt(i).transitionToChase();
     }
 };
+
+EnemySet.prototype.addLight = function (l) {
+    for(var i = 0; i < this.size(); ++i)
+    {
+        this.getObjectAt(i).addLight(l);
+    }
+};

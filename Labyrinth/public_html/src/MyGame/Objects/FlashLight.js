@@ -14,7 +14,7 @@ function FlashLight(){
             100, 100,                  // near and far distances
             //1.65, 1.7,               // inner outter angles (in radius) //old
             .9,1,                            // new angles
-            .5,                     // intensity
+            .8,                     // intensity
             1.2                     // drop off
             );
     this.mHorizontalFactor = 1;

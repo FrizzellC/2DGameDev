@@ -72,7 +72,7 @@ MyGame.prototype.unloadScene = function () {
 };
 
 MyGame.prototype.initialize = function () {
-    this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite);   
+    this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite, new MapInteraction());   
     this.mMainView = new MainView();    
     this.mMap = new RoomBoundingObj();
     this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
@@ -87,6 +87,7 @@ MyGame.prototype.initialize = function () {
         this.mBackground.addLight(this.mCollectibleSet.mSet[i].mLight);
     }
     this.mBackground.addLight(this.mPlayer.mFlashLight.mLight);
+    this.mEnemies.addLight(this.mPlayer.mFlashLight.mLight);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
