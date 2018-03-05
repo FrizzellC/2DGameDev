@@ -30,71 +30,35 @@ Player.prototype.update = function () {
 
 
 Player.prototype._updateNormal = function () {
-    // if colliding with power up, transition
-    //else
-    {
-    //    this._updateRot();
         this._updatePos();
-    }
 };
 
-Player.prototype._updateBoost = function () {
-    if(this._powerUpDone())
+Player.prototype._updateOnSand = function () {
+    if(!this._onSand())
     {
         this._transitionToNormal();
     }
     else
     {
-    //   this._updateRot();
         this._updatePos();
     }
 };
 
-Player.prototype._updateShoot = function () {
-    if(this._powerUpDone())
+Player.prototype._updateOnIce = function () {
+    if(!this._onIce())
     {
         this._transitionToNormal();
     }
     else
     {
-        if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Space))
-        {
-            // Shoot projectile
-        }
-        // this._updateRot();
+        //use ice interpolation for sliding pos
+        //allow slight user control of pos
         this._updatePos();
-    }
-};
-
-Player.prototype._updateRot = function () {
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.A))
-    {
-        vec2.rotate(this.getCurrentFrontDir(), this.getCurrentFrontDir(), 0.05);
-        this.mSprite.getXform().setRotationVec(this.getCurrentFrontDir());
-    }
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.D))
-    {
-        vec2.rotate(this.getCurrentFrontDir(), this.getCurrentFrontDir(), -0.05);
-        this.mSprite.getXform().setRotationVec(this.getCurrentFrontDir());
     }
 };
 
 Player.prototype._updatePos = function () {
-//    if(this.mSpeed !== 0)
-//    {
-//        if(gEngine.Input.isKeyPressed(gEngine.Input.keys.W))
-//        {
-//            var pos = this.mSprite.getXform().getPosition();
-//            vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), this.mSpeed);
-//        }
-//        if(gEngine.Input.isKeyPressed(gEngine.Input.keys.S))
-//        {
-//            var pos = this.mSprite.getXform().getPosition();
-//            var backDir = vec2.create();
-//            vec2.negate(backDir, this.getCurrentFrontDir());
-//            vec2.scaleAndAdd(pos, pos, backDir, this.mSpeed);
-//        }
-//    }
+
     if (this.mSpeed !== 0) {
         
         var direction = vec2.fromValues(0,0);

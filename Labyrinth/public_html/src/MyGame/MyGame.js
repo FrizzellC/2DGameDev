@@ -12,7 +12,6 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function MyGame() {
-    this.mConstColorShader = null;
     this.kParticleTexture = "assets/particle.png";
     this.spriteSheet = "assets/minion_sprite.png";
     this.kHeroSprite = "assets/Textures/TempHero.png";

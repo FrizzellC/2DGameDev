@@ -13,11 +13,11 @@
 
 Player.ePlayerState = Object.freeze({
     Normal: 0,
-    Boost: 1, 
-    Shoot: 2
+    OnIce: 1, 
+    OnSand: 2
 });
 
-function Player(pos, sprite) {
+function Player(pos, sprite, map) {
     this.mCurrentState = null;
     this.mSpeed = null;
     this._transitionToNormal();
@@ -25,15 +25,13 @@ function Player(pos, sprite) {
     this.mSprite.getXform().setPosition(pos[0], pos[1]);
     this.mSprite.getXform().setSize(5, 5);
     this.mSprite.setColor([1, 1, 1, 0]);
-    //this.mSprite = new GameObject(this.mSprite);
     
     // Shake helpers
     this.mStartPos = null;
     this.mShakePos = null;
     
-    // Power up helpers
-    this.mPowerStart = null;
-    this.kPowerLength = 5; //seconds
+    // Map Interaction
+    this.mMap = map;
     
     GameObject.call(this, this.mSprite);
 }
@@ -44,16 +42,22 @@ Player.prototype._transitionToNormal = function () {
     this.mCurrentState = Player.ePlayerState.Normal;
 };
 
-Player.prototype._transitionToBoost = function () {
-    this.mSpeed = 45 / 60;
-    this.mPowerStart = Date.getTime();
-    this.mCurrentState = Player.ePlayerState.Boost;
+Player.prototype._transitionToOnSand = function () {
+    this.mSpeed = 15 / 60;
+    this.mCurrentState = Player.ePlayerState.OnSand;
 };
 
-Player.prototype._transitionToShoot = function () {
-    this.mSpeed = 30 / 60;
-    this.mPowerStart = Date.getTime();
-    this.mCurrentState = Player.ePlayerState.Shoot;
+Player.prototype._transitionToOnIce = function () {
+    this.mSpeed = 5 / 60;
+    this.mCurrentState = Player.ePlayerState.OnIce;
+};
+
+Player.prototype._onSand = function () {
+    return this.mMap.isOnSand();
+};
+
+Player.prototype._onIce = function () {
+    return this.mMap.isOnIce();
 };
 
 Player.prototype.getSprite = function () {
