@@ -36,6 +36,8 @@ function Player(pos, sprite) {
     this.mPowerStart = null;
     this.kPowerLength = 5; //seconds
     
+    this.mFlashLight = new FlashLight();
+    
     GameObject.call(this, this.mSprite);
 }
 gEngine.Core.inheritPrototype(Player, GameObject);

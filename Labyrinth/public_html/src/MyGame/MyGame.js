@@ -121,9 +121,11 @@ MyGame.prototype.draw = function () {
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.prototype.update = function () {
-    for(var i = 0; i < this.mCollectibleSet.size(); i++){
+    var i;
+    for(i = 0; i < this.mCollectibleSet.size(); i++){
         this.mBackground.mLights[i] = this.mCollectibleSet.mSet[i].mLight;
     }
+    this.mBackground.mLights[i] = this.mPlayer.mFlashLight.mLight;
     
     
     this.mCollectibleSet.collectibleTouches(this.mPlayer);
