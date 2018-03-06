@@ -11,6 +11,9 @@
 function SplashScene() {
     this.kBackground = "assets/Textures/Splash.png";
     this.mCamera = null;
+    this.mFade = null;
+    this.mFadeLerp = null;
+    this.mTimer = null;
 }
 gEngine.Core.inheritPrototype(SplashScene, Scene);
 
@@ -26,13 +29,21 @@ SplashScene.prototype.unloadScene = function () {
 
 SplashScene.prototype.initialize = function () {
     this.mCamera = new Camera(
-        vec2.fromValues(50, 37.5),  // position of the camera
+        vec2.fromValues(0, 0),  // position of the camera
         100,                      // width of camera
-        [0, 0, 1200, 600],        // viewport (orgX, orgY, width, height)
+        [0, 0, 1600, 600],        // viewport (orgX, orgY, width, height)
          0
     );
     this.mBackground = new Background(this.kBackground);
-    this.mBackground.getXform().setSize(100, 50);
+    this.mBackground.getXform().setSize(100, 37.5);
+    
+    this.mFade = new Renderable();
+    this.mFade.getXform().setPosition(0,0);
+    this.mFade.getXform().setSize(100, 50);
+    this.mFade.setColor([0,0,0,1]);
+    
+    this.mFadeLerp = new Interpolate(1, 120, .08);
+    this.mFadeLerp.setFinalValue(0);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -44,15 +55,22 @@ SplashScene.prototype.draw = function () {
     // Step  B: Activate the drawing Camera
     this.mCamera.setupViewProjection();
     this.mBackground.draw(this.mCamera);
+    this.mFade.draw(this.mCamera);
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 SplashScene.prototype.update = function () {
 
+    this.mFadeLerp.updateInterpolation();
+    var a = this.mFadeLerp.getValue();
+    this.mFade.setColor([0,0,0,a]);
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Space))
+    {
+        this.mFadeLerp.setFinalValue(1);
+    }
+    if(a === 1)
     {
         gEngine.GameLoop.stop();
     }
-    
 };
