@@ -94,6 +94,7 @@
         <script type="text/javascript" src="src/MyGame/MyGame.js"></script>
         <script type="text/javascript" src="src/MyGame/WinScene.js"></script>
         <script type="text/javascript" src="src/MyGame/LoseScene.js"></script>
+        <script type="text/javascript" src="src/MyGame/SplashScene.js"></script>
         
         <script type="text/javascript" src="src/MyGame/Objects/FlashLight.js"></script>
         <script type="text/javascript" src="src/MyGame/Objects/Player.js"></script>
@@ -117,7 +118,7 @@
     </head>
 
     <body onload="
-        var myGame = new MyGame();
+        var myGame = new SplashScene();
         gEngine.Core.initializeEngineCore('GLCanvas', myGame);
      ">
         <canvas id="GLCanvas" width="1600" height="600">
