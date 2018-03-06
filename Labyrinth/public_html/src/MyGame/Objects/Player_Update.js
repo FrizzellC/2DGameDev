@@ -76,12 +76,12 @@ Player.prototype._updatePos = function () {
         
         var direction = vec2.fromValues(0,0);
         
-        //For testing transtion to slow state
-        if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Q))
-        {
-            //this.mSpeed = 15/60;
-            this._transitionToOnIce();
-        }
+//        //For testing transtion to slow state
+//        if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Q))
+//        {
+//            //this.mSpeed = 15/60;
+//            this._transitionToOnIce();
+//        }
         
         var horiz = 0;
         var vert = 0;
