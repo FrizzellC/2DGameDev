@@ -18,7 +18,7 @@ function MyGame() {
     this.kCollectibleSprite = "assets/Textures/TempCollectZ.png";
     this.kBackground = "assets/Textures/bgLabrynth.png";
     this.kZHolder = "assets/Textures/TempCollectZHolder.png";
-    this.kMiniMapBackground = "assets/Textures/MiniMapBG.png";
+    this.kMiniMapBackground = "assets/Textures/bgLabrynth.png";
     this.kMiniHeroSprite = "assets/Textures/TempHeroHead.png";
     this.kBGAudio = "assets/audio/background.mp3";
     
