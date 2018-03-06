@@ -22,8 +22,6 @@ function MyGame() {
     this.kMiniHeroSprite = "assets/Textures/TempHeroHead.png";
     this.kBGAudio = "assets/audio/background.mp3";
     
-    this.mGameWon = false;
-    
     this.mPlayer = null;
     this.mHelpViewManager = null;
     this.mMiniMapManager = null;
@@ -64,7 +62,7 @@ MyGame.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kBGAudio);
     
     var nextLevel;
-    if (this.mGameWon) {
+    if (this.isGameWon()) {
         nextLevel = new WinScene();
     } else {
         nextLevel = new LoseScene();
@@ -140,16 +138,13 @@ MyGame.prototype.update = function () {
 
     this.mMainView.update(this.mPlayer);
     
-    this.mPassage1.update();
-    this.mPassage2.update();
-
-    //Checking if we've collected all Z's
-    if (this.mHelpViewManager.allItemsCollected()) {
-        this.mGameWon = true;
-    }
+    //this.mPassage1.update();
+    //this.mPassage2.update();
 
     //TODO remove later. For debugging purposes.
-    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Space))
+    if (this.isGameLost()) {
+        gEngine.GameLoop.stop();
+    } else if(this.isGameWon())
     {
         gEngine.GameLoop.stop();
     }
@@ -159,5 +154,43 @@ MyGame.prototype.update = function () {
     {
         console.log(this.mPlayer.getXform().getPosition());
     }
+    this.isWithinBedroom();
+};
 
+// Check if the player has met win conditions
+MyGame.prototype.isGameWon = function () {
+    
+    
+    
+    if (this.mHelpViewManager.allItemsCollected() &&
+        this.isWithinBedroom()) {
+        
+        return true;
+    } else {
+        return false;
+    }
+};
+
+// Check if the player has met win conditions
+MyGame.prototype.isGameLost = function () {
+    
+    
+    
+    if (!this.mHelpViewManager.isTimeLeft()) {
+        
+        return true;
+    } else {
+        return false;
+    }
+};
+
+// Check if the player is in the correct room
+MyGame.prototype.isWithinBedroom = function () {
+    if (Math.abs(this.mPlayer.getXform().getXPos()) < (this.mMap.getRooms()[0].getXform().getWidth() / 2) &&
+        Math.abs(this.mPlayer.getXform().getYPos()) < (this.mMap.getRooms()[0].getXform().getHeight() / 2)) {// 504 , 278
+        
+        return true;
+    } else {
+        return false;
+    }
 };
