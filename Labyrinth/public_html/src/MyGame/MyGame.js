@@ -93,7 +93,7 @@ MyGame.prototype.initialize = function () {
     this.mMiniMapManager = new MiniMapManager(this.mPlayer, this.mCollectibleSet, this.kMiniHeroSprite, this.kCollectibleSprite, this.kMiniMapBackground);
     
     this.mPassage1 = new PassageController(this.mPlayer, [-159,75,-124,73],[8,86,12,76] );
-    this.mPassage2 = new PassageController(this.mPlayer, [-160,42,-150,40], [-160,18,-150,17]);
+    this.mPassage2 = new PassageController(this.mPlayer, [-160,44,-150,38], [-160,20,-150,17]);
     
     gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
 
