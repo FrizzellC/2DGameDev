@@ -92,7 +92,7 @@ MyGame.prototype.initialize = function () {
     this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite, this.kZHolder);
     this.mMiniMapManager = new MiniMapManager(this.mPlayer, this.mCollectibleSet, this.kMiniHeroSprite, this.kCollectibleSprite, this.kMiniMapBackground);
     
-    this.mPassage1 = new PassageController(this.mPlayer, [-159,75,-124,73],[8,86,10,76] );
+    this.mPassage1 = new PassageController(this.mPlayer, [-159,75,-124,73],[8,86,12,76] );
     this.mPassage2 = new PassageController(this.mPlayer, [-160,42,-150,40], [-160,18,-150,17]);
     
     gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
@@ -138,8 +138,8 @@ MyGame.prototype.update = function () {
 
     this.mMainView.update(this.mPlayer);
     
-    //this.mPassage1.update();
-    //this.mPassage2.update();
+    this.mPassage1.update();
+    this.mPassage2.update();
 
     //TODO remove later. For debugging purposes.
     if (this.isGameLost()) {
