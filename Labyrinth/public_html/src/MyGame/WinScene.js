@@ -33,7 +33,7 @@ WinScene.prototype.initialize = function () {
         0
     );
     this.mBackground = new Background(this.kBackground);
-    this.mBackground.getXform().setSize(100, 50);
+    this.mBackground.getXform().setSize(100, 37.5);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
