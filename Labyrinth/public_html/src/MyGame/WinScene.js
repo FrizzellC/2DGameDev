@@ -29,11 +29,11 @@ WinScene.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(0,0),  // position of the camera
         100,                      // width of camera
-        [0, 0, 1600, 600],        // viewport (orgX, orgY, width, height)
+        [0, 0, 1600, 800],        // viewport (orgX, orgY, width, height)
         0
     );
     this.mBackground = new Background(this.kBackground);
-    this.mBackground.getXform().setSize(100, 37.5);
+    this.mBackground.getXform().setSize(100, 50);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
