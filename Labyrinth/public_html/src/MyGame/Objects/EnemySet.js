@@ -30,6 +30,13 @@ function EnemySet(rooms, sprite) {
     this.addToSet(enemy);
     
     pos = new Array();
+    pos[0] = vec2.clone(rooms[14].getXform().getPosition());
+    pos[1] = vec2.clone(rooms[16].getXform().getPosition());
+    pos[2] = vec2.clone(rooms[17].getXform().getPosition());
+    enemy = new Enemy(pos, sprite);
+    this.addToSet(enemy);
+    
+    pos = new Array();
     pos[0] = vec2.clone(rooms[1].getXform().getPosition());
     pos[1] = vec2.clone(rooms[4].getXform().getPosition());
     pos[2] = vec2.clone(rooms[5].getXform().getPosition());
@@ -66,10 +73,10 @@ EnemySet.prototype.transitionToAlert = function () {
     }
 };
 
-EnemySet.prototype.transitionToChase = function () {
+EnemySet.prototype.transitionToChase = function (hero, holdChase) {
     for(var i = 0; i < this.size(); ++i)
     {
-        this.getObjectAt(i).transitionToChase();
+        this.getObjectAt(i).transitionToChase(hero, holdChase);
     }
 };
 

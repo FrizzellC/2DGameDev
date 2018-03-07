@@ -53,7 +53,7 @@ Enemy.prototype._updateChase = function (hero) {
     {
         this.transitionToCatch();
     }
-    else if(dist > this.kChaseThreshold)
+    else if(!this.mHoldChase && dist > this.kChaseThreshold)
     {
         this.transitionToPatrol();
     }

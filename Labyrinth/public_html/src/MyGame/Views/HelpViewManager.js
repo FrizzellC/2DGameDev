@@ -34,7 +34,7 @@ function HelpViewManager(collectibleSet, sprite, spriteHolder) {
     this.mCamera = new Camera(
         vec2.fromValues(25, 25), // position of the camera
         50,                       // width of camera
-        [1200, 200, 400, 400]           // viewport (orgX, orgY, width, height)
+        [1200, 300, 400, 500]           // viewport (orgX, orgY, width, height)
     );
     
     this.mCamera.setBackgroundColor([0.8, 1, 1, 1]);
