@@ -18,11 +18,9 @@ function MyGame() {
     this.kCollectibleSprite = "assets/Textures/TempCollectZ.png";
     this.kBackground = "assets/Textures/bgLabrynth.png";
     this.kZHolder = "assets/Textures/TempCollectZHolder.png";
-    this.kMiniMapBackground = "assets/Textures/MiniMapBG.png";
+    this.kMiniMapBackground = "assets/Textures/bgLabrynth.png";
     this.kMiniHeroSprite = "assets/Textures/TempHeroHead.png";
     this.kBGAudio = "assets/audio/background.mp3";
-    
-    this.mGameWon = false;
     
     this.mPlayer = null;
     this.mHelpViewManager = null;
@@ -41,6 +39,7 @@ function MyGame() {
     this.mBounds = null;
     
     this.mBackground = null;
+    this.mHeroAmbush = null;
 
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
@@ -64,7 +63,7 @@ MyGame.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kBGAudio);
     
     var nextLevel;
-    if (this.mGameWon) {
+    if (this.isGameWon()) {
         nextLevel = new WinScene();
     } else {
         nextLevel = new LoseScene();
@@ -93,9 +92,9 @@ MyGame.prototype.initialize = function () {
     this.mCollectibleSet = new CollectibleSet(this.mMap.getRooms(), this.kCollectibleSprite);
     this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite, this.kZHolder);
     this.mMiniMapManager = new MiniMapManager(this.mPlayer, this.mCollectibleSet, this.kMiniHeroSprite, this.kCollectibleSprite, this.kMiniMapBackground);
-    
-    this.mPassage1 = new PassageController(this.mPlayer, [-159,75,-124,73],[8,86,10,76] );
-    this.mPassage2 = new PassageController(this.mPlayer, [-160,42,-150,40], [-160,18,-150,17]);
+    this.mHeroAmbush = false;
+    this.mPassage1 = new PassageController(this.mPlayer, [-159,75,-124,73],[8,86,12,76] );
+    this.mPassage2 = new PassageController(this.mPlayer, [-160,44,-150,38], [-160,20,-150,17]);
     
     gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
 
@@ -143,13 +142,10 @@ MyGame.prototype.update = function () {
     this.mPassage1.update();
     this.mPassage2.update();
 
-    //Checking if we've collected all Z's
-    if (this.mHelpViewManager.allItemsCollected()) {
-        this.mGameWon = true;
-    }
-
     //TODO remove later. For debugging purposes.
-    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Space))
+    if (this.isGameLost()) {
+        gEngine.GameLoop.stop();
+    } else if(this.isGameWon())
     {
         gEngine.GameLoop.stop();
     }
@@ -159,5 +155,59 @@ MyGame.prototype.update = function () {
     {
         console.log(this.mPlayer.getXform().getPosition());
     }
+    this.isWithinBedroom();
+    this.updateHeroAmbush();
+};
 
+// Check if the player has met win conditions
+MyGame.prototype.isGameWon = function () {
+    
+    
+    
+    if (this.mHelpViewManager.allItemsCollected() &&
+        this.isWithinBedroom()) {
+        
+        return true;
+    } else {
+        return false;
+    }
+};
+
+// Check if the player has met win conditions
+MyGame.prototype.isGameLost = function () {
+    
+    
+    
+    if (!this.mHelpViewManager.isTimeLeft()) {
+        
+        return true;
+    } else {
+        return false;
+    }
+};
+
+// Check if the player is in the correct room
+MyGame.prototype.isWithinBedroom = function () {
+    if (Math.abs(this.mPlayer.getXform().getXPos()) < (this.mMap.getRooms()[0].getXform().getWidth() / 2) &&
+        Math.abs(this.mPlayer.getXform().getYPos()) < (this.mMap.getRooms()[0].getXform().getHeight() / 2)) {// 504 , 278
+        
+        return true;
+    } else {
+        return false;
+    }
+};
+
+MyGame.prototype.updateHeroAmbush = function () {
+    var pos = this.mPlayer.getXform().getPosition();
+    var playerNearby = this.mCollectibleSet.isPlayerNearby(pos);
+    if(!this.mHeroAmbush && playerNearby)
+    {
+        this.mEnemies.transitionToChase(this.mPlayer, true);
+        this.mHeroAmbush = true;
+    }
+    else if(this.mHeroAmbush && !playerNearby)
+    {
+        this.mEnemies.transitionToChase(this.mPlayer, false);
+        this.mHeroAmbush = false;
+    }
 };

@@ -31,10 +31,10 @@ function MiniMapManager(player, collectibles, heroSprite, zSprite, BGSprite) {
     this.mCam = new Camera(
         vec2.fromValues(0, 0),  // position of the camera
         400,                      // width of camera
-        [1200, 0, 400, 200],        // viewport (orgX, orgY, width, height)
+        [1200, 0, 400, 300],        // viewport (orgX, orgY, width, height)
         0
     );
-    this.mCam.setBackgroundColor([0.8, 0.8, 0.8, 1]);
+    this.mCam.setBackgroundColor([0, 0, 0, 1]);
    
     
 }
