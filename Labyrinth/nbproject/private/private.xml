@@ -11,10 +11,16 @@
             <file>file:/C:/Users/Kelvin/Dropbox/2.Classes/452/Source/GameTopics/GamePhysicsIntegrated/public_html/index.html</file>
         </group>
         <group>
+<<<<<<< HEAD
+            <file>file:/C:/Users/Aaron/Desktop/Work/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Player.js</file>
+            <file>file:/C:/Users/Aaron/Desktop/Work/2DGameDev/Labyrinth/public_html/src/MyGame/MyGame.js</file>
+            <file>file:/C:/Users/Aaron/Desktop/Work/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Player_Update.js</file>
+=======
             <file>file:/C:/Users/Charlie/Desktop/School/2017%20-%2018/Winter/452/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Player.js</file>
             <file>file:/C:/Users/Charlie/Desktop/School/2017%20-%2018/Winter/452/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Player_Update.js</file>
             <file>file:/C:/Users/Charlie/Desktop/School/2017%20-%2018/Winter/452/2DGameDev/Labyrinth/public_html/src/MyGame/MyGame.js</file>
             <file>file:/C:/Users/Charlie/Desktop/School/2017%20-%2018/Winter/452/2DGameDev/Labyrinth/public_html/index.html</file>
+>>>>>>> a8284413f410ab81bb15ee1242c55d016c12140d
         </group>
     </open-files>
 </project-private>
