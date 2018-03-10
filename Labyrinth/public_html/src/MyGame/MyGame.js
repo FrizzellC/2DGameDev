@@ -40,6 +40,8 @@ function MyGame() {
     
     this.mBackground = null;
     this.mHeroAmbush = null;
+    
+    this.mBackgroundShadow = null;
 
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
@@ -103,6 +105,12 @@ MyGame.prototype.initialize = function () {
     }
     this.mBackground.addLight(this.mPlayer.mFlashLight.mLight);
     this.mEnemies.addLight(this.mPlayer.mFlashLight.mLight);
+    
+    var mBg = new GameObject(this.mBackground);
+    this.mBackgroundShadow = new ShadowReceiver(mBg);
+    for(var i = 0; i < this.mEnemies.size(); i++){
+        this.mBackgroundShadow.addShadowCaster(this.mEnemies.mSet[i]);
+    }
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -111,6 +119,8 @@ MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     
     this.mMainView.setup();
+    
+    this.mBackgroundShadow.draw(this.mMainView.getCam());
     
     this.mBackground.draw(this.mMainView.getCam());
     this.mMap.draw(this.mMainView.getCam());
