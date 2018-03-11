@@ -17,11 +17,11 @@ Player.ePlayerState = Object.freeze({
     OnSand: 2
 });
 
-function Player(pos, sprite, map) {
+function Player(pos, sprite, normal, map) {
     this.mCurrentState = null;
     this.mSpeed = null;
     this._transitionToNormal();
-    this.mSprite = new SpriteAnimateRenderable(sprite);
+    this.mSprite = new IllumRenderable(sprite, normal);
     this.mSprite.getXform().setPosition(pos[0], pos[1]);
     this.mSprite.getXform().setSize(5, 5);
     this.mSprite.setColor([1, 1, 1, 0]);
@@ -30,7 +30,7 @@ function Player(pos, sprite, map) {
     this.mSprite.setSpriteSequence(
             263, 0,     // top left pixel
             64, 64,    // width and height
-            4, 0        // num sprites and padding
+            5, 0        // num sprites and padding
             );
     GameObject.call(this, this.mSprite);
 

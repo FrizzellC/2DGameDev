@@ -13,10 +13,11 @@
 
 function MyGame() {
     this.kParticleTexture = "assets/particle.png";
-    this.kHeroSprite = "assets/Textures/TempHero.png";
+    this.kHeroSprite = "assets/Textures/LabyrinthSprites.png";
     this.kEnemySprite = "assets/Textures/LabyrinthSprites.png";
     this.kCollectibleSprite = "assets/Textures/TempCollectZ.png";
     this.kBackground = "assets/Textures/bgLabrynth.png";
+    this.kSpriteNormal = "assets/Textures/LabyrinthSpritesNormal.png";
     this.kZHolder = "assets/Textures/TempCollectZHolder.png";
     this.kMiniMapBackground = "assets/Textures/bgLabrynth.png";
     this.kMiniHeroSprite = "assets/Textures/TempHeroHead.png";
@@ -50,6 +51,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHeroSprite);
     gEngine.Textures.loadTexture(this.kCollectibleSprite);
     gEngine.Textures.loadTexture(this.kEnemySprite);
+    gEngine.Textures.loadTexture(this.kSpriteNormal);
     gEngine.Textures.loadTexture(this.kBackground);
     gEngine.Textures.loadTexture(this.kZHolder);
     gEngine.Textures.loadTexture(this.kMiniMapBackground);
@@ -73,22 +75,23 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHeroSprite);
     gEngine.Textures.unloadTexture(this.kCollectibleSprite);
     gEngine.Textures.unloadTexture(this.kEnemySprite);
+    gEngine.Textures.unloadTexture(this.kSpriteNormal);
     gEngine.Textures.unloadTexture(this.kBackground);
     gEngine.Textures.unloadTexture(this.kZHolder);
     gEngine.Textures.unloadTexture(this.kMiniMapBackground);
     gEngine.Textures.unloadTexture(this.kMiniHeroSprite);
     
-    
+    gEngine.LayerManager.cleanUp();
     gEngine.Core.startScene(nextLevel);
 };
 
 MyGame.prototype.initialize = function () {
-    this.mPlayer = new Player(vec2.fromValues(0,0), this.kEnemySprite, new MapInteraction());   
+    this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite, this.kSpriteNormal, new MapInteraction());   
     this.mMainView = new MainView();    
     this.mMap = new RoomBoundingObj();
     this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
     this.mBackground = new Background(this.kBackground);
-    this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite);
+    this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite, this.kSpriteNormal);
     this.mCollectibleSet = new CollectibleSet(this.mMap.getRooms(), this.kCollectibleSprite);
     this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite, this.kZHolder);
     this.mMiniMapManager = new MiniMapManager(this.mPlayer, this.mCollectibleSet, this.kMiniHeroSprite, this.kCollectibleSprite, this.kMiniMapBackground);
@@ -103,6 +106,13 @@ MyGame.prototype.initialize = function () {
     }
     this.mBackground.addLight(this.mPlayer.mFlashLight.mLight);
     this.mEnemies.addLight(this.mPlayer.mFlashLight.mLight);
+    
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMap);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eShadowReceiver, this.mBackground);
+
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mCollectibleSet);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mPlayer);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mEnemies);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -112,13 +122,10 @@ MyGame.prototype.draw = function () {
     
     this.mMainView.setup();
     
-    this.mBackground.draw(this.mMainView.getCam());
-    this.mMap.draw(this.mMainView.getCam());
-    this.mCollectibleSet.draw(this.mMainView.getCam());
+    gEngine.DefaultResources.setGlobalAmbientColor([.5, .5, .5, 1]);
+    gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
     
-    this.mPlayer.draw(this.mMainView.getCam());
-    this.mEnemies.draw(this.mMainView.getCam());
-    
+    gEngine.DefaultResources.setGlobalAmbientColor([1, 1, 1, 1]);
     this.mHelpViewManager.draw();
     this.mMiniMapManager.draw();
 };

@@ -18,11 +18,11 @@ Enemy.eEnemyState = Object.freeze({
     Catch: 3
 });
 
-function Enemy(pos, sprite) {
+function Enemy(pos, sprite, normal) {
     this.mTargetPos = null;
     this.mSpeed = null;       //Units per frame
     this.mCurrentState = null;
-    this.mSprite = new LightRenderable(sprite);
+    this.mSprite = new IllumRenderable(sprite, normal);
     this.mSprite.getXform().setPosition(pos[0][0], pos[0][1]);
     this.mSprite.getXform().setSize(10, 5);
     this.mSprite.setColor([1, 1, 1, 0]);
@@ -74,7 +74,7 @@ Enemy.prototype.transitionToAlert = function () {
     this.mSpeed = 0;
     this.mCurrentState = Enemy.eEnemyState.Alert;
     this.mStartPos = this.mSprite.getXform().getPosition();
-    this.mShakePos = new ShakePosition(.5, .5, 20, 60);
+    this.mShakePos = new ShakePosition(1, 1, 20, 60);
 };
 
 Enemy.prototype.transitionToChase = function (hero, holdChase) {
