@@ -5,7 +5,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, Scene, GameObjectset, TextureObject, Camera, vec2,
-  FontRenderable, SpriteRenderable, LineRenderable,
+  FontRenderable, SpriteRenderable, SpriteAnimateRenderable, LineRenderable,
   GameObject */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
@@ -21,11 +21,22 @@ function Player(pos, sprite, map) {
     this.mCurrentState = null;
     this.mSpeed = null;
     this._transitionToNormal();
-    this.mSprite = new SpriteRenderable(sprite);
+    this.mSprite = new SpriteAnimateRenderable(sprite);
     this.mSprite.getXform().setPosition(pos[0], pos[1]);
     this.mSprite.getXform().setSize(5, 5);
     this.mSprite.setColor([1, 1, 1, 0]);
-    
+    this.mSprite.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    this.mSprite.setAnimationSpeed(10);
+    this.mSprite.setSpriteSequence(
+            263, 0,     // top left pixel
+            64, 64,    // width and height
+            4, 0        // num sprites and padding
+            );
+    GameObject.call(this, this.mSprite);
+
+    // Animation helpers
+    this.mAnimationPos = {down:263, left:199, up:135, right:71};
+
     // Shake helpers
     this.mStartPos = null;
     this.mShakePos = null;
@@ -35,8 +46,6 @@ function Player(pos, sprite, map) {
     this.mIceLerp = null;
     
     this.mFlashLight = new FlashLight();
-    
-    GameObject.call(this, this.mSprite);
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
 

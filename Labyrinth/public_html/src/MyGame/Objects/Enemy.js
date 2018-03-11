@@ -5,7 +5,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, Scene, GameObjectset, TextureObject, Camera, vec2,
-  FontRenderable, SpriteRenderable, LineRenderable,
+  FontRenderable, SpriteRenderable, SpriteAnimateRenderable, LineRenderable,
   GameObject */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
@@ -26,7 +26,17 @@ function Enemy(pos, sprite) {
     this.mSprite.getXform().setPosition(pos[0][0], pos[0][1]);
     this.mSprite.getXform().setSize(10, 5);
     this.mSprite.setColor([1, 1, 1, 0]);
+    this.mSprite.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    this.mSprite.setAnimationSpeed(10);
+    this.mSprite.setSpriteSequence(
+            519, 0,     // top left pixel
+            128, 64,    // width and height
+            4, 0        // num sprites and padding
+            );
     GameObject.call(this, this.mSprite);
+    
+    // Animation helpers
+    this.mAnimationPos = {down:519, left:455, up:391, right:327};
     
     // Shake helpers
     this.mStartPos = null;
@@ -43,7 +53,7 @@ function Enemy(pos, sprite) {
     this.kPatrolThreshold = 30;
     
     // Rotation interpolator
-    this.mRotater = new InterpolateVec2(this.getCurrentFrontDir(), 20, .2);
+    this.mRotater = new InterpolateVec2(this.getCurrentFrontDir(), 60, .05);
 }
 gEngine.Core.inheritPrototype(Enemy, GameObject);
 
@@ -68,7 +78,7 @@ Enemy.prototype.transitionToAlert = function () {
 };
 
 Enemy.prototype.transitionToChase = function (hero, holdChase) {
-    this.mSpeed = 28 / 60;
+    this.mSpeed = 24 / 60;
     this.mCurrentState = Enemy.eEnemyState.Chase;
     this.mCurrentFrontDir = vec2.sub(this.mCurrentFrontDir, hero.getXform().getPosition(), this.getXform().getPosition());
     if(holdChase !== null)

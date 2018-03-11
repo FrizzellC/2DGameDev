@@ -14,7 +14,7 @@
 function MyGame() {
     this.kParticleTexture = "assets/particle.png";
     this.kHeroSprite = "assets/Textures/TempHero.png";
-    this.kEnemySprite = "assets/Textures/TempBadCloud.png";
+    this.kEnemySprite = "assets/Textures/LabyrinthSprites.png";
     this.kCollectibleSprite = "assets/Textures/TempCollectZ.png";
     this.kBackground = "assets/Textures/bgLabrynth.png";
     this.kZHolder = "assets/Textures/TempCollectZHolder.png";
@@ -83,7 +83,7 @@ MyGame.prototype.unloadScene = function () {
 };
 
 MyGame.prototype.initialize = function () {
-    this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite, new MapInteraction());   
+    this.mPlayer = new Player(vec2.fromValues(0,0), this.kEnemySprite, new MapInteraction());   
     this.mMainView = new MainView();    
     this.mMap = new RoomBoundingObj();
     this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());

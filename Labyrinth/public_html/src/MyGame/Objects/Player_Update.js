@@ -25,9 +25,32 @@ Player.prototype.update = function () {
             this._updateOnIce();
             break;
     }
+    this._updateAnimation();
     GameObject.prototype.update.call(this);
 };
 
+Player.prototype._updateAnimation = function () {
+    var dir = this.getCurrentFrontDir();
+    var xComp = dir[0];
+    var yComp = dir[1];
+    
+    if(Math.abs(xComp) >= Math.abs(yComp))
+    {
+        if(xComp < 0)
+            this.getRenderable().setTopSpriteSequence(this.mAnimationPos.left);
+        else
+            this.getRenderable().setTopSpriteSequence(this.mAnimationPos.right);            
+    }
+    else
+    {
+        if(yComp < 0)
+            this.getRenderable().setTopSpriteSequence(this.mAnimationPos.down);
+        else
+            this.getRenderable().setTopSpriteSequence(this.mAnimationPos.up);    
+    }
+    
+    this.getRenderable().updateAnimation();
+};
 
 Player.prototype._updateNormal = function () {
     this._updatePos();
