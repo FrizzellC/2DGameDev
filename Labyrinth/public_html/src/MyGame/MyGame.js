@@ -86,7 +86,7 @@ MyGame.prototype.unloadScene = function () {
 };
 
 MyGame.prototype.initialize = function () {
-    this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite, new MapInteraction());   
+    this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite, new MapInteraction());
     this.mMainView = new MainView();    
     this.mMap = new RoomBoundingObj();
     this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
@@ -107,21 +107,21 @@ MyGame.prototype.initialize = function () {
     }
 
     this.mBackground.addLight(this.mPlayer.mFlashLight.mLight);
+    this.mBackground.addLight(this.mDirectionalLight.mLight);     
     this.mEnemies.addLight(this.mPlayer.mFlashLight.mLight);
-    this.mEnemies.addLight(this.mDirectionalLight.mLight);
-    this.mBackground.addLight(this.mDirectionalLight.mLight);      
      
     this.mBackground = new GameObject(this.mBackground);
     this.mBackgroundShadow = new ShadowReceiver(this.mBackground);
     
     for(var i = 0; i < this.mEnemies.size(); i++){
-        this.mEnemies.mSet[i].getXform().setZPos(.1);
+        this.mEnemies.mSet[i].getRenderable().addLight(this.mDirectionalLight.mLight);
+        this.mEnemies.mSet[i].getXform().setZPos(1);
         this.mBackgroundShadow.addShadowCaster(this.mEnemies.mSet[i]);
     }
     for(var i = 0; i < this.mCollectibleSet.size(); i++){
-        this.mCollectibleSet.mSet[i].getRenderable().addLight(this.mDirectionalLight.mLight);
+        //this.mCollectibleSet.mSet[i].getRenderable().addLight(this.mDirectionalLight.mLight);
         this.mCollectibleSet.mSet[i].getRenderable().addLight(this.mPlayer.mFlashLight.mLight);
-        this.mCollectibleSet.mSet[i].getXform().setZPos(.1);
+        this.mCollectibleSet.mSet[i].getXform().setZPos(1);
         this.mBackgroundShadow.addShadowCaster(this.mCollectibleSet.mSet[i]);
     }
     //gEngine.DefaultResources.setGlobalAmbientIntensity(0.4);
@@ -181,6 +181,12 @@ MyGame.prototype.update = function () {
     }
     this.isWithinBedroom();
     this.updateHeroAmbush();
+    
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Left))
+    {
+        console.log(this.mPlayer.getXform().getPosition());
+    }
+
 };
 
 // Check if the player has met win conditions

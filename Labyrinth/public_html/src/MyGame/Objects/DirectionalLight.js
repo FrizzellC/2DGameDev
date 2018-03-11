@@ -7,14 +7,15 @@
 
 function DirectionalLight(){
     this.mLight = this._createALight(Light.eLightType.eDirectionalLight,
-            [0, 0, 10],           // position (not used by directional)
-            [0, -.5, .5],          // Pointing direction 
-            [0.7, 0.7, 0.0, 1],     // color
+            [10, 1, -1],         // position
+            [1, -1, -3],         // Pointing direction 
+            [1, 1, 1, 1],  // some color
             500, 500,               // near anf far distances: essentially switch this off
             0.1, 0.2,               // inner and outer cones
-            0,                      // intensity
+            -.5,                      // intensity
             1.0                     // drop off
     );
+    this.mLight.setLightCastShadowTo(true);
 }
 
 DirectionalLight.prototype._createALight = function (type, pos, dir, color, n, f, inner, outer, intensity, dropOff) {
