@@ -2,9 +2,23 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Aaron/Desktop/Work/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Player.js</file>
             <file>file:/C:/Users/Aaron/Desktop/Work/2DGameDev/Labyrinth/public_html/src/MyGame/MyGame.js</file>
             <file>file:/C:/Users/Aaron/Desktop/Work/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Player_Update.js</file>
+=======
+            <file>file:/C:/Users/Charlie/Desktop/School/2017%20-%2018/Winter/452/2DGameDev/Labyrinth/public_html/src/Engine/Core/Engine_GameLoop.js</file>
+            <file>file:/C:/Users/Charlie/Desktop/School/2017%20-%2018/Winter/452/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/EnemySet.js</file>
+            <file>file:/C:/Users/Charlie/Desktop/School/2017%20-%2018/Winter/452/2DGameDev/Labyrinth/public_html/src/Engine/Shadows/ShadowReceiver.js</file>
+            <file>file:/C:/Users/Charlie/Desktop/School/2017%20-%2018/Winter/452/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Collectible.js</file>
+            <file>file:/C:/Users/Charlie/Desktop/School/2017%20-%2018/Winter/452/2DGameDev/Labyrinth/public_html/src/MyGame/Views/MainView.js</file>
+            <file>file:/C:/Users/Charlie/Desktop/School/2017%20-%2018/Winter/452/2DGameDev/Labyrinth/public_html/src/MyGame/MyGame.js</file>
+            <file>file:/C:/Users/Charlie/Desktop/School/2017%20-%2018/Winter/452/2DGameDev/Labyrinth/public_html/src/MyGame/Views/Background.js</file>
+            <file>file:/C:/Users/Charlie/Desktop/School/2017%20-%2018/Winter/452/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/CollectibleSet.js</file>
+            <file>file:/C:/Users/Charlie/Desktop/School/2017%20-%2018/Winter/452/2DGameDev/Labyrinth/public_html/index.html</file>
+            <file>file:/C:/Users/Charlie/Desktop/School/2017%20-%2018/Winter/452/2DGameDev/Labyrinth/public_html/src/Engine/Shadows/ShadowCaster.js</file>
+            <file>file:/C:/Users/Charlie/Desktop/School/2017%20-%2018/Winter/452/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Enemy.js</file>
+>>>>>>> 3d0128b4d12f12d6f0930f13d2a8a89b0613b98d
         </group>
     </open-files>
 </project-private>

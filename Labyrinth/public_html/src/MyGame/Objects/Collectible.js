@@ -28,6 +28,7 @@ function Collectible(sprite, pos){
             0,                   // intensity
             1.0                  // drop off
             );
+    this.mLight.setLightCastShadowTo(true);
 
     
     this.mRenderable = new LightRenderable(sprite);
@@ -51,6 +52,10 @@ Collectible.prototype.getXform = function(){
 Collectible.prototype.setRenderable = function(renderable){
     this.mRenderable = renderable;
     this.mGameObject = new GameObject(this.mRenderable);
+};
+
+Collectible.prototype.getRenderable = function(){
+    return this.mRenderable;
 };
 
 Collectible.prototype.update = function(){

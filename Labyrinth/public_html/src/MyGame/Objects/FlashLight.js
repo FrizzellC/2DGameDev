@@ -17,6 +17,7 @@ function FlashLight(){
             .8,                     // intensity
             1.2                     // drop off
             );
+    this.mLight.setLightCastShadowTo(true);
     this.mHorizontalFactor = 1;
     this.mVerticalFactor = 1;
     

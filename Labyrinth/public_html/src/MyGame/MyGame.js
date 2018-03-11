@@ -40,6 +40,9 @@ function MyGame() {
     
     this.mBackground = null;
     this.mHeroAmbush = null;
+    
+    this.mBackgroundShadow = null;
+    this.mDirectionalLight = new DirectionalLight();
 
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
@@ -96,13 +99,32 @@ MyGame.prototype.initialize = function () {
     this.mPassage1 = new PassageController(this.mPlayer, [-159,75,-124,73],[8,86,12,76] );
     this.mPassage2 = new PassageController(this.mPlayer, [-160,44,-150,38], [-160,20,-150,17]);
     
-    gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
+    //gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
+
 
     for(var i = 0; i < this.mCollectibleSet.size(); i++){
         this.mBackground.addLight(this.mCollectibleSet.mSet[i].mLight);
     }
+
     this.mBackground.addLight(this.mPlayer.mFlashLight.mLight);
     this.mEnemies.addLight(this.mPlayer.mFlashLight.mLight);
+    this.mEnemies.addLight(this.mDirectionalLight.mLight);
+    this.mBackground.addLight(this.mDirectionalLight.mLight);      
+     
+    this.mBackground = new GameObject(this.mBackground);
+    this.mBackgroundShadow = new ShadowReceiver(this.mBackground);
+    
+    for(var i = 0; i < this.mEnemies.size(); i++){
+        this.mEnemies.mSet[i].getXform().setZPos(.1);
+        this.mBackgroundShadow.addShadowCaster(this.mEnemies.mSet[i]);
+    }
+    for(var i = 0; i < this.mCollectibleSet.size(); i++){
+        this.mCollectibleSet.mSet[i].getRenderable().addLight(this.mDirectionalLight.mLight);
+        this.mCollectibleSet.mSet[i].getRenderable().addLight(this.mPlayer.mFlashLight.mLight);
+        this.mCollectibleSet.mSet[i].getXform().setZPos(.1);
+        this.mBackgroundShadow.addShadowCaster(this.mCollectibleSet.mSet[i]);
+    }
+    //gEngine.DefaultResources.setGlobalAmbientIntensity(0.4);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -112,7 +134,9 @@ MyGame.prototype.draw = function () {
     
     this.mMainView.setup();
     
-    this.mBackground.draw(this.mMainView.getCam());
+    this.mBackgroundShadow.draw(this.mMainView.getCam()); //also draws background
+    
+    //this.mBackground.draw(this.mMainView.getCam()); //No need for this anymore
     this.mMap.draw(this.mMainView.getCam());
     this.mCollectibleSet.draw(this.mMainView.getCam());
     
