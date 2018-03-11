@@ -5,7 +5,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, Scene, GameObjectset, TextureObject, Camera, vec2,
-  FontRenderable, SpriteRenderable, LineRenderable,
+  FontRenderable, SpriteRenderable, SpriteAnimateRenderable, LineRenderable,
   GameObject */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
@@ -18,15 +18,25 @@ Enemy.eEnemyState = Object.freeze({
     Catch: 3
 });
 
-function Enemy(pos, sprite) {
+function Enemy(pos, sprite, normal) {
     this.mTargetPos = null;
     this.mSpeed = null;       //Units per frame
     this.mCurrentState = null;
-    this.mSprite = new LightRenderable(sprite);
+    this.mSprite = new IllumRenderable(sprite, normal);
     this.mSprite.getXform().setPosition(pos[0][0], pos[0][1]);
     this.mSprite.getXform().setSize(10, 5);
     this.mSprite.setColor([1, 1, 1, 0]);
+    this.mSprite.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    this.mSprite.setAnimationSpeed(10);
+    this.mSprite.setSpriteSequence(
+            519, 0,     // top left pixel
+            128, 64,    // width and height
+            4, 0        // num sprites and padding
+            );
     GameObject.call(this, this.mSprite);
+    
+    // Animation helpers
+    this.mAnimationPos = {down:519, left:455, up:391, right:327};
     
     // Shake helpers
     this.mStartPos = null;
@@ -64,7 +74,7 @@ Enemy.prototype.transitionToAlert = function () {
     this.mSpeed = 0;
     this.mCurrentState = Enemy.eEnemyState.Alert;
     this.mStartPos = this.mSprite.getXform().getPosition();
-    this.mShakePos = new ShakePosition(.5, .5, 20, 60);
+    this.mShakePos = new ShakePosition(1, 1, 20, 60);
 };
 
 Enemy.prototype.transitionToChase = function (hero, holdChase) {
