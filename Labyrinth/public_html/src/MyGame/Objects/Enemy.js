@@ -43,7 +43,7 @@ function Enemy(pos, sprite) {
     this.kPatrolThreshold = 30;
     
     // Rotation interpolator
-    this.mRotater = new InterpolateVec2(this.getCurrentFrontDir(), 20, .2);
+    this.mRotater = new InterpolateVec2(this.getCurrentFrontDir(), 60, .05);
 }
 gEngine.Core.inheritPrototype(Enemy, GameObject);
 
@@ -68,7 +68,7 @@ Enemy.prototype.transitionToAlert = function () {
 };
 
 Enemy.prototype.transitionToChase = function (hero, holdChase) {
-    this.mSpeed = 28 / 60;
+    this.mSpeed = 24 / 60;
     this.mCurrentState = Enemy.eEnemyState.Chase;
     this.mCurrentFrontDir = vec2.sub(this.mCurrentFrontDir, hero.getXform().getPosition(), this.getXform().getPosition());
     if(holdChase !== null)
