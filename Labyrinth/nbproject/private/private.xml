@@ -1,33 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="CSS490Shared">
-            <file>file:/C:/Users/Kelvin/Dropbox/2.Classes/490/CSS490Shared/Source/MPSolutions/MP7.KelvinSolution/public_html/src/Engine/RigidShapes/CollisionInfo.js</file>
-        </group>
-        <group name="452-MPSolutions"/>
-        <group name="BookChapters"/>
-        <group name="GameTopics">
-            <file>file:/C:/Users/Kelvin/Dropbox/2.Classes/452/Source/GameTopics/GamePhysicsIntegrated/public_html/index.html</file>
-        </group>
         <group>
-<<<<<<< HEAD
             <file>file:/C:/Users/Aaron/Desktop/Work/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Player.js</file>
             <file>file:/C:/Users/Aaron/Desktop/Work/2DGameDev/Labyrinth/public_html/src/MyGame/MyGame.js</file>
             <file>file:/C:/Users/Aaron/Desktop/Work/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Player_Update.js</file>
-=======
-            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/Views/Background.js</file>
-            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/RoomBoundingObj.js</file>
-            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/LoseScene.js</file>
-            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/WinScene.js</file>
-            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/CollectibleSet.js</file>
-            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/Views/MainView.js</file>
-            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/Views/MiniMapManager.js</file>
-            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/Objects/Enemy.js</file>
-            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/MyGame.js</file>
-            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/Views/HelpViewManager.js</file>
-            <file>file:/C:/Users/Haley/Documents/CSS452/2DGameDev/Labyrinth/public_html/src/MyGame/Controllers/PassageController.js</file>
->>>>>>> d7fe66f0b59f059d7aa146d69ed88141b7827e16
         </group>
     </open-files>
 </project-private>
