@@ -13,10 +13,11 @@
 
 function MyGame() {
     this.kParticleTexture = "assets/particle.png";
-    this.kHeroSprite = "assets/Textures/TempHero.png";
-    this.kEnemySprite = "assets/Textures/TempBadCloud.png";
+    this.kHeroSprite = "assets/Textures/LabyrinthSprites.png";
+    this.kEnemySprite = "assets/Textures/LabyrinthSprites.png";
     this.kCollectibleSprite = "assets/Textures/TempCollectZ.png";
     this.kBackground = "assets/Textures/bgLabrynth.png";
+    this.kSpriteNormal = "assets/Textures/LabyrinthSpritesNormal.png";
     this.kZHolder = "assets/Textures/TempCollectZHolder.png";
     this.kMiniMapBackground = "assets/Textures/bgLabrynth.png";
     this.kMiniHeroSprite = "assets/Textures/TempHeroHead.png";
@@ -42,7 +43,7 @@ function MyGame() {
     this.mHeroAmbush = null;
     
     this.mBackgroundShadow = null;
-    this.mDirectionalLight = new DirectionalLight();
+    this.mDirectionalLight = null;
 
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
@@ -53,6 +54,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHeroSprite);
     gEngine.Textures.loadTexture(this.kCollectibleSprite);
     gEngine.Textures.loadTexture(this.kEnemySprite);
+    gEngine.Textures.loadTexture(this.kSpriteNormal);
     gEngine.Textures.loadTexture(this.kBackground);
     gEngine.Textures.loadTexture(this.kZHolder);
     gEngine.Textures.loadTexture(this.kMiniMapBackground);
@@ -76,28 +78,31 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHeroSprite);
     gEngine.Textures.unloadTexture(this.kCollectibleSprite);
     gEngine.Textures.unloadTexture(this.kEnemySprite);
+    gEngine.Textures.unloadTexture(this.kSpriteNormal);
     gEngine.Textures.unloadTexture(this.kBackground);
     gEngine.Textures.unloadTexture(this.kZHolder);
     gEngine.Textures.unloadTexture(this.kMiniMapBackground);
     gEngine.Textures.unloadTexture(this.kMiniHeroSprite);
     
-    
+    gEngine.LayerManager.cleanUp();
     gEngine.Core.startScene(nextLevel);
 };
 
 MyGame.prototype.initialize = function () {
-    this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite, new MapInteraction());
+    var mapInt = new MapInteraction();
+    this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite, this.kSpriteNormal, mapInt);   
     this.mMainView = new MainView();    
     this.mMap = new RoomBoundingObj();
     this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
     this.mBackground = new Background(this.kBackground);
-    this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite);
+    this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite, this.kSpriteNormal);
     this.mCollectibleSet = new CollectibleSet(this.mMap.getRooms(), this.kCollectibleSprite);
     this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite, this.kZHolder);
     this.mMiniMapManager = new MiniMapManager(this.mPlayer, this.mCollectibleSet, this.kMiniHeroSprite, this.kCollectibleSprite, this.kMiniMapBackground);
     this.mHeroAmbush = false;
     this.mPassage1 = new PassageController(this.mPlayer, [-159,75,-124,73],[8,86,12,76] );
     this.mPassage2 = new PassageController(this.mPlayer, [-160,44,-150,38], [-160,20,-150,17]);
+    mapInt.init(this.mPlayer, this.mMap.getRooms());
     
     //gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
 
@@ -112,19 +117,25 @@ MyGame.prototype.initialize = function () {
      
     this.mBackground = new GameObject(this.mBackground);
     this.mBackgroundShadow = new ShadowReceiver(this.mBackground);
-    
+    this.mDirectionalLight = new DirectionalLight();
+  
     for(var i = 0; i < this.mEnemies.size(); i++){
         this.mEnemies.mSet[i].getRenderable().addLight(this.mDirectionalLight.mLight);
         this.mEnemies.mSet[i].getXform().setZPos(1);
         this.mBackgroundShadow.addShadowCaster(this.mEnemies.mSet[i]);
     }
     for(var i = 0; i < this.mCollectibleSet.size(); i++){
-        //this.mCollectibleSet.mSet[i].getRenderable().addLight(this.mDirectionalLight.mLight);
         this.mCollectibleSet.mSet[i].getRenderable().addLight(this.mPlayer.mFlashLight.mLight);
         this.mCollectibleSet.mSet[i].getXform().setZPos(1);
         this.mBackgroundShadow.addShadowCaster(this.mCollectibleSet.mSet[i]);
     }
-    //gEngine.DefaultResources.setGlobalAmbientIntensity(0.4);
+    
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMap);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eShadowReceiver, this.mBackgroundShadow);
+
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mCollectibleSet);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mPlayer);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mEnemies);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -134,15 +145,10 @@ MyGame.prototype.draw = function () {
     
     this.mMainView.setup();
     
-    this.mBackgroundShadow.draw(this.mMainView.getCam()); //also draws background
+    gEngine.DefaultResources.setGlobalAmbientColor([.7, .7, .7, 1]);
+    gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
     
-    //this.mBackground.draw(this.mMainView.getCam()); //No need for this anymore
-    this.mMap.draw(this.mMainView.getCam());
-    this.mCollectibleSet.draw(this.mMainView.getCam());
-    
-    this.mPlayer.draw(this.mMainView.getCam());
-    this.mEnemies.draw(this.mMainView.getCam());
-    
+    gEngine.DefaultResources.setGlobalAmbientColor([1, 1, 1, 1]);
     this.mHelpViewManager.draw();
     this.mMiniMapManager.draw();
 };

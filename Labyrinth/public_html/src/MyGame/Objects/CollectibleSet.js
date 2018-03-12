@@ -19,7 +19,7 @@ function CollectibleSet(rooms, texture){
     
     this.mItemsRemoved = 0;
     this.reductionModeIsOn = false;
-    this.kAmbushThreshold = 30;
+    this.kAmbushThreshold = 20;
     
     var pos = rooms[1].getXform().getPosition();
     var newCollectible = new Collectible(texture, pos);

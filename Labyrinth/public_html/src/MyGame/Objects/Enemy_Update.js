@@ -5,7 +5,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, Scene, GameObjectset, TextureObject, Camera, vec2,
-  FontRenderable, SpriteRenderable, LineRenderable,
+  FontRenderable, SpriteRenderable, SpriteAnimateRenderable, LineRenderable,
   GameObject, Enemy */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
@@ -28,9 +28,32 @@ Enemy.prototype.update = function (hero) {
             this._updateCatch();
             break;
     }
+    this._updateAnimation();
     GameObject.prototype.update.call(this);
 };
 
+Enemy.prototype._updateAnimation = function () {
+    var dir = this.getCurrentFrontDir();
+    var xComp = dir[0];
+    var yComp = dir[1];
+    
+    if(Math.abs(xComp) >= Math.abs(yComp))
+    {
+        if(xComp < 0)
+            this.getRenderable().setTopSpriteSequence(this.mAnimationPos.left);
+        else
+            this.getRenderable().setTopSpriteSequence(this.mAnimationPos.right);            
+    }
+    else
+    {
+        if(yComp < 0)
+            this.getRenderable().setTopSpriteSequence(this.mAnimationPos.down);
+        else
+            this.getRenderable().setTopSpriteSequence(this.mAnimationPos.up);    
+    }
+    
+    this.getRenderable().updateAnimation();
+};
 
 Enemy.prototype._updatePatrol = function (hero) {
     var dist = vec2.distance(this.mSprite.getXform().getPosition(), hero.getXform().getPosition());
