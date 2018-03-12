@@ -43,6 +43,8 @@ function Player(pos, sprite, normal, map) {
     
     // Map Interaction
     this.mMap = map;
+    this.mDebugSlideMode = false;
+    
     
     this.mFlashLight = new FlashLight();
 }
@@ -68,6 +70,10 @@ Player.prototype._onSand = function () {
 };
 
 Player.prototype._onIce = function () {
+    if (this.mDebugSlideMode) {
+        return true;
+    }
+    
     return this.mMap.isOnIce();
 };
 
@@ -81,4 +87,12 @@ Player.prototype.getLowerBounds = function () {
     vec2.sub(offset, xform.getPosition(), offset);
     var b = new BoundingBox(offset, xform.getWidth(), xform.getHeight() / 2);
     return b;
+};
+
+Player.prototype.setDebugSlideMode = function(currentDebugState) {
+    this.mDebugSlideMode = currentDebugState;
+    if (this.mDebugSlideMode) {
+        this._transitionToOnIce();
+    }
+    
 };

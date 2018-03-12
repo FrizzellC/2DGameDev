@@ -10,8 +10,11 @@
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 
-function HelpViewManager(collectibleSet, sprite, spriteHolder) {
+function HelpViewManager(collectibleSet, sprite, spriteHolder, player) {
     
+    this.mDebugMode = false;
+    this.mSliding = false;
+    this.mPlayer = player;
     //Starting Time
     this.mTimeLimit = 90; //Measured in seconds
     this.mTimeLeft = this.mTimeLimit * 60;
@@ -37,31 +40,43 @@ function HelpViewManager(collectibleSet, sprite, spriteHolder) {
         [1200, 300, 400, 500]           // viewport (orgX, orgY, width, height)
     );
     
-    this.mCamera.setBackgroundColor([0.8, 1, 1, 1]);
+    this.mCamera.setBackgroundColor([.4, 0, 1, 1]);
     
     //This variable will contain all the text items below.
     this.mText = [];
     this.mGameTips = ["Use WASD to move!",
+                      "H toggles the light!",
+                      "Use Chimneys to escape",
                       "Collect all the Zs!",
-                      "Don't touch clouds!",
-                      "Blue means slippery!"
+                      "Beware the clouds!",
+                      "Use ice to slip away!",
+                      "Clouds turn slowly",
+                      "Passages teleport you!",
+                      "Quick! Collect the Zs!",
+                      "Take the Zs to the bed!",
+                      "Time is running out!",
+                      "All dreams must end"
                       ];
     this.mTipChanged = false;
-    
-    
     this.mGameTipIndex = 0;
     
     this.mTimeRemainingTxt = new FontRenderable("TIME REMAINING:");
     this.mTimeRemainingTxt.setColor([0, 0, 0, 1]);
-    this.mTimeRemainingTxt.getXform().setPosition(5, this.mCamera.getWCHeight() - 3);
+    this.mTimeRemainingTxt.getXform().setPosition(5, this.mCamera.getWCHeight() - 10);
     this.mTimeRemainingTxt.setTextHeight(5);
     this.mText.push(this.mTimeRemainingTxt);
     
     this.mTimerMsg = new FontRenderable("[time left here]");
     this.mTimerMsg.setColor([0, 0, 0, 1]);
-    this.mTimerMsg.getXform().setPosition(15, this.mCamera.getWCHeight() - 10);
+    this.mTimerMsg.getXform().setPosition(15, this.mCamera.getWCHeight() - 15);
     this.mTimerMsg.setTextHeight(4);
     this.mText.push(this.mTimerMsg);
+    
+    this.mKelvinModeText = new FontRenderable("(press 'k' to toggle Kelvin Mode)");
+    this.mKelvinModeText.setColor([0, 0, 0, 1]);
+    this.mKelvinModeText.getXform().setPosition(5, this.mCamera.getWCHeight() - 32);
+    this.mKelvinModeText.setTextHeight(2);
+    this.mText.push(this.mKelvinModeText);
     
     this.mTipMsg = new FontRenderable("   Tip: Use WASD to move!");
     this.mTipMsg.setColor([0, 0, 0, 1]);
@@ -71,16 +86,30 @@ function HelpViewManager(collectibleSet, sprite, spriteHolder) {
     
     this.mScoreMsg = new FontRenderable("        Zs Collected");
     this.mScoreMsg.setColor([0, 0, 0, 1]);
-    this.mScoreMsg.getXform().setPosition(1, this.mCamera.getWCHeight() / 3);
+    this.mScoreMsg.getXform().setPosition(1, this.mCamera.getWCHeight() * .04);
     this.mScoreMsg.setTextHeight(3);
     this.mText.push(this.mScoreMsg);
     
+    this.mDebugText = [];
+    
+//    this.mEndMessage = new FontRenderable("QUICK! BACK TO BED!");
+//    this.mEndMessage.setColor([1, 0, 0, 1]);
+//    this.mEndMessage.getXform().setPosition(2, this.mCamera.getWCHeight() * .03);
+//    this.mEndMessage.setTextHeight(4);
+//    this.mText.push(this.mEndMessage);
+    
     this.mInitCollectibleX = ((this.mCamera.getWCWidth() / (this.collectibles.size() + (this.mCollectibleSize * 2) + this.mCollectibleOffset)) - this.mCollectibleOffset);
     this.generateItemsToCollect();
+    this.generateDebugMenu();
     
 }
 
 HelpViewManager.prototype.addCollectedItem = function() {
+    
+    if (this.mItemsCollected.length === this.mItemsNeededToWin) {
+        return;
+    }
+    
     var nItem = new SpriteRenderable(this.mCollectibleSprite);
     var nItemSize = this.mCollectibleSize;
     var offset = 2;
@@ -89,19 +118,9 @@ HelpViewManager.prototype.addCollectedItem = function() {
     // We set the position so that it's always below our score text, and always
     // spaced according to how many items we have.
     nItem.getXform().setPosition(nItemXPos, 
-                                this.mScoreMsg.getXform().getYPos() / 2);
+                                this.mScoreMsg.getXform().getYPos() - 5);
     nItem.getXform().setSize(nItemSize, nItemSize);
     this.mItemsCollected.push(nItem);
-    
-//    var initX = (this.mCamera.getWCWidth() / 2) - ((nItemSize + offset) * this.mItemsCollected.length);
-//    var initY = this.mScoreMsg.getXform().getYPos() / 2;
-//    
-//    var i;
-//    for (i = 0; i < this.mItemsCollected.length; i++) {
-//        
-//        this.mItemsCollected[i].getXform().setXPos(initX + (nItemSize + offset) * this.mItemsCollected.length);
-//        
-//    }
     
 };
 
@@ -115,7 +134,7 @@ HelpViewManager.prototype.generateItemsToCollect = function() {
         var nZ = new SpriteRenderable(this.mCollectibleHolder);
         
         initXPos += nZSize + offset;
-        nZ.getXform().setPosition(initXPos,this.mScoreMsg.getXform().getYPos() / 2);
+        nZ.getXform().setPosition(initXPos,this.mScoreMsg.getXform().getYPos() - 5);
         
         nZ.getXform().setSize(nZSize, nZSize);
         this.mItemsToCollect.push(nZ);
@@ -130,7 +149,7 @@ HelpViewManager.prototype.generateNextTip = function () {
         this.mTipMsg.getXform().setXPos((this.mCamera.getWCWidth() / 2) - (this.mTipMsg.getXform().getWidth() / 2));
         
         this.mGameTipIndex++;
-        if (this.mGameTipIndex >= this.mGameTips.length) {
+        if (this.mGameTipIndex === this.mGameTips.length) {
             this.mGameTipsIndex = 0;
         }
         
@@ -142,14 +161,51 @@ HelpViewManager.prototype.generateNextTip = function () {
     }
 };
 
+HelpViewManager.prototype.generateDebugMenu = function() {
+    
+    var textSize = 4;
+    var textOffset = 5.5;
+    var nMenuItems = 4;
+    var i;
+    
+    if (this.mDebugText.length === 0) {
+        for (i = 1; i <= nMenuItems; i++) {
+
+            var nText = new FontRenderable("[" + i + "]");
+            nText.setColor([0, 0, 0, 1]);
+            nText.getXform().setPosition(5,
+                            (this.mCamera.getWCHeight() * .5) - (i * textOffset));
+
+            nText.setTextHeight(textSize);
+
+            this.mDebugText.push(nText);
+        }
+    }
+    
+    
+    if (this.mDebugMode) {
+        
+        this.mDebugText[0].setText("Press a # Key:");
+        this.mDebugText[1].setText("1) Ice Mode");
+        this.mDebugText[2].setText("2) Get Free Z");
+        this.mDebugText[3].setText("3) End Game (lose)");
+        
+    } else {
+        this.mDebugText[0].setText("Remember");
+        this.mDebugText[1].setText("1. Collect All Zs");
+        this.mDebugText[2].setText("2. Avoid Clouds");
+        this.mDebugText[3].setText("3. Return to Bed");
+    }  
+};
+
 HelpViewManager.prototype.update = function () {
     var timerMsg;
     this.mTimeLeft -= 1;
     
     if (this.mTimeLeft >= 0) {
         timerMsg = (Math.round(this.mTimeLeft / 60) + " seconds");
-        this.mTimerMsg.setTextHeight(5 * (this.mTimeLeft / (this.mTimeLimit * 60)) + 0.01);
-        this.mTimerMsg.getXform().setPosition((this.mCamera.getWCWidth() / 2) - (this.mTimerMsg.getXform().getWidth() / 2),this.mCamera.getWCHeight() - 10);
+        //this.mTimerMsg.setTextHeight(5 * (this.mTimeLeft / (this.mTimeLimit * 60)) + 0.5);
+        this.mTimerMsg.getXform().setPosition((this.mCamera.getWCWidth() / 2) - (this.mTimerMsg.getXform().getWidth() / 2),this.mCamera.getWCHeight() - 18);
         this.mTimeRemainingTxt.setColor([1 - (this.mTimeLeft / (this.mTimeLimit * 60)),0,0,1]);
         this.mTimerMsg.setColor([1 - (this.mTimeLeft / (this.mTimeLimit * 60)),0,0,1]);
     } else {
@@ -165,6 +221,35 @@ HelpViewManager.prototype.update = function () {
     
     
     this.mTimerMsg.setText(timerMsg);
+    
+    if (this.allItemsCollected()) {
+        this.mScoreMsg.setText(" Zs Collected! BACK TO BED!");
+        this.mScoreMsg.setColor([1, 0, 0, 1]);
+    }
+    
+    if (this.mDebugMode) {
+        if(gEngine.Input.isKeyClicked(gEngine.Input.keys.One))
+        {
+            this.mSliding = !this.mSliding;
+            this.mPlayer.setDebugSlideMode(this.mSliding);
+        }
+        if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Two))
+        {
+            this.addCollectedItem();
+        }
+        if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Three))
+        {
+            this.mTimeLeft = 0;
+        }
+    }
+    
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.K))
+    {
+        this.mDebugMode = !this.mDebugMode;
+        this.mPlayer.setDebugSlideMode(false);
+        this.mSliding = false;
+        this.generateDebugMenu();
+    }
 };
 
 HelpViewManager.prototype.draw = function () {
@@ -186,6 +271,11 @@ HelpViewManager.prototype.draw = function () {
     var j;
     for(j = 0; j < this.mText.length; j++) {
         this.mText[j].draw(this.mCamera);
+    }
+    
+    var l;
+    for(l = 0; l < this.mDebugText.length; l++) {
+        this.mDebugText[l].draw(this.mCamera);
     }
 };
 

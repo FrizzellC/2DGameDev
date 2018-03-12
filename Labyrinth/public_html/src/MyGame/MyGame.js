@@ -103,7 +103,7 @@ MyGame.prototype.initialize = function () {
     this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite, this.kSpriteNormal);
     this.mBackgroundShadow = new ShadowReceiver(this.mBackground);
     this.mCollectibleSet = new CollectibleSet(this.mMap.getRooms(), this.kCollectibleSprite, this.mBackgroundShadow);
-    this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite, this.kZHolder);
+    this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite, this.kZHolder, this.mPlayer);
     this.mMiniMapManager = new MiniMapManager(this.mPlayer, this.mCollectibleSet, this.kMiniHeroSprite, this.kCollectibleSprite, this.kMiniMapBackground);
     this.mHeroAmbush = false;
     this.mPassage1 = new PassageController(this.mPlayer, [-159,75,-124,73],[8,86,12,76] );
@@ -183,12 +183,6 @@ MyGame.prototype.update = function () {
     } else if(this.isGameWon())
     {
         gEngine.GameLoop.stop();
-    }
-    
-    //TODO remove later. For debugging purposes.
-    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.B))
-    {
-        console.log(this.mPlayer.getXform().getPosition());
     }
     this.isWithinBedroom();
     this.updateHeroAmbush();
