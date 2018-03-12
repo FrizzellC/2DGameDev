@@ -79,7 +79,6 @@ CollectibleSet.prototype.removeCollectible = function(){
         if(this.mSet[i].isDisintigrating){
             var collectible = this.getObjectAt(i);
             this.mShadowReceiver.removeShadowCaster(collectible);
-            //this.removeFromSet(collectible);
         }
     }
     this.reductionModeIsOn = false;
