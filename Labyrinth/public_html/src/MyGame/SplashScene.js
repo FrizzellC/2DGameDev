@@ -10,6 +10,7 @@
 
 function SplashScene() {
     this.kBackground = "assets/Textures/Splash.png";
+    this.kBGAudio = "assets/audio/bgMusic.mp3";
     this.mCamera = null;
     this.mFade = null;
     this.mFadeLerp = null;
@@ -18,11 +19,13 @@ function SplashScene() {
 gEngine.Core.inheritPrototype(SplashScene, Scene);
 
 SplashScene.prototype.loadScene = function () {
-   gEngine.Textures.loadTexture(this.kBackground); 
+   gEngine.Textures.loadTexture(this.kBackground);
+   gEngine.AudioClips.loadAudio(this.kBGAudio);
 };
 
 SplashScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBackground);
+    gEngine.AudioClips.unloadAudio(this.kBGAudio);
     var nextLevel = new MyGame();  // load the next level
     gEngine.Core.startScene(nextLevel);
 };
@@ -36,7 +39,7 @@ SplashScene.prototype.initialize = function () {
     );
     this.mBackground = new Background(this.kBackground);
     this.mBackground.getXform().setSize(100, 50);
-    
+    gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
     this.mFade = new Renderable();
     this.mFade.getXform().setPosition(0,0);
     this.mFade.getXform().setSize(100, 50);
