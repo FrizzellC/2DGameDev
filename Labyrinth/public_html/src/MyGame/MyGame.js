@@ -104,20 +104,19 @@ MyGame.prototype.initialize = function () {
     this.mPassage2 = new PassageController(this.mPlayer, [-160,44,-150,38], [-160,20,-150,17]);
     mapInt.init(this.mPlayer, this.mMap.getRooms());
     
-    //gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
+    gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
 
 
     for(var i = 0; i < this.mCollectibleSet.size(); i++){
-        this.mBackground.addLight(this.mCollectibleSet.mSet[i].mLight);
+        this.mBackground.getRenderable().addLight(this.mCollectibleSet.mSet[i].mLight);
     }
-
-    this.mBackground.addLight(this.mPlayer.mFlashLight.mLight);
-    this.mBackground.addLight(this.mDirectionalLight.mLight);     
+    
+    this.mDirectionalLight = new DirectionalLight();
+    this.mBackground.getRenderable().addLight(this.mPlayer.mFlashLight.mLight);
+    this.mBackground.getRenderable().addLight(this.mDirectionalLight.mLight);     
     this.mEnemies.addLight(this.mPlayer.mFlashLight.mLight);
      
-    this.mBackground = new GameObject(this.mBackground);
     this.mBackgroundShadow = new ShadowReceiver(this.mBackground);
-    this.mDirectionalLight = new DirectionalLight();
   
     for(var i = 0; i < this.mEnemies.size(); i++){
         this.mEnemies.mSet[i].getRenderable().addLight(this.mDirectionalLight.mLight);
