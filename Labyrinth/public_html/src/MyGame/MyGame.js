@@ -22,7 +22,7 @@ function MyGame() {
     this.kZHolder = "assets/Textures/TempCollectZHolder.png";
     this.kMiniMapBackground = "assets/Textures/bgLabrynth.png";
     this.kMiniHeroSprite = "assets/Textures/TempHeroHead.png";
-    this.kBGAudio = "assets/audio/inGame.mp3";
+    this.kBGAudio = "assets/audio/bgMusic.mp3";
     
     this.mPlayer = null;
     this.mHelpViewManager = null;
