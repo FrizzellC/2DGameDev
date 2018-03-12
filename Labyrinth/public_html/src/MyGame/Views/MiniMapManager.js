@@ -60,7 +60,9 @@ MiniMapManager.prototype.update = function () {
     var i; //Pretty sure I shouldn't have to have an IF statement here, but the first object isn't deleted?
     for (i = 0; i < this.mCollectibleSet.size(); i++) {
         
-        this.mZTrackers[i].getXform().setPosition(this.mCollectibleSet.getObjectAt(i).getXform().getXPos(),this.mCollectibleSet.getObjectAt(i).getXform().getYPos());
+        this.mZTrackers[i].getXform().setPosition(
+                this.mCollectibleSet.getObjectAt(i).getXform().getXPos(),
+                this.mCollectibleSet.getObjectAt(i).getXform().getYPos());
         
         
     }                                        
