@@ -38,7 +38,7 @@ gEngine.eLayer = Object.freeze({
  */
 gEngine.LayerManager = (function () {
     // instance variables
-    var kNumLayers = 3;
+    var kNumLayers = 4;
     
     var mAllLayers = [];
     
