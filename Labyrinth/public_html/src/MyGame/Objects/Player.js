@@ -23,7 +23,7 @@ function Player(pos, sprite, normal, map) {
     this._transitionToNormal();
     this.mSprite = new IllumRenderable(sprite, normal);
     this.mSprite.getXform().setPosition(pos[0], pos[1]);
-    this.mSprite.getXform().setSize(5, 5);
+    this.mSprite.getXform().setSize(7, 7);
     this.mSprite.setColor([1, 1, 1, 0]);
     this.mSprite.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
     this.mSprite.setAnimationSpeed(10);

@@ -23,7 +23,7 @@ BoundController.prototype.update = function () {
     var room = null;
     var hallway = null;
     // figure out which room hero is in
-    for(var i = 0; i < this.mRooms.length; ++i)
+    for(var i = this.mRooms.length - 1; i >= 0; --i)
     {
         if(this.mHero.getLowerBounds().intersectsBound(this.mRooms[i].getBBox()))
         {
