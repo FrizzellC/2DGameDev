@@ -45,6 +45,11 @@ ShadowReceiver.prototype.addShadowCaster = function (lgtRenderable) {
     var c = new ShadowCaster(lgtRenderable, this.mReceiver);
     this.mShadowCaster.push(c);
 };
+
+ShadowReceiver.prototype.removeShadowCaster = function (caster) {
+    var index = this.mShadowCaster.indexOf(caster);
+    this.mShadowCaster.splice(index, 1);
+};
 // for now, cannot remove shadow casters
 // </editor-fold>
 

@@ -101,7 +101,8 @@ MyGame.prototype.initialize = function () {
     this.mBackground = new Background(this.kBackground);
     this.mForeground = new Background(this.kForeground);
     this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite, this.kSpriteNormal);
-    this.mCollectibleSet = new CollectibleSet(this.mMap.getRooms(), this.kCollectibleSprite);
+    this.mBackgroundShadow = new ShadowReceiver(this.mBackground);
+    this.mCollectibleSet = new CollectibleSet(this.mMap.getRooms(), this.kCollectibleSprite, this.mBackgroundShadow);
     this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite, this.kZHolder);
     this.mMiniMapManager = new MiniMapManager(this.mPlayer, this.mCollectibleSet, this.kMiniHeroSprite, this.kCollectibleSprite, this.kMiniMapBackground);
     this.mHeroAmbush = false;
@@ -120,9 +121,7 @@ MyGame.prototype.initialize = function () {
     this.mBackground.getRenderable().addLight(this.mPlayer.mFlashLight.mLight);
     this.mBackground.getRenderable().addLight(this.mDirectionalLight.mLight);     
     this.mEnemies.addLight(this.mPlayer.mFlashLight.mLight);
-     
-    this.mBackgroundShadow = new ShadowReceiver(this.mBackground);
-  
+       
     for(var i = 0; i < this.mEnemies.size(); i++){
         this.mEnemies.mSet[i].getRenderable().addLight(this.mDirectionalLight.mLight);
         this.mEnemies.mSet[i].getXform().setZPos(1);
