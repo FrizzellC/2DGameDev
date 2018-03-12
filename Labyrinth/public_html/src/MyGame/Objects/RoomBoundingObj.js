@@ -178,3 +178,11 @@ RoomBoundingObj.prototype.getRooms = function () {
 RoomBoundingObj.prototype.getHallways = function () {
     return this.mHallways;
 };
+
+RoomBoundingObj.prototype.getBedBBox = function () {
+    var posX = 2.73;
+    var posY = 15.04;
+    var width = 15.625;
+    var height = 22.27;
+    return new BoundingBox([posX, posY], width, height);
+};

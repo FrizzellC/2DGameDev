@@ -229,9 +229,7 @@ MyGame.prototype.isGameLost = function () {
 
 // Check if the player is in the correct room
 MyGame.prototype.isWithinBedroom = function () {
-    if (Math.abs(this.mPlayer.getXform().getXPos()) < (this.mMap.getRooms()[0].getXform().getWidth() / 2) &&
-        Math.abs(this.mPlayer.getXform().getYPos()) < (this.mMap.getRooms()[0].getXform().getHeight() / 2)) {// 504 , 278
-        
+    if (this.mPlayer.getBBox().intersectsBound(this.mMap.getBedBBox())) {// 504 , 278
         return true;
     } else {
         return false;
