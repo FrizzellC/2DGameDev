@@ -54,6 +54,7 @@ Player.prototype._updateAnimation = function () {
 
 Player.prototype._updateNormal = function () {
     this._updatePos();
+    this.mMap.update();
 };
 
 Player.prototype._updateOnSand = function () {
@@ -74,13 +75,6 @@ Player.prototype._updateOnIce = function () {
     }
     else
     {
-        if(this.mIceLerp.done())
-        {
-            this._transitionToNormal();
-        }
-        //use ice interpolation for sliding pos
-        this.mIceLerp.updateInterpolation();
-        //allow slight user control of pos
         this._updatePos();
     }
 };
@@ -98,13 +92,6 @@ Player.prototype._updatePos = function () {
     if (this.mSpeed !== 0) {
         
         var direction = vec2.fromValues(0,0);
-        
-//        //For testing transtion to slow state
-//        if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Q))
-//        {
-//            //this.mSpeed = 15/60;
-//            this._transitionToOnIce();
-//        }
         
         var horiz = 0;
         var vert = 0;
@@ -149,6 +136,13 @@ Player.prototype._updatePos = function () {
         }
         
         vec2.normalize(direction,direction);
+        if(this.mCurrentState === Player.ePlayerState.OnIce)
+        {
+            if(direction[0] === 0 && direction[1] === 0)
+            {
+                direction = this.getCurrentFrontDir();
+            }
+        }
         vec2.scale(direction,direction,this.mSpeed);
         this.getXform().incXPosBy(direction[0]);
         this.getXform().incYPosBy(direction[1]);

@@ -43,7 +43,6 @@ function Player(pos, sprite, normal, map) {
     
     // Map Interaction
     this.mMap = map;
-    this.mIceLerp = null;
     
     this.mFlashLight = new FlashLight();
 }
@@ -60,12 +59,8 @@ Player.prototype._transitionToOnSand = function () {
 };
 
 Player.prototype._transitionToOnIce = function () {
-    this.mSpeed = 5 / 60;
+    this.mSpeed = 1;
     this.mCurrentState = Player.ePlayerState.OnIce;
-    var pos = vec2.create();
-    vec2.scaleAndAdd(pos, this.getXform().getPosition(), this.mCurrentFrontDir, 30);
-    this.mIceLerp = new InterpolateVec2(this.mSprite.getXform().getPosition(), 60, .1);
-    this.mIceLerp.setFinalValue(pos);
 };
 
 Player.prototype._onSand = function () {
