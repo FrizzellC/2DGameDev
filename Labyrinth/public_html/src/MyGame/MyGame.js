@@ -17,6 +17,7 @@ function MyGame() {
     this.kEnemySprite = "assets/Textures/LabyrinthSprites.png";
     this.kCollectibleSprite = "assets/Textures/TempCollectZ.png";
     this.kBackground = "assets/Textures/bgLabrynth.png";
+    this.kForeground = "assets/Textures/TopBG.png";
     this.kSpriteNormal = "assets/Textures/LabyrinthSpritesNormal.png";
     this.kZHolder = "assets/Textures/TempCollectZHolder.png";
     this.kMiniMapBackground = "assets/Textures/bgLabrynth.png";
@@ -40,6 +41,7 @@ function MyGame() {
     this.mBounds = null;
     
     this.mBackground = null;
+    this.mForeground = null;
     this.mHeroAmbush = null;
     
     this.mBackgroundShadow = null;
@@ -56,6 +58,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kEnemySprite);
     gEngine.Textures.loadTexture(this.kSpriteNormal);
     gEngine.Textures.loadTexture(this.kBackground);
+    gEngine.Textures.loadTexture(this.kForeground);
     gEngine.Textures.loadTexture(this.kZHolder);
     gEngine.Textures.loadTexture(this.kMiniMapBackground);
     gEngine.Textures.loadTexture(this.kMiniHeroSprite);
@@ -80,6 +83,7 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kEnemySprite);
     gEngine.Textures.unloadTexture(this.kSpriteNormal);
     gEngine.Textures.unloadTexture(this.kBackground);
+    gEngine.Textures.unloadTexture(this.kForeground);
     gEngine.Textures.unloadTexture(this.kZHolder);
     gEngine.Textures.unloadTexture(this.kMiniMapBackground);
     gEngine.Textures.unloadTexture(this.kMiniHeroSprite);
@@ -95,6 +99,7 @@ MyGame.prototype.initialize = function () {
     this.mMap = new RoomBoundingObj();
     this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
     this.mBackground = new Background(this.kBackground);
+    this.mForeground = new Background(this.kForeground);
     this.mEnemies = new EnemySet(this.mMap.getRooms(), this.kEnemySprite, this.kSpriteNormal);
     this.mCollectibleSet = new CollectibleSet(this.mMap.getRooms(), this.kCollectibleSprite);
     this.mHelpViewManager = new HelpViewManager(this.mCollectibleSet, this.kCollectibleSprite, this.kZHolder);
@@ -134,7 +139,9 @@ MyGame.prototype.initialize = function () {
 
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mCollectibleSet);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mPlayer);
-    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mEnemies);
+    
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mForeground);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mEnemies);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
