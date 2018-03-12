@@ -7,16 +7,17 @@
 
 function FlashLight(){
     this.mLight = this._createALight(Light.eLightType.eSpotLight,
-            [0, 0, 1],            // Right minion position
+            [0, 0, 3],            // Right minion position
             //[-0.07,  0, -1],     // direction //original
-            [0,  1, 1],     // direction //new //index 0 and 1 control light direction
-            [1, 1, 1, 1],     // color
+            [0,  1, .1],     // direction //new //index 0 and 1 control light direction
+            [0.5, 0.5, 0.5, 1],     // color
             100, 100,                  // near and far distances
             //1.65, 1.7,               // inner outter angles (in radius) //old
             .9,1,                            // new angles
-            1,                     // intensity
+            2,                     // intensity
             1.2                     // drop off
             );
+    this.mLight.setLightCastShadowTo(true);
     this.mHorizontalFactor = 1;
     this.mVerticalFactor = 1;
     

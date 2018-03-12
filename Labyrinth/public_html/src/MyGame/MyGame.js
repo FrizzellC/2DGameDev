@@ -41,6 +41,9 @@ function MyGame() {
     
     this.mBackground = null;
     this.mHeroAmbush = null;
+    
+    this.mBackgroundShadow = null;
+    this.mDirectionalLight = null;
 
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
@@ -101,16 +104,34 @@ MyGame.prototype.initialize = function () {
     this.mPassage2 = new PassageController(this.mPlayer, [-160,44,-150,38], [-160,20,-150,17]);
     mapInt.init(this.mPlayer, this.mMap.getRooms());
     
-    gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
+    //gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
+
 
     for(var i = 0; i < this.mCollectibleSet.size(); i++){
         this.mBackground.addLight(this.mCollectibleSet.mSet[i].mLight);
     }
+
     this.mBackground.addLight(this.mPlayer.mFlashLight.mLight);
+    this.mBackground.addLight(this.mDirectionalLight.mLight);     
     this.mEnemies.addLight(this.mPlayer.mFlashLight.mLight);
+     
+    this.mBackground = new GameObject(this.mBackground);
+    this.mBackgroundShadow = new ShadowReceiver(this.mBackground);
+    this.mDirectionalLight = new DirectionalLight();
+  
+    for(var i = 0; i < this.mEnemies.size(); i++){
+        this.mEnemies.mSet[i].getRenderable().addLight(this.mDirectionalLight.mLight);
+        this.mEnemies.mSet[i].getXform().setZPos(1);
+        this.mBackgroundShadow.addShadowCaster(this.mEnemies.mSet[i]);
+    }
+    for(var i = 0; i < this.mCollectibleSet.size(); i++){
+        this.mCollectibleSet.mSet[i].getRenderable().addLight(this.mPlayer.mFlashLight.mLight);
+        this.mCollectibleSet.mSet[i].getXform().setZPos(1);
+        this.mBackgroundShadow.addShadowCaster(this.mCollectibleSet.mSet[i]);
+    }
     
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMap);
-    gEngine.LayerManager.addToLayer(gEngine.eLayer.eShadowReceiver, this.mBackground);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eShadowReceiver, this.mBackgroundShadow);
 
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mCollectibleSet);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mPlayer);
@@ -166,6 +187,12 @@ MyGame.prototype.update = function () {
     }
     this.isWithinBedroom();
     this.updateHeroAmbush();
+    
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Left))
+    {
+        console.log(this.mPlayer.getXform().getPosition());
+    }
+
 };
 
 // Check if the player has met win conditions

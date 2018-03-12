@@ -43,6 +43,10 @@ function EnemySet(rooms, sprite, normal) {
     pos[2] = vec2.clone(rooms[7].getXform().getPosition());
     enemy = new Enemy(pos, sprite, normal);
     this.addToSet(enemy);
+    
+    for(var i = 0; i < this.size(); i++){
+        this.mSet[i].getXform().setZPos(3);
+    }
 }
 gEngine.Core.inheritPrototype(EnemySet, GameObjectSet);
 

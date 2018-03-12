@@ -18,3 +18,4 @@ function Background(texture) {
     this.getXform().setSize(400, 200);
 };
 gEngine.Core.inheritPrototype(Background, LightRenderable);
+
