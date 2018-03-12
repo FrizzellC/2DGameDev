@@ -86,7 +86,8 @@ MyGame.prototype.unloadScene = function () {
 };
 
 MyGame.prototype.initialize = function () {
-    this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite, this.kSpriteNormal, new MapInteraction());   
+    var mapInt = new MapInteraction();
+    this.mPlayer = new Player(vec2.fromValues(0,0), this.kHeroSprite, this.kSpriteNormal, mapInt);   
     this.mMainView = new MainView();    
     this.mMap = new RoomBoundingObj();
     this.mBounds = new BoundController(this.mPlayer, this.mMap.getRooms(), this.mMap.getHallways());
@@ -98,6 +99,7 @@ MyGame.prototype.initialize = function () {
     this.mHeroAmbush = false;
     this.mPassage1 = new PassageController(this.mPlayer, [-159,75,-124,73],[8,86,12,76] );
     this.mPassage2 = new PassageController(this.mPlayer, [-160,44,-150,38], [-160,20,-150,17]);
+    mapInt.init(this.mPlayer, this.mMap.getRooms());
     
     gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
 
@@ -122,7 +124,7 @@ MyGame.prototype.draw = function () {
     
     this.mMainView.setup();
     
-    gEngine.DefaultResources.setGlobalAmbientColor([.5, .5, .5, 1]);
+    gEngine.DefaultResources.setGlobalAmbientColor([.7, .7, .7, 1]);
     gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
     
     gEngine.DefaultResources.setGlobalAmbientColor([1, 1, 1, 1]);
