@@ -96,11 +96,14 @@ CollectibleSet.prototype.size = function(){
 CollectibleSet.prototype.isPlayerNearby = function (pos) {
     for(var i = 0; i < this.mSet.length; i++)
     {
-        var vec = vec2.create();
-        vec = vec2.sub(vec, this.mSet[i].getXform().getPosition(), pos);
-        var dist = vec2.length(vec);
-        if(dist < this.kAmbushThreshold)
-            return true;
+        if(!this.mSet[i].isDisintigrating)
+        {
+            var vec = vec2.create();
+            vec = vec2.sub(vec, this.mSet[i].getXform().getPosition(), pos);
+            var dist = vec2.length(vec);
+            if(dist < this.kAmbushThreshold)
+                return true;
+        }
     }
     return false;
 };
