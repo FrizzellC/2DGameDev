@@ -144,7 +144,7 @@ MyGame.prototype.draw = function () {
     
     this.mMainView.setup();
     
-    gEngine.DefaultResources.setGlobalAmbientColor([.7, .7, .7, 1]);
+    gEngine.DefaultResources.setGlobalAmbientColor([.9, .9, .9, 1]);
     gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
     
     gEngine.DefaultResources.setGlobalAmbientColor([1, 1, 1, 1]);
