@@ -10,16 +10,19 @@
 
 function LoseScene() {
     this.kBackground = "assets/Textures/GameOver.png";
+    this.kBGAudio = "assets/audio/loseScene.mp3";
     this.mCamera = null;
 }
 gEngine.Core.inheritPrototype(LoseScene, Scene);
 
 LoseScene.prototype.loadScene = function () {
    gEngine.Textures.loadTexture(this.kBackground); 
+   gEngine.AudioClips.loadAudio(this.kBGAudio);
 };
 
 LoseScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBackground);
+    gEngine.AudioClips.unloadAudio(this.kBGAudio);
     var nextLevel = new MyGame();  // load the next level
     gEngine.Core.startScene(nextLevel);
 };
@@ -33,6 +36,7 @@ LoseScene.prototype.initialize = function () {
     );
     this.mBackground = new Background(this.kBackground);
     this.mBackground.getXform().setSize(100, 50);
+    gEngine.AudioClips.playBackgroundAudio(this.kBGAudio);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
