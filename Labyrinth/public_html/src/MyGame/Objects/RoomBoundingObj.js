@@ -38,7 +38,7 @@ function RoomBoundingObj() {
     r5 = new Room(165, 933, 128, 140);
     r6 = new Room(166, 725, 210, 140);
     r7 = new Room(185, 482, 168, 138);
-    r8 = new Room(396, 482, 254, 138);
+    r8 = new Room(396, 465, 254, 104);
     r9 = new Room(253, 221, 300, 172);
     r10 = new Room(776, 238, 336, 138);
     r11 = new Room(1362, 80, 592, 110);

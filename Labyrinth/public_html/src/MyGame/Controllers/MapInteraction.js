@@ -12,7 +12,7 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function MapInteraction() {    
-    this.mIceRooms = [12, 13, 14, 15, 16];
+    this.mIceRooms = [14, 15, 16, 17, 18, 37, 38];
     this.mSandRooms = [9];
     this.mRooms = null;
     this.mPlayer = null;
