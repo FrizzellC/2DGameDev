@@ -76,7 +76,7 @@ CollectibleSet.prototype.collectibleTouches = function(GameObject){
 //collectible when collectibleTouches is true.
 CollectibleSet.prototype.removeCollectible = function(){
     for(var i = 0; i < this.mSet.length; i++){
-        if(this.mSet[i].toBeDeleted){
+        if(this.mSet[i].isDisintigrating){
             var collectible = this.getObjectAt(i);
             this.mShadowReceiver.removeShadowCaster(collectible);
             this.removeFromSet(collectible);
