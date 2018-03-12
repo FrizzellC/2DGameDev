@@ -24,7 +24,7 @@ function Enemy(pos, sprite, normal) {
     this.mCurrentState = null;
     this.mSprite = new IllumRenderable(sprite, normal);
     this.mSprite.getXform().setPosition(pos[0][0], pos[0][1]);
-    this.mSprite.getXform().setSize(10, 5);
+    this.mSprite.getXform().setSize(14, 7);
     this.mSprite.setColor([1, 1, 1, 0]);
     this.mSprite.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
     this.mSprite.setAnimationSpeed(10);
