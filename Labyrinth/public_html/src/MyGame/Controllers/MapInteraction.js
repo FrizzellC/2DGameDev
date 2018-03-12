@@ -11,20 +11,40 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function MapInteraction() {
-    
+function MapInteraction() {    
+    this.mIceRooms = [12, 13, 14, 15, 16];
+    this.mSandRooms = [9];
+    this.mRooms = null;
+    this.mPlayer = null;
 };
 
+
+MapInteraction.prototype.init = function (player, rooms) {
+    this.mRooms = rooms;
+    this.mPlayer = player;
+};
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MapInteraction.prototype.update = function () {
-    
+    if(this.isOnIce())
+        this.mPlayer._transitionToOnIce();
+    else if(this.isOnSand())
+        this.mPlayer._transitionToOnSand();
 };
 
 MapInteraction.prototype.isOnIce = function () {
-    return true;
+    for(var i = 0; i < this.mIceRooms.length; ++i)
+    {
+        if(this.mPlayer.getLowerBounds().intersectsBound(this.mRooms[this.mIceRooms[i]].getBBox()))
+            return true;
+    }
+    return false;
 };
 
 MapInteraction.prototype.isOnSand = function () {
-    return true;
-};
+    for(var i = 0; i < this.mSandRooms.length; ++i)
+    {
+        if(this.mPlayer.getLowerBounds().intersectsBound(this.mRooms[this.mSandRooms[i]].getBBox()))
+            return true;
+    }
+    return false;};

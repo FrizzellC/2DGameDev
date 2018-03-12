@@ -116,6 +116,11 @@ SpriteAnimateRenderable.prototype.setSpriteSequence = function (
     this._initAnimation();
 };
 
+SpriteAnimateRenderable.prototype.setTopSpriteSequence = function (topPixel) {
+    var texInfo = gEngine.ResourceMap.retrieveAsset(this.mTexture);
+    this.mElmTop = topPixel / texInfo.mHeight;
+};
+
 /**
  * Set the frame change speed
  * @param {Number} tickInterval number of update calls between animation frames

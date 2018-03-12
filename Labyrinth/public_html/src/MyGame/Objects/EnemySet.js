@@ -11,7 +11,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function EnemySet(rooms, sprite) {    
+function EnemySet(rooms, sprite, normal) {    
     GameObjectSet.call(this);
     var pos = new Array();
     var enemy = null;
@@ -19,21 +19,21 @@ function EnemySet(rooms, sprite) {
     pos[0] = vec2.clone(rooms[19].getXform().getPosition());
     pos[1] = vec2.clone(rooms[3].getXform().getPosition());
     pos[2] = vec2.clone(rooms[0].getXform().getPosition());
-    enemy = new Enemy(pos, sprite);
+    enemy = new Enemy(pos, sprite, normal);
     this.addToSet(enemy);
     
     pos = new Array();
     pos[0] = vec2.clone(rooms[10].getXform().getPosition());
     pos[1] = vec2.clone(rooms[11].getXform().getPosition());
     pos[2] = vec2.clone(rooms[12].getXform().getPosition());
-    enemy = new Enemy(pos, sprite);
+    enemy = new Enemy(pos, sprite, normal);
     this.addToSet(enemy);
     
     pos = new Array();
     pos[0] = vec2.clone(rooms[14].getXform().getPosition());
     pos[1] = vec2.clone(rooms[16].getXform().getPosition());
     pos[2] = vec2.clone(rooms[17].getXform().getPosition());
-    enemy = new Enemy(pos, sprite);
+    enemy = new Enemy(pos, sprite, normal);
     this.addToSet(enemy);
     
     pos = new Array();
@@ -41,7 +41,7 @@ function EnemySet(rooms, sprite) {
     pos[1] = vec2.clone(rooms[4].getXform().getPosition());
     pos[2] = vec2.clone(rooms[5].getXform().getPosition());
     pos[2] = vec2.clone(rooms[7].getXform().getPosition());
-    enemy = new Enemy(pos, sprite);
+    enemy = new Enemy(pos, sprite, normal);
     this.addToSet(enemy);
     
     for(var i = 0; i < this.size(); i++){
